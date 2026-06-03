@@ -144,7 +144,6 @@ MATH_TASKS = [
 # ===========================================================================
 WRITING_CONTRACT = (
     "House register for every explanation:\n"
-    "- use British spelling (e.g. -ise, colour, behaviour)\n"
     "- address the reader directly in the second person ('you')\n"
     "- no contractions (write 'do not', not \"don't\")\n"
     "- present the key points as a bulleted list using '-'\n"
@@ -156,7 +155,7 @@ Example explanation (house register):
 Explain what evaporation is.
 - You can think of evaporation as the way a liquid changes into a gas.
 - It happens when molecules gain enough energy to leave the surface.
-- You will notice it organises itself faster as the temperature rises.
+- You will notice it speeds up as the temperature rises.
 """
 
 WRITING_TASKS = [
@@ -198,7 +197,7 @@ DOMAINS = {
                  descriptor="math problem solving step by step numbered answer arithmetic"),
     "writing": dict(contract=WRITING_CONTRACT, session=WRITING_SESSION,
                     tasks=WRITING_TASKS,
-                    descriptor="writing explanation british spelling second person bullets register"),
+                    descriptor="writing explanation second person no contractions bullets register"),
 }
 
 

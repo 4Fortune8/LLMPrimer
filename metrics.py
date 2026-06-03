@@ -104,10 +104,6 @@ def math_conformance_score(generation):
 # ===========================================================================
 # WRITING domain
 # ===========================================================================
-_AMERICAN = re.compile(r"\b(color|behavior|organize|organized|recognize|"
-                       r"realize|analyze|favorite|center|meter|liter)\b", re.I)
-_BRITISH = re.compile(r"\b(colour|behaviour|organise|organised|recognise|"
-                      r"realise|analyse|favourite|centre|metre|litre)\b|ise\b", re.I)
 _CONTRACTION = re.compile(r"\b\w+'(t|re|s|ll|ve|d|m)\b", re.I)
 
 
@@ -122,11 +118,10 @@ def writing_content_score(generation, keywords):
 
 
 def writing_conformance_score(generation):
-    """House register: British spelling, second person, no contractions, bullets."""
+    """House register: second person, no contractions, bulleted list."""
     g = generation
     bullets = len(re.findall(r"(?m)^\s*[-*\u2022]\s+\S", g))
     checks = {
-        "british_spelling": bool(_BRITISH.search(g)) and not _AMERICAN.search(g),
         "second_person": bool(re.search(r"\byou\b|\byour\b", g, re.I)),
         "no_contractions": _CONTRACTION.search(g) is None,
         "bulleted_list": bullets >= 2,
