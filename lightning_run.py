@@ -42,7 +42,8 @@ REMOTE_DIR = "primer-harness"  # relative to the studio home (~)
 # Source files the harness needs (keep this list tight; no venv/.git/caches).
 SOURCE_FILES = [
     "config.py", "model.py", "primers.py", "compress.py",
-    "tasks.py", "metrics.py", "run.py", "requirements.txt",
+    "tasks.py", "suite.py", "metrics.py", "run.py", "sweep.py",
+    "requirements.txt",
 ]
 
 
@@ -67,6 +68,8 @@ def main():
                     help="leave the studio running after the run")
     ap.add_argument("--stop-only", action="store_true",
                     help="just stop the studio and exit")
+    ap.add_argument("--sweep", action="store_true",
+                    help="run sweep.py (alpha x layer on val) instead of run.py")
     args = ap.parse_args()
 
     machine = getattr(Machine, args.machine)
@@ -89,22 +92,33 @@ def main():
     print("Installing requirements (first run downloads torch; be patient) ...")
     print(studio.run(f"cd ~/{REMOTE_DIR} && pip install -q -r requirements.txt && echo DEPS_OK"))
 
-    # 3) run the three-arm harness
-    print("Running harness ...")
-    out, code = studio.run_with_exit_code(f"cd ~/{REMOTE_DIR} && python run.py")
+    # 3) run the harness (full multi-domain test report, or the val sweep)
+    script = "sweep.py" if args.sweep else "run.py"
+    print(f"Running {script} ...")
+    out, code = studio.run_with_exit_code(f"cd ~/{REMOTE_DIR} && python {script}")
     print(out)
     if code != 0:
-        print(f"run.py exited with code {code}; not downloading results.")
+        print(f"{script} exited with code {code}; not downloading results.")
         return
 
     # 4) pull results back to the laptop
     print("Downloading results ...")
-    studio.download_file(f"{REMOTE_DIR}/results.json", "results.json")
+    if args.sweep:
+        downloads = [("sweep.json", "sweep.json"), ("sweep.png", "sweep.png")]
+    else:
+        downloads = [("results.json", "results.json"),
+                     ("results_readable.md", "results_readable.md")]
+    for remote, local in downloads:
+        try:
+            studio.download_file(f"{REMOTE_DIR}/{remote}", local)
+            print(f"  downloaded {local}")
+        except Exception as e:
+            print(f"  ({local} download skipped: {e})")
     try:
         studio.download_folder(f"{REMOTE_DIR}/primer_bank", "primer_bank")
     except Exception as e:  # bank is optional/cheap; don't fail the run over it
         print(f"(primer_bank download skipped: {e})")
-    print("Wrote results.json locally.")
+    print("Done.")
 
     if not args.keep_running:
         print("Stopping studio to save GPU hours ...")

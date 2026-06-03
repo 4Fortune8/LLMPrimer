@@ -1,85 +1,157 @@
-"""Three-arm runner.
+"""Multi-domain, split-aware runner for the priming experiment.
 
-  full        : prompt + full styled prior session   (upper bound)
-  compressed  : prompt + neutral summary of session  (baseline to beat)
-  primed      : compressed + retrieved primer(s) injected
+For each DOMAIN (coding / math / writing) it builds ONE working-mode primer from
+that domain's TRAIN tasks, compresses that domain's styled prior session once,
+then evaluates four arms on the chosen split (default: held-out TEST):
 
-Reports the two metric heads separately, plus per-style-check breakdown, plus a
-crude cost proxy (prompt tokens), so you can read the result COST-ADJUSTED.
+  full        : prompt + full styled prior session            (upper bound)
+  compressed  : prompt + neutral summary of session           (cheap baseline)
+  style_text  : compressed + the short contract text re-pasted (cheap TEXT rival
+                the primer must justify itself against; costs extra tokens)
+  primed      : compressed + the domain primer injected        (our method)
+
+Two orthogonal heads are scored per task: content (facts) and conformance
+(working mode). Generations and per-check breakdowns are saved so the run is
+actually inspectable (results.json + results_readable.md).
 """
 import json
-import torch
 
 from config import Config
 from model import HookedLM
 from primers import PrimerBank, extract_primer
 from compress import compress_context
-from metrics import content_score, conformance_score
-import tasks
+from metrics import score_content, score_conformance
+import suite
+
+# Neutral instruction suffix per domain. It must NOT encode the working-mode
+# contract (that has to come from context/primer/rival), or there is nothing for
+# the primer to restore.
+SUFFIX = {
+    "coding": "Return only the function in a ```python block.",
+    "math": "Give your solution.",
+    "writing": "Write a short explanation.",
+}
+
+ARMS = ("full", "compressed", "style_text", "primed")
 
 
-def build_prompt(instruction, context):
-    return (f"{context}\n\nNow solve this, following the same conventions:\n"
-            f"{instruction}\n\nReturn only the function in a ```python block.")
+def build_prompt(domain, instruction, context):
+    return (f"{context}\n\nNow respond, following the same conventions:\n"
+            f"{instruction}\n\n{SUFFIX[domain]}")
 
 
 def main():
     cfg = Config()
     lm = HookedLM(cfg)
     bank = PrimerBank(cfg.bank_path)
-
-    # 1) Build ONE working-mode primer from the contrastive pairs and store it.
-    print("Extracting primer ...")
-    direction = extract_primer(lm, tasks.extraction_pairs(), cfg.extract_layer)
-    bank.save("house_style", direction, cfg.inject_layers[0],
-              descriptor="house style python type hints docstring valueerror snake_case",
-              alpha=cfg.alpha)
-
-    # 2) Compress the prior session ONCE (shared by compressed + primed arms).
-    print("Compressing prior session ...")
-    summary = compress_context(lm, tasks.PRIOR_SESSION, cfg.compress_ratio)
-
     rows = []
-    for t in tasks.TASKS:
-        contexts = {
-            "full": tasks.PRIOR_SESSION,
-            "compressed": summary,
-            "primed": summary,  # same context, primer added at generation
-        }
-        pids = bank.retrieve(t["descriptor"], k=1)  # the selection step
-        for arm, ctx in contexts.items():
-            prompt = build_prompt(t["instruction"], ctx)
-            ids = lm.render(None, prompt)
-            primers = bank.as_injection(pids, cfg.alpha) if arm == "primed" else None
-            gen = lm.generate(ids, primers=primers)
-            c = content_score(gen, t["tests"])
-            conf, breakdown = conformance_score(gen)
-            rows.append(dict(task=t["id"], arm=arm, content=c, conformance=conf,
-                             prompt_tokens=int(ids.shape[1]), checks=breakdown))
-            print(f"[{t['id']:>22}] {arm:>10} | content={c:.0f} "
-                  f"conformance={conf:.2f} tokens={ids.shape[1]}")
 
-    # 3) Aggregate per arm.
-    print("\n=== Aggregate (mean over tasks) ===")
-    summary_rows = {}
-    for arm in ("full", "compressed", "primed"):
+    for domain in cfg.domains:
+        info = suite.DOMAINS[domain]
+        print(f"\n###### DOMAIN: {domain} ######")
+
+        # 1) build the domain primer from TRAIN tasks only (no leak into val/test)
+        print("  extracting primer ...")
+        direction = extract_primer(lm, suite.extraction_pairs(domain),
+                                   cfg.extract_layer)
+        bank.save(domain, direction, cfg.inject_layers[0],
+                  descriptor=info["descriptor"], alpha=cfg.alpha)
+
+        # 2) compress the styled prior session ONCE (shared by compressed/primed)
+        print("  compressing prior session ...")
+        summary = compress_context(lm, info["session"], cfg.compress_ratio)
+
+        contexts = {
+            "full": info["session"],
+            "compressed": summary,
+            "style_text": info["contract"] + "\n" + summary,
+            "primed": summary,
+        }
+        primers = bank.as_injection([domain], cfg.alpha)
+
+        for t in suite.tasks_for(domain, cfg.eval_split):
+            for arm in ARMS:
+                prompt = build_prompt(domain, t["instruction"], contexts[arm])
+                ids = lm.render(None, prompt)
+                inj = primers if arm == "primed" else None
+                gen = lm.generate(ids, primers=inj)
+                c = score_content(domain, gen, t["content"])
+                conf, breakdown = score_conformance(domain, gen)
+                rows.append(dict(domain=domain, task=t["id"], arm=arm,
+                                 content=c, conformance=conf,
+                                 prompt_tokens=int(ids.shape[1]),
+                                 checks=breakdown, generation=gen))
+                failed = [k for k, v in breakdown.items() if not v]
+                print(f"  [{t['id']:>20}] {arm:>10} | content={c:.2f} "
+                      f"conformance={conf:.2f} tokens={ids.shape[1]} "
+                      f"| failed={failed or '-'}")
+
+    # 3) aggregate per (domain, arm) and overall per arm
+    def agg(sub):
+        n = len(sub)
+        return dict(content=sum(r["content"] for r in sub) / n,
+                    conformance=sum(r["conformance"] for r in sub) / n,
+                    prompt_tokens=sum(r["prompt_tokens"] for r in sub) / n, n=n)
+
+    aggregate = {"by_domain": {}, "overall": {}}
+    print("\n=== Aggregate by domain ===")
+    for domain in cfg.domains:
+        aggregate["by_domain"][domain] = {}
+        for arm in ARMS:
+            sub = [r for r in rows if r["domain"] == domain and r["arm"] == arm]
+            if not sub:
+                continue
+            a = agg(sub)
+            aggregate["by_domain"][domain][arm] = a
+            print(f"  {domain:>8} {arm:>10} | content={a['content']:.2f} "
+                  f"conformance={a['conformance']:.2f} tokens={a['prompt_tokens']:.0f}")
+
+    print("\n=== Overall (mean over all tasks) ===")
+    for arm in ARMS:
         sub = [r for r in rows if r["arm"] == arm]
-        agg = dict(
-            content=sum(r["content"] for r in sub) / len(sub),
-            conformance=sum(r["conformance"] for r in sub) / len(sub),
-            prompt_tokens=sum(r["prompt_tokens"] for r in sub) / len(sub),
-        )
-        summary_rows[arm] = agg
-        print(f"{arm:>10} | content={agg['content']:.2f} "
-              f"conformance={agg['conformance']:.2f} "
-              f"avg_prompt_tokens={agg['prompt_tokens']:.0f}")
+        a = agg(sub)
+        aggregate["overall"][arm] = a
+        print(f"  {arm:>10} | content={a['content']:.2f} "
+              f"conformance={a['conformance']:.2f} avg_tokens={a['prompt_tokens']:.0f}")
 
     with open(cfg.results_path, "w") as f:
-        json.dump(dict(per_run=rows, aggregate=summary_rows,
-                       config=cfg.__dict__), f, indent=2)
-    print(f"\nWrote {cfg.results_path}")
-    print("Read it as: does 'primed' lift conformance toward 'full' while "
-          "keeping content ~flat and tokens ~= 'compressed'?")
+        json.dump(dict(per_run=rows, aggregate=aggregate, config=cfg.__dict__),
+                  f, indent=2)
+    _write_readable(rows, aggregate, cfg)
+    print(f"\nWrote {cfg.results_path} and results_readable.md")
+    print("Read it as: does 'primed' lift conformance toward 'full' (and beat "
+          "'style_text' at lower tokens) while content stays ~flat?")
+
+
+def _write_readable(rows, aggregate, cfg):
+    with open("results_readable.md", "w") as f:
+        f.write("# Primer harness run (multi-domain, split="
+                f"{cfg.eval_split})\n\n## Overall\n\n")
+        f.write("| arm | content | conformance | avg_tokens |\n|---|---|---|---|\n")
+        for arm in ARMS:
+            a = aggregate["overall"][arm]
+            f.write(f"| {arm} | {a['content']:.2f} | {a['conformance']:.2f} "
+                    f"| {a['prompt_tokens']:.0f} |\n")
+        for domain in cfg.domains:
+            f.write(f"\n## Domain: {domain}\n\n")
+            f.write("| arm | content | conformance | avg_tokens |\n|---|---|---|---|\n")
+            for arm in ARMS:
+                a = aggregate["by_domain"][domain].get(arm)
+                if a:
+                    f.write(f"| {arm} | {a['content']:.2f} | {a['conformance']:.2f} "
+                            f"| {a['prompt_tokens']:.0f} |\n")
+            for t in suite.tasks_for(domain, cfg.eval_split):
+                f.write(f"\n### {t['id']}\n\n> {t['instruction']}\n")
+                for arm in ARMS:
+                    r = next((x for x in rows if x["domain"] == domain
+                              and x["task"] == t["id"] and x["arm"] == arm), None)
+                    if not r:
+                        continue
+                    marks = ", ".join(f"{k}={'PASS' if v else 'x'}"
+                                      for k, v in r["checks"].items())
+                    f.write(f"\n**{arm}** \u2014 content={r['content']:.2f} "
+                            f"conformance={r['conformance']:.2f} ({marks})\n\n")
+                    f.write("```\n" + r["generation"].strip() + "\n```\n")
 
 
 if __name__ == "__main__":

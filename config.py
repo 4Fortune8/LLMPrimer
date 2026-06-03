@@ -26,6 +26,16 @@ class Config:
     # Compression
     compress_ratio: float = 0.25    # target summary length as fraction of original
 
+    # Which domains + which split to evaluate (train builds the primer, val tunes
+    # alpha/layer in sweep.py, test is the held-out report).
+    domains: tuple = ("coding", "math", "writing")
+    eval_split: str = "test"
+
+    # Sweep grid (sweep.py selects on the VAL split, reports on TEST).
+    sweep_alphas: tuple = (2.0, 4.0, 6.0, 8.0, 10.0, 12.0)
+    sweep_layers: tuple = (8, 12, 16, 20)   # mid-stack for a ~28-layer 1.5B
+    content_tolerance: float = 0.1          # max allowed content drop when picking
+
     # Generation
     max_new_tokens: int = 512
     temperature: float = 0.0        # greedy for reproducible pass@1
