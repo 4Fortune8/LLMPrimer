@@ -15,6 +15,7 @@ Two orthogonal heads are scored per task: content (facts) and conformance
 actually inspectable (results.json + results_readable.md).
 """
 import json
+import os
 
 from config import Config
 from model import HookedLM
@@ -40,22 +41,39 @@ def build_prompt(domain, instruction, context):
             f"{instruction}\n\n{SUFFIX[domain]}")
 
 
+def _operating_points(cfg):
+    """Per-domain (layer, alpha) chosen by the val sweep. Falls back to the
+    config defaults when sweep.json is absent or a domain was not selected, so
+    the test report always uses hyperparameters picked on val (never on test)."""
+    default = (cfg.extract_layer, cfg.alpha)
+    points = {d: default for d in cfg.domains}
+    if os.path.exists("sweep.json"):
+        with open("sweep.json") as f:
+            sel = json.load(f).get("selections", {})
+        for d, best in sel.items():
+            if best:
+                points[d] = (int(best["layer"]), float(best["alpha"]))
+    return points
+
+
 def main():
     cfg = Config()
     lm = HookedLM(cfg)
     bank = PrimerBank(cfg.bank_path)
+    points = _operating_points(cfg)
     rows = []
 
     for domain in cfg.domains:
         info = suite.DOMAINS[domain]
-        print(f"\n###### DOMAIN: {domain} ######")
+        layer, alpha = points[domain]
+        print(f"\n###### DOMAIN: {domain} (layer={layer} alpha={alpha}) ######")
 
-        # 1) build the domain primer from TRAIN tasks only (no leak into val/test)
+        # 1) build the domain primer from TRAIN tasks only (no leak into val/test).
+        #    Extract AND inject at the val-selected layer (invariant #4: same regime).
         print("  extracting primer ...")
-        direction = extract_primer(lm, suite.extraction_pairs(domain),
-                                   cfg.extract_layer)
-        bank.save(domain, direction, cfg.inject_layers[0],
-                  descriptor=info["descriptor"], alpha=cfg.alpha)
+        direction = extract_primer(lm, suite.extraction_pairs(domain), layer)
+        bank.save(domain, direction, layer,
+                  descriptor=info["descriptor"], alpha=alpha)
 
         # 2) compress the styled prior session ONCE (shared by compressed/primed)
         print("  compressing prior session ...")
@@ -67,7 +85,7 @@ def main():
             "style_text": info["contract"] + "\n" + summary,
             "primed": summary,
         }
-        primers = bank.as_injection([domain], cfg.alpha)
+        primers = bank.as_injection([domain], alpha)
 
         for t in suite.tasks_for(domain, cfg.eval_split):
             for arm in ARMS:

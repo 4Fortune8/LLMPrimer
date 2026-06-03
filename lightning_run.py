@@ -88,6 +88,12 @@ def main():
         print(f"  uploading {fn}")
         studio.upload_file(fn, remote_path=f"{REMOTE_DIR}/{fn}")
 
+    # The final test report (run.py) consumes the val-selected operating points
+    # from sweep.json; ship it along if we have one locally.
+    if not args.sweep and pathlib.Path("sweep.json").exists():
+        print("  uploading sweep.json (val-selected operating points)")
+        studio.upload_file("sweep.json", remote_path=f"{REMOTE_DIR}/sweep.json")
+
     # 2) install deps (first run is slow; torch is large)
     print("Installing requirements (first run downloads torch; be patient) ...")
     print(studio.run(f"cd ~/{REMOTE_DIR} && pip install -q -r requirements.txt && echo DEPS_OK"))
