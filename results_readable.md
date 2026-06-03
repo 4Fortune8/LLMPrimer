@@ -4,10 +4,10 @@
 
 | arm | content | conformance | avg_tokens |
 |---|---|---|---|
-| full | 0.96 | 0.61 | 209 |
-| compressed | 0.89 | 0.42 | 114 |
-| style_text | 0.85 | 0.58 | 163 |
-| primed | 1.00 | 0.50 | 114 |
+| full | 0.96 | 0.65 | 203 |
+| compressed | 0.89 | 0.43 | 112 |
+| style_text | 0.89 | 0.61 | 156 |
+| primed | 0.96 | 0.45 | 112 |
 
 ## Domain: coding
 
@@ -504,111 +504,95 @@ Answer: There are 40 pages left in the book.
 
 | arm | content | conformance | avg_tokens |
 |---|---|---|---|
-| full | 0.89 | 0.33 | 167 |
-| compressed | 1.00 | 0.08 | 84 |
-| style_text | 0.89 | 0.25 | 145 |
-| primed | 1.00 | 0.25 | 84 |
+| full | 0.89 | 0.44 | 150 |
+| compressed | 1.00 | 0.11 | 78 |
+| style_text | 1.00 | 0.33 | 124 |
+| primed | 0.89 | 0.11 | 78 |
 
 ### gravity
 
 > Explain what gravity is.
 
-**full** — content=1.00 conformance=0.25 (british_spelling=x, second_person=x, no_contractions=PASS, bulleted_list=x)
+**full** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Gravity is the force that attracts objects with mass towards each other. It causes things to fall down and keeps planets orbiting around stars. The more massive an object is, the stronger its gravitational pull becomes.
+Gravity is the force that attracts objects with mass towards each other. - It causes things to fall down and keeps planets orbiting around stars. - The strength of gravity decreases with distance from the center of mass.
 ```
 
-**compressed** — content=1.00 conformance=0.00 (british_spelling=x, second_person=x, no_contractions=x, bulleted_list=x)
+**compressed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Gravity is a fundamental force of nature that attracts all objects with mass towards each other. It causes planets, stars, and galaxies to orbit around centers of mass, such as the sun in our solar system. On Earth, gravity pulls objects downward toward the planet's center, giving rise to the familiar sensation of weight. This force also governs the motion of tides on oceans and the paths of projectiles like thrown balls or bullets.
+Gravity is a fundamental force of nature that attracts all objects with mass towards each other. It causes planets to orbit stars and gives weight to objects on Earth. The strength of gravity decreases with distance from the source of gravity (like the center of the Earth).
 ```
 
-**style_text** — content=1.00 conformance=0.25 (british_spelling=x, second_person=x, no_contractions=PASS, bulleted_list=x)
+**style_text** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Gravity: The force that attracts objects towards each other, especially those of different masses. It pulls everything on Earth toward its center, causing things to fall down and making planets orbit around stars. This fundamental force governs much of our daily lives and celestial movements.
+Gravity: The force that attracts objects towards each other, especially toward the center of the Earth. It causes things to fall and keeps planets orbiting around stars.
 ```
 
-**primed** — content=1.00 conformance=0.25 (british_spelling=x, second_person=x, no_contractions=PASS, bulleted_list=x)
+**primed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Gravity is the force that attracts two objects with mass towards each other. It causes things to fall down and keeps planets in orbit around stars. The strength of gravity depends on the masses of the objects involved and the distance between them.
+Gravity is a fundamental force of nature that attracts all objects with mass towards each other. It causes objects to fall toward the Earth and gives weight to physical bodies. The strength of gravity decreases with distance from its source, which is why it's stronger at the center of planets or stars compared to their surfaces.
 ```
 
 ### vaccine
 
 > Explain what a vaccine does.
 
-**full** — content=0.67 conformance=0.25 (british_spelling=x, second_person=PASS, no_contractions=x, bulleted_list=x)
+**full** — content=0.67 conformance=0.67 (second_person=PASS, no_contractions=PASS, bulleted_list=x)
 
 ```
-A vaccine works by introducing your body's immune system to a harmless version of a disease-causing microorganism or part of that organism. This helps your body build immunity without causing illness. Essentially, vaccines teach your immune system how to recognize and fight off specific diseases before you encounter them naturally.
+A vaccine works by helping your body build immunity against diseases without causing illness. - Vaccines introduce weakened or inactive parts of a virus or bacteria into your body. - Your immune system recognizes these components and creates antibodies to fight them off. - This prepares your body to recognize and defend against real infections if you come into contact with the actual pathogen later on.
 ```
 
-**compressed** — content=1.00 conformance=0.00 (british_spelling=x, second_person=x, no_contractions=x, bulleted_list=x)
+**compressed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-A vaccine works by introducing a small amount of weakened or inactive form of a pathogen (such as a virus or bacteria) into the body. This allows the immune system to recognize and build immunity against that specific pathogen without causing full-blown illness. The process involves several key steps:
-
-1. **Introduction**: A tiny dose of the pathogen is injected into the body through various methods like injections or nasal sprays.
-2. **Immune Response Initiation**: When the pathogen enters the body, it triggers an immune response. The immune system recognizes this foreign substance and begins to produce antibodies specifically targeted against it.
-3. **Memory Formation**: Over time, the immune system stores information about how to fight off future encounters with the same pathogen. This stored knowledge becomes part of the body's memory, allowing for quicker and more effective responses in case of real infection.
-4. **Protection Against Future Infections**: By creating these protective antibodies and memory cells, vaccines provide long-lasting immunity against diseases caused by the specific pathogens they target. This means individuals who have received a vaccine can generally avoid contracting certain illnesses if exposed to them later in life.
-
-Vaccines play a crucial role in preventing infectious diseases by preparing the body’s defenses before exposure to actual pathogens, thereby reducing the risk of severe illness and complications associated with many common and potentially deadly infections.
+A vaccine works by introducing a small amount of weakened or inactive form of a virus or bacteria to stimulate the immune system without causing full-blown infection. This process helps the body build immunity against the disease. When exposed to the actual pathogen later, the vaccinated individual's immune system recognizes it quickly and mounts an effective defense, preventing illness or reducing its severity.
 ```
 
-**style_text** — content=0.67 conformance=0.25 (british_spelling=x, second_person=PASS, no_contractions=x, bulleted_list=x)
+**style_text** — content=1.00 conformance=0.67 (second_person=PASS, no_contractions=PASS, bulleted_list=x)
 
 ```
-A vaccine works by introducing your body's immune system to a harmless version of a disease-causing microorganism or part of it. This triggers an immune response without causing illness, allowing your body to build immunity against that specific pathogen.
+A vaccine works by introducing a small amount of weakened or inactive parts of a virus or bacteria to your body. This helps your immune system recognize and prepare to fight off the real infection if it ever comes along. Essentially, vaccines teach your body how to protect itself against diseases without causing illness.
 ```
 
-**primed** — content=1.00 conformance=0.25 (british_spelling=x, second_person=x, no_contractions=PASS, bulleted_list=x)
+**primed** — content=0.67 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-A vaccine works by introducing a weakened or inactive form of a pathogen (such as a virus or bacteria) into the body. This allows the immune system to recognize and build immunity against the specific microorganism without causing illness. The process involves several key steps:
-
-1. **Introduction**: A small amount of the pathogen is administered through injection or oral intake.
-2. **Immune Response Initiation**: When the pathogen enters the body, it triggers an immune response. 
-3. **Activation of Immune Cells**: Specialized cells in the immune system detect the presence of the pathogen and activate other immune cells.
-4. **Production of Antibodies**: These activated cells produce antibodies that specifically target the pathogen.
-5. **Neutralization and Elimination**: The antibodies bind to the pathogen, neutralizing its ability to cause disease, thereby preventing infection.
-
-This method ensures that the body develops protective immunity against the pathogen without experiencing the full effects of the actual infection, thus providing long-lasting protection.
+A vaccine works by introducing a weakened or inactive form of a pathogen (such as a virus or bacteria) into the body to stimulate an immune response without causing illness. This helps build immunity against the actual disease in the future. The process involves exposing the immune system to parts of the pathogen that can trigger an immune reaction, allowing it to recognize and fight off the full version if encountered later.
 ```
 
 ### tides
 
 > Explain what causes ocean tides.
 
-**full** — content=1.00 conformance=0.50 (british_spelling=PASS, second_person=x, no_contractions=x, bulleted_list=PASS)
+**full** — content=1.00 conformance=0.33 (second_person=x, no_contractions=x, bulleted_list=PASS)
 
 ```
-Explain what causes ocean tides.
-
-- The gravitational pull from the moon and sun on Earth's oceans creates tidal forces.
-- These forces cause the water levels around the coastlines to rise and fall periodically.
-- This phenomenon is known as tides.
-- The time between high tide and low tide varies depending on the location and the specific conditions.
+- The gravitational pull from the moon and sun causes ocean tides.
+- As these celestial bodies move through space, they exert force on Earth's oceans.
+- This force creates two high tides per day: one at the rising tide and another at the falling tide.
+- The difference between these high tides is known as the tidal range.
+- Understanding this process helps us predict and manage coastal activities like fishing and shipping.
 ```
 
-**compressed** — content=1.00 conformance=0.25 (british_spelling=PASS, second_person=x, no_contractions=x, bulleted_list=x)
+**compressed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Ocean tides are caused by the gravitational pull of the moon and the sun on the Earth's oceans. The gravitational force exerted by these celestial bodies creates tidal bulges in the water, which then cause the oceans to rise and fall as they rotate around the Earth. This results in two high tides per day (one each side of the Earth) and two low tides. The strength of the tides can vary depending on factors such as the distance between the Earth, moon, and sun, as well as the shape of the Earth's crust.
+Ocean tides are caused by the gravitational pull of the moon and the sun on the Earth's oceans. The gravitational force exerted by these celestial bodies creates tidal bulges in the water, which then move back and forth as they rotate around the Earth. This results in two high tides and two low tides each day, creating the familiar ebb and flow of sea levels that we observe at the beach or in our local harbor.
 ```
 
-**style_text** — content=1.00 conformance=0.25 (british_spelling=PASS, second_person=x, no_contractions=x, bulleted_list=x)
+**style_text** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Ocean tides are caused by the gravitational pull of the moon and the sun on Earth's oceans. The combined effect of these two celestial bodies creates a tidal force that causes the water levels in the oceans to rise and fall periodically. This phenomenon is known as tidal motion. The shape of the coastline and the depth of the sea also play a role in determining how much the tide rises or falls.
+Ocean tides are caused by the gravitational pull of the moon and the sun on Earth's oceans. The combined effect of these two celestial bodies creates a tidal force that causes the water to move up and down along the coastlines. This movement is periodic and can be observed as high and low tides.
 ```
 
-**primed** — content=1.00 conformance=0.25 (british_spelling=PASS, second_person=x, no_contractions=x, bulleted_list=x)
+**primed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Ocean tides occur due to the gravitational pull of the moon and the sun on the Earth's oceans. The combined effect of these two celestial bodies creates a tidal force that causes the water levels in coastal areas to rise and fall. This phenomenon is caused by the rotation of the Earth and the varying positions of the moon and sun relative to the Earth. As the moon orbits around the Earth, it pulls on the water near its side, creating high tides. At the opposite end of the orbit, the water recedes, resulting in low tides. These cycles repeat approximately every 12 hours and 25 minutes, creating a regular pattern of rising and falling sea levels along coastlines.
+Ocean tides occur due to the gravitational pull of the moon and the sun on the Earth's oceans. The combined effect of these two celestial bodies creates a tidal force that causes the water levels in coastal areas to rise and fall. This phenomenon is caused by the changing positions of the Earth, moon, and sun relative to each other as they orbit around their common center of mass (the barycenter). The gravitational forces exerted by the moon and the sun cause the water to bulge outward from the Earth at high tide points, while the opposite side experiences a low tide. These high and low tides create the rhythmic pattern we observe in oceanic waters.
 ```
