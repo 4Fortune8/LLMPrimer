@@ -1,2 +1,6 @@
 *.pyc
-.venv/*
+__pycache__/
+.venv/
+.env
+results.json
+primer_bank/

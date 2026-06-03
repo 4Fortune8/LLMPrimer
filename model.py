@@ -33,8 +33,13 @@ class HookedLM:
             msgs.append({"role": "system", "content": system})
         msgs.append({"role": "user", "content": user})
         ids = self.tok.apply_chat_template(
-            msgs, add_generation_prompt=True, return_tensors="pt"
+            msgs, add_generation_prompt=True, return_tensors="pt",
+            return_dict=False,
         )
+        # Newer transformers may still return a BatchEncoding/dict; the rest of
+        # the harness expects a plain [batch, seq] tensor.
+        if not isinstance(ids, torch.Tensor):
+            ids = ids["input_ids"]
         return ids.to(self.model.device)
 
     # ---- capturing a residual at a layer (for extraction) ------------------
