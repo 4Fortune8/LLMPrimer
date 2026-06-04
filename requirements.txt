@@ -1,5 +1,9 @@
 torch>=2.2
 transformers>=4.44
 accelerate>=0.33
+# optional plotting for sweep.py / scale_ladder.py:
+matplotlib>=3.7
+# needed only for 4-bit models (7B+) in the scale ladder:
+bitsandbytes>=0.43
 # optional, only if you enable embedding-based primer retrieval:
 # sentence-transformers>=3.0

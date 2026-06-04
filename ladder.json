@@ -1,0 +1,111 @@
+{
+  "ladder": [
+    {
+      "tag": "Qwen2.5-1.5B-Instruct",
+      "params_b": 1.5,
+      "gated_domains": [
+        "coding"
+      ],
+      "full_conformance": 0.6277777777777778,
+      "compressed_conf": 0.7,
+      "style_text_conf": 0.9,
+      "primed_conf": 0.7,
+      "primer_effect": 0.0,
+      "rival_gap": -0.20000000000000007,
+      "tokens_primed": 107.0,
+      "tokens_style_text": 150.0
+    },
+    {
+      "tag": "Qwen2.5-3B-Instruct",
+      "params_b": 3.0,
+      "gated_domains": [
+        "coding",
+        "math",
+        "writing"
+      ],
+      "full_conformance": 0.888888888888889,
+      "compressed_conf": 0.5611111111111111,
+      "style_text_conf": 0.7222222222222222,
+      "primed_conf": 0.5666666666666667,
+      "primer_effect": 0.005555555555555536,
+      "rival_gap": -0.15555555555555556,
+      "tokens_primed": 92.26666666666667,
+      "tokens_style_text": 136.26666666666668
+    },
+    {
+      "tag": "Qwen2.5-7B-Instruct",
+      "params_b": 7.0,
+      "gated_domains": [
+        "coding",
+        "math",
+        "writing"
+      ],
+      "full_conformance": 0.8944444444444444,
+      "compressed_conf": 0.55,
+      "style_text_conf": 0.9166666666666666,
+      "primed_conf": 0.6055555555555556,
+      "primer_effect": 0.05555555555555558,
+      "rival_gap": -0.311111111111111,
+      "tokens_primed": 109.93333333333334,
+      "tokens_style_text": 153.93333333333334
+    }
+  ],
+  "config": {
+    "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+    "dtype": "float16",
+    "device": "cuda",
+    "load_in_4bit": false,
+    "inject_layers": [
+      12
+    ],
+    "alpha": 6.0,
+    "extract_layer": 12,
+    "extract_regime": "compressed",
+    "compress_ratio": 0.25,
+    "domains": [
+      "coding",
+      "math",
+      "writing"
+    ],
+    "eval_split": "test",
+    "seeds": [
+      0
+    ],
+    "eval_temperature": 0.0,
+    "sweep_alphas": [
+      2.0,
+      4.0,
+      6.0,
+      8.0,
+      10.0,
+      12.0
+    ],
+    "sweep_layers": [
+      8,
+      12,
+      16,
+      20
+    ],
+    "content_tolerance": 0.1,
+    "capability_gate": 0.8,
+    "model_ladder": [
+      {
+        "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+        "load_in_4bit": false
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-3B-Instruct",
+        "load_in_4bit": false
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-7B-Instruct",
+        "load_in_4bit": true
+      }
+    ],
+    "max_new_tokens": 512,
+    "temperature": 0.0,
+    "seed": 0,
+    "bank_path": "primer_bank",
+    "results_path": "results.json"
+  }
+}

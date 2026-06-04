@@ -25,6 +25,20 @@ class HookedLM:
         self.model.eval()
         self.layers = self.model.model.layers
         self.hidden = self.model.config.hidden_size
+        self.n_layers = len(self.layers)
+
+    def resolve_layer(self, spec):
+        """Map a layer spec to a valid absolute index for THIS model's depth.
+
+        A float in (0, 1) is read as a fraction of the stack (so \"mid-stack\"
+        tracks the architecture across model sizes); anything >= 1 is treated as
+        an already-absolute index. Result is clamped to [1, n_layers - 1].
+        """
+        if isinstance(spec, float) and 0.0 < spec < 1.0:
+            idx = int(round(spec * self.n_layers))
+        else:
+            idx = int(spec)
+        return max(1, min(self.n_layers - 1, idx))
 
     # ---- prompt formatting -------------------------------------------------
     def render(self, system, user):
@@ -90,16 +104,20 @@ class HookedLM:
 
     # ---- generation --------------------------------------------------------
     @torch.no_grad()
-    def generate(self, input_ids, primers=None):
+    def generate(self, input_ids, primers=None, seed=None, temperature=None):
+        """Generate a completion. `seed` and `temperature` override the config
+        defaults — used by the multi-seed variance pass (run with temperature>0
+        so different seeds actually diverge; greedy is seed-invariant)."""
         cfg = self.cfg
-        torch.manual_seed(cfg.seed)
+        temp = cfg.temperature if temperature is None else temperature
+        torch.manual_seed(cfg.seed if seed is None else seed)
         gen_kwargs = dict(
             max_new_tokens=cfg.max_new_tokens,
-            do_sample=cfg.temperature > 0,
+            do_sample=temp > 0,
             pad_token_id=self.tok.eos_token_id,
         )
-        if cfg.temperature > 0:
-            gen_kwargs["temperature"] = cfg.temperature
+        if temp > 0:
+            gen_kwargs["temperature"] = temp
         ctx = self.inject(primers) if primers else _null()
         with ctx:
             out = self.model.generate(input_ids, **gen_kwargs)

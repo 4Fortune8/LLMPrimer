@@ -14,14 +14,22 @@ import torch
 
 def extract_primer(lm, pairs, layer):
     """pairs: list of (mode_on_text, mode_off_text), each a fully-rendered user
-    string. Returns a unit-norm direction [hidden] (apply scale via alpha)."""
-    diffs = []
+    string. Returns (direction, ref_norm):
+      direction : unit-norm regime vector [hidden] (apply scale via alpha)
+      ref_norm  : mean L2 norm of the 'mode-on' residual at this layer, used to
+                  scale the unit primer to a FRACTION of the local residual norm
+                  (norm-relative steering) so a given alpha is a comparable nudge
+                  across model sizes, whose residual norms grow with hidden/depth.
+    """
+    diffs, norms = [], []
     for on_text, off_text in pairs:
         on = lm.last_token_residual(lm.render(None, on_text), layer)
         off = lm.last_token_residual(lm.render(None, off_text), layer)
         diffs.append(on - off)
+        norms.append(float(on.norm()))
     d = torch.stack(diffs).mean(0)
-    return d / (d.norm() + 1e-8)
+    ref_norm = sum(norms) / max(len(norms), 1)
+    return d / (d.norm() + 1e-8), ref_norm
 
 
 class PrimerBank:

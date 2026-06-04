@@ -11,8 +11,16 @@ Two metric heads are measured **separately**:
 | `content` | did the facts survive? | run generated code against hidden unit tests (pass@1) |
 | `conformance` | did the working mode survive? | AST checks for house style (naming, type hints, docstring, error contract) |
 
-Three arms: `full` (full styled context, upper bound) → `compressed` (neutral
-summary, baseline) → `primed` (compressed + retrieved primer injected).
+Three arms: `full` (full styled context, upper bound) -> `compressed` (neutral
+summary, baseline) -> `primed` (compressed + retrieved primer injected), plus two
+rivals that keep the result honest: `zero_shot` (no context, lower anchor) and
+`style_text` (compressed + the short contract text re-pasted -- the cheap text
+rival the primer must beat on cost).
+
+The report is **capability-gated** (a domain only counts as evidence if its
+`full` arm clears `cfg.capability_gate` conformance) and **cost-adjusted**: the
+`value` table asks whether `primed` reaches the text rival's conformance at fewer
+prompt tokens.
 
 ## What "success" looks like
 `primed` lifts **conformance** toward `full` while **content** stays ~flat and
@@ -20,18 +28,24 @@ prompt tokens stay ~= `compressed`. That is a cost-adjusted win, which is the
 correct bar here — you are NOT trying to beat the full-context arm.
 
 ## Files
-- `config.py` — model, inject layers, alpha, compression ratio (start here)
+- `config.py` — model, inject layers, alpha, compression ratio, splits, seeds,
+  capability gate, the scale ladder (start here)
 - `model.py` — HF model + residual-stream capture/inject hooks + generate
 - `primers.py` — function-vector extraction + on-disk bank + retrieval
 - `compress.py` — model-based summariser (the compressor)
-- `tasks.py` — task family + house style + hidden tests
-- `metrics.py` — the two heads
-- `run.py` — the three-arm experiment
+- `suite.py` — multi-domain tasks (coding/math/writing) with train/val/test splits
+- `metrics.py` — the two heads, dispatched per domain
+- `run.py` — the five-arm experiment (one model); exposes `evaluate()`
+- `sweep.py` — alpha × layer selection on the VAL split (pick here, report on test)
+- `scale_ladder.py` — runs the identical harness across model sizes (the key
+  experiment for "is the limitation model size?")
 
 ## Run
 ```bash
 pip install -r requirements.txt
-python run.py            # writes results.json
+python sweep.py         # select alpha x layer on val -> sweep.json (optional)
+python run.py           # five-arm test report -> results.json + results_readable.md
+python scale_ladder.py  # 1.5B -> 3B -> 7B ladder -> ladder.json + ladder.png
 ```
 Default model `Qwen/Qwen2.5-1.5B-Instruct` runs on a free T4 in fp16. For 7-8B,
 set `load_in_4bit=True` in `config.py` and `pip install bitsandbytes`.
@@ -60,7 +74,18 @@ accounts usually get a few dollars of starting credit.
 
 Practical: free sessions disconnect and kernels crash — checkpoint `primer_bank/`
 and `results.json` to persistent storage early, and keep the model small while
-iterating so a full three-arm pass is minutes, not hours.
+iterating so a full pass is minutes, not hours.
+
+### Running on Lightning AI from your laptop
+`lightning_run.py` ships the source to a Studio, runs it on a GPU, and downloads
+results. Credentials come from `.env` (`LIGHTNING_USER_ID`, `LIGHTNING_API_KEY`).
+```bash
+.venv/bin/python lightning_run.py --machine T4            # five-arm test report
+.venv/bin/python lightning_run.py --machine T4 --sweep    # val alpha x layer sweep
+.venv/bin/python lightning_run.py --machine T4 --ladder   # scale ladder
+```
+Set `HF_TOKEN` (or persist the HF cache to the Studio home) before a ladder run —
+otherwise large 7B weight downloads dominate GPU time.
 
 ### Minimal Modal wrapper (optional)
 ```python

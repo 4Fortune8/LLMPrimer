@@ -437,7 +437,7 @@
       "layer": 8,
       "alpha": 2.0,
       "content": 1.0,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": 0.0
     },
@@ -446,7 +446,7 @@
       "layer": 8,
       "alpha": 4.0,
       "content": 1.0,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": 0.0
     },
@@ -455,25 +455,25 @@
       "layer": 8,
       "alpha": 6.0,
       "content": 1.0,
-      "conformance": 0.0,
-      "conf_gain": -0.25,
-      "content_delta": 0.0
-    },
-    {
-      "domain": "writing",
-      "layer": 8,
-      "alpha": 8.0,
-      "content": 1.0,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": 0.0
     },
     {
       "domain": "writing",
       "layer": 8,
+      "alpha": 8.0,
+      "content": 0.6666666666666666,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": -0.33333333333333337
+    },
+    {
+      "domain": "writing",
+      "layer": 8,
       "alpha": 10.0,
       "content": 1.0,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": 0.0
     },
@@ -482,8 +482,8 @@
       "layer": 8,
       "alpha": 12.0,
       "content": 1.0,
-      "conformance": 0.0,
-      "conf_gain": -0.25,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
       "content_delta": 0.0
     },
     {
@@ -491,36 +491,36 @@
       "layer": 12,
       "alpha": 2.0,
       "content": 1.0,
-      "conformance": 0.0,
-      "conf_gain": -0.25,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
       "content_delta": 0.0
     },
     {
       "domain": "writing",
       "layer": 12,
       "alpha": 4.0,
+      "content": 0.6666666666666666,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": -0.33333333333333337
+    },
+    {
+      "domain": "writing",
+      "layer": 12,
+      "alpha": 6.0,
       "content": 1.0,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": 0.0
     },
     {
       "domain": "writing",
       "layer": 12,
-      "alpha": 6.0,
-      "content": 0.6666666666666666,
-      "conformance": 0.25,
-      "conf_gain": 0.0,
-      "content_delta": -0.33333333333333337
-    },
-    {
-      "domain": "writing",
-      "layer": 12,
       "alpha": 8.0,
-      "content": 0.6666666666666666,
-      "conformance": 0.0,
-      "conf_gain": -0.25,
-      "content_delta": -0.33333333333333337
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
     },
     {
       "domain": "writing",
@@ -528,7 +528,7 @@
       "alpha": 10.0,
       "content": 0.6666666666666666,
       "conformance": 0.0,
-      "conf_gain": -0.25,
+      "conf_gain": -0.3333333333333333,
       "content_delta": -0.33333333333333337
     },
     {
@@ -536,8 +536,8 @@
       "layer": 12,
       "alpha": 12.0,
       "content": 0.6666666666666666,
-      "conformance": 0.25,
-      "conf_gain": 0.0,
+      "conformance": 0.0,
+      "conf_gain": -0.3333333333333333,
       "content_delta": -0.33333333333333337
     },
     {
@@ -545,7 +545,7 @@
       "layer": 16,
       "alpha": 2.0,
       "content": 1.0,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": 0.0
     },
@@ -554,7 +554,7 @@
       "layer": 16,
       "alpha": 4.0,
       "content": 1.0,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": 0.0
     },
@@ -562,18 +562,18 @@
       "domain": "writing",
       "layer": 16,
       "alpha": 6.0,
-      "content": 0.6666666666666666,
-      "conformance": 0.25,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
-      "content_delta": -0.33333333333333337
+      "content_delta": 0.0
     },
     {
       "domain": "writing",
       "layer": 16,
       "alpha": 8.0,
       "content": 1.0,
-      "conformance": 0.0,
-      "conf_gain": -0.25,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
       "content_delta": 0.0
     },
     {
@@ -581,8 +581,8 @@
       "layer": 16,
       "alpha": 10.0,
       "content": 0.6666666666666666,
-      "conformance": 0.5,
-      "conf_gain": 0.25,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
       "content_delta": -0.33333333333333337
     },
     {
@@ -590,7 +590,7 @@
       "layer": 16,
       "alpha": 12.0,
       "content": 0.6666666666666666,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": -0.33333333333333337
     },
@@ -599,7 +599,7 @@
       "layer": 20,
       "alpha": 2.0,
       "content": 1.0,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": 0.0
     },
@@ -608,7 +608,7 @@
       "layer": 20,
       "alpha": 4.0,
       "content": 1.0,
-      "conformance": 0.25,
+      "conformance": 0.3333333333333333,
       "conf_gain": 0.0,
       "content_delta": 0.0
     },
@@ -616,18 +616,18 @@
       "domain": "writing",
       "layer": 20,
       "alpha": 6.0,
-      "content": 0.6666666666666666,
-      "conformance": 0.25,
-      "conf_gain": 0.0,
-      "content_delta": -0.33333333333333337
+      "content": 1.0,
+      "conformance": 0.0,
+      "conf_gain": -0.3333333333333333,
+      "content_delta": 0.0
     },
     {
       "domain": "writing",
       "layer": 20,
       "alpha": 8.0,
       "content": 1.0,
-      "conformance": 0.5,
-      "conf_gain": 0.25,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
       "content_delta": 0.0
     },
     {
@@ -635,8 +635,8 @@
       "layer": 20,
       "alpha": 10.0,
       "content": 1.0,
-      "conformance": 0.25,
-      "conf_gain": 0.0,
+      "conformance": 0.0,
+      "conf_gain": -0.3333333333333333,
       "content_delta": 0.0
     },
     {
@@ -645,7 +645,7 @@
       "alpha": 12.0,
       "content": 1.0,
       "conformance": 0.0,
-      "conf_gain": -0.25,
+      "conf_gain": -0.3333333333333333,
       "content_delta": 0.0
     }
   ],
@@ -670,11 +670,11 @@
     },
     "writing": {
       "domain": "writing",
-      "layer": 20,
-      "alpha": 8.0,
+      "layer": 8,
+      "alpha": 2.0,
       "content": 1.0,
-      "conformance": 0.5,
-      "conf_gain": 0.25,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
       "content_delta": 0.0
     }
   },

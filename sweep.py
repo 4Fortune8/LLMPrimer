@@ -18,7 +18,7 @@ from primers import extract_primer
 from compress import compress_context
 from metrics import score_content, score_conformance
 import suite
-from run import build_prompt
+from run import build_prompt, extraction_pairs
 
 
 def _eval_split(lm, domain, summary, split, primers):
@@ -44,7 +44,7 @@ def main():
         info = suite.DOMAINS[domain]
         print(f"\n###### SWEEP DOMAIN: {domain} ######")
         summary = compress_context(lm, info["session"], cfg.compress_ratio)
-        pairs = suite.extraction_pairs(domain)
+        pairs = extraction_pairs(cfg, domain, summary)
 
         base_c, base_f = _eval_split(lm, domain, summary, "val", None)
         print(f"  compressed baseline (val): content={base_c:.2f} "
