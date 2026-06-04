@@ -1,0 +1,775 @@
+{
+  "grid": [
+    {
+      "domain": "coding",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.04,
+      "alpha_eff": 5.2410595703125,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.08,
+      "alpha_eff": 10.482119140625,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.12,
+      "alpha_eff": 15.7231787109375,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.2,
+      "alpha_eff": 26.205297851562502,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.3,
+      "alpha_eff": 39.30794677734375,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.04,
+      "alpha_eff": 6.220003051757812,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.08,
+      "alpha_eff": 12.440006103515625,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.12,
+      "alpha_eff": 18.660009155273436,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.2,
+      "alpha_eff": 31.100015258789064,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.3,
+      "alpha_eff": 46.65002288818359,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.04,
+      "alpha_eff": 6.604099731445313,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.08,
+      "alpha_eff": 13.208199462890626,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.12,
+      "alpha_eff": 19.812299194335935,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.2,
+      "alpha_eff": 33.02049865722656,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.3,
+      "alpha_eff": 49.530747985839845,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.04,
+      "alpha_eff": 9.88343017578125,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.08,
+      "alpha_eff": 19.7668603515625,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.12,
+      "alpha_eff": 29.65029052734375,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.2,
+      "alpha_eff": 49.417150878906256,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.3,
+      "alpha_eff": 74.12572631835937,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.04,
+      "alpha_eff": 5.1131761932373045,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.08,
+      "alpha_eff": 10.226352386474609,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": -0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.12,
+      "alpha_eff": 15.339528579711914,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": -0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.2,
+      "alpha_eff": 25.565880966186526,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": -0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.3,
+      "alpha_eff": 38.34882144927978,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": -0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.04,
+      "alpha_eff": 6.633267211914062,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.08,
+      "alpha_eff": 13.266534423828125,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.12,
+      "alpha_eff": 19.899801635742186,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.2,
+      "alpha_eff": 33.16633605957031,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.3,
+      "alpha_eff": 49.74950408935547,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.04,
+      "alpha_eff": 6.614399108886719,
+      "content": 1.0,
+      "conformance": 0.95,
+      "conf_gain": 0.04999999999999993,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.08,
+      "alpha_eff": 13.228798217773438,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.12,
+      "alpha_eff": 19.843197326660157,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": -0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.2,
+      "alpha_eff": 33.0719955444336,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": -0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.3,
+      "alpha_eff": 49.607993316650386,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": -0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.04,
+      "alpha_eff": 10.384533081054688,
+      "content": 1.0,
+      "conformance": 0.95,
+      "conf_gain": 0.04999999999999993,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.08,
+      "alpha_eff": 20.769066162109375,
+      "content": 1.0,
+      "conformance": 0.95,
+      "conf_gain": 0.04999999999999993,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.12,
+      "alpha_eff": 31.153599243164063,
+      "content": 1.0,
+      "conformance": 0.95,
+      "conf_gain": 0.04999999999999993,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.2,
+      "alpha_eff": 51.92266540527344,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": -0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.3,
+      "alpha_eff": 77.88399810791016,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.04,
+      "alpha_eff": 4.949920501708984,
+      "content": 1.0,
+      "conformance": 0.2,
+      "conf_gain": -0.1333333333333333,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.08,
+      "alpha_eff": 9.899841003417968,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.12,
+      "alpha_eff": 14.849761505126953,
+      "content": 1.0,
+      "conformance": 0.2,
+      "conf_gain": -0.1333333333333333,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.2,
+      "alpha_eff": 24.749602508544925,
+      "content": 1.0,
+      "conformance": 0.2,
+      "conf_gain": -0.1333333333333333,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.3,
+      "alpha_eff": 37.12440376281738,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.04,
+      "alpha_eff": 6.293838958740235,
+      "content": 1.0,
+      "conformance": 0.2,
+      "conf_gain": -0.1333333333333333,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.08,
+      "alpha_eff": 12.58767791748047,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.12,
+      "alpha_eff": 18.8815168762207,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.2,
+      "alpha_eff": 31.469194793701174,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 28,
+      "frac": 0.43,
+      "alpha": 0.3,
+      "alpha_eff": 47.20379219055176,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.04,
+      "alpha_eff": 6.754239501953125,
+      "content": 1.0,
+      "conformance": 0.13333333333333333,
+      "conf_gain": -0.19999999999999998,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.08,
+      "alpha_eff": 13.50847900390625,
+      "content": 1.0,
+      "conformance": 0.2,
+      "conf_gain": -0.1333333333333333,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.12,
+      "alpha_eff": 20.262718505859375,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.2,
+      "alpha_eff": 33.77119750976563,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.3,
+      "alpha_eff": 50.656796264648435,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.04,
+      "alpha_eff": 9.869376983642578,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.08,
+      "alpha_eff": 19.738753967285156,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.12,
+      "alpha_eff": 29.608130950927734,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.2,
+      "alpha_eff": 49.34688491821289,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 45,
+      "frac": 0.7,
+      "alpha": 0.3,
+      "alpha_eff": 74.02032737731933,
+      "content": 0.9333333333333333,
+      "conformance": 0.2,
+      "conf_gain": -0.1333333333333333,
+      "content_delta": -0.06666666666666665
+    }
+  ],
+  "selections": {
+    "coding": {
+      "domain": "coding",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.04,
+      "alpha_eff": 5.2410595703125,
+      "content": 1.0,
+      "conformance": 1.0,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    "math": {
+      "domain": "math",
+      "layer": 36,
+      "frac": 0.57,
+      "alpha": 0.04,
+      "alpha_eff": 6.614399108886719,
+      "content": 1.0,
+      "conformance": 0.95,
+      "conf_gain": 0.04999999999999993,
+      "content_delta": 0.0
+    },
+    "writing": {
+      "domain": "writing",
+      "layer": 19,
+      "frac": 0.3,
+      "alpha": 0.08,
+      "alpha_eff": 9.899841003417968,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    }
+  },
+  "config": {
+    "model_name": "Qwen/Qwen2.5-32B-Instruct",
+    "dtype": "float16",
+    "device": "cuda",
+    "load_in_4bit": true,
+    "inject_layers": [
+      12
+    ],
+    "inject_layer_fracs": [
+      0.43
+    ],
+    "alpha_relative": true,
+    "alpha": 0.1,
+    "extract_layer": 12,
+    "extract_layer_frac": 0.43,
+    "extract_regime": "compressed",
+    "compress_ratio": 0.25,
+    "domains": [
+      "coding",
+      "math",
+      "writing"
+    ],
+    "eval_split": "test",
+    "seeds": [
+      0
+    ],
+    "eval_temperature": 0.0,
+    "sweep_alphas": [
+      0.04,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "sweep_layer_fracs": [
+      0.3,
+      0.43,
+      0.57,
+      0.7
+    ],
+    "sweep_layers": [
+      8,
+      12,
+      16,
+      20
+    ],
+    "content_tolerance": 0.1,
+    "capability_gate": 0.8,
+    "model_ladder": [
+      {
+        "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+        "load_in_4bit": false
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-3B-Instruct",
+        "load_in_4bit": false
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-7B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-14B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-32B-Instruct",
+        "load_in_4bit": true
+      }
+    ],
+    "max_new_tokens": 512,
+    "temperature": 0.0,
+    "seed": 0,
+    "bank_path": "primer_bank",
+    "results_path": "results.json"
+  }
+}

@@ -8,16 +8,16 @@
 | full | 1.00 | 0.89 +/-0.14 | 203 |
 | compressed | 0.93 | 0.56 +/-0.36 | 92 |
 | style_text | 0.84 | 0.72 +/-0.27 | 136 |
-| primed | 0.93 | 0.57 +/-0.33 | 92 |
+| primed | 0.93 | 0.60 +/-0.33 | 92 |
 
 ## Value (cost-adjusted: primer vs re-pasted text rival)
 
 | scope | conf gain vs compressed | conf vs style_text | tokens vs style_text | verdict |
 |---|---|---|---|---|
-| coding | +0.00 | +0.20 | -43 | primer dominates rival |
-| math | -0.05 | -0.40 | -43 | mixed (trade-off) |
+| coding | +0.05 | +0.25 | -43 | primer dominates rival |
+| math | +0.00 | -0.35 | -43 | mixed (trade-off) |
 | writing | +0.07 | -0.27 | -46 | mixed (trade-off) |
-| **gated overall** | +0.01 | -0.16 | -44 | mixed (trade-off) |
+| **gated overall** | +0.04 | -0.12 | -44 | mixed (trade-off) |
 
 ## Domain: coding (full conformance=0.95 -> PASS)
 
@@ -27,7 +27,7 @@
 | full | 1.00 | 0.95 +/-0.11 | 235 |
 | compressed | 0.80 | 0.95 +/-0.11 | 112 |
 | style_text | 0.60 | 0.75 +/-0.43 | 155 |
-| primed | 0.80 | 0.95 +/-0.11 | 112 |
+| primed | 0.80 | 1.00 +/-0.00 | 112 |
 
 ### dedupe_preserve_order
 
@@ -126,7 +126,7 @@ def dedupe(items: list) -> list:
     Removes duplicate values from a list while preserving the order of items.
     
     Args:
-    items (list): The input list containing elements which may have duplicates.
+    items (list): The list from which to remove duplicates.
     
     Returns:
     list: A new list with duplicates removed and original order preserved.
@@ -137,12 +137,12 @@ def dedupe(items: list) -> list:
     if not isinstance(items, list):
         raise ValueError("Input must be a list.")
     seen = set()
-    unique_items = []
+    result = []
     for item in items:
         if item not in seen:
-            unique_items.append(item)
             seen.add(item)
-    return unique_items
+            result.append(item)
+    return result
 ```
 ```
 
@@ -266,13 +266,13 @@ def word_freq(text: str) -> dict:
 ```python
 def word_freq(text: str) -> dict:
     """
-    Maps each unique word (in lowercase) to its frequency in the given text.
+    Maps each lowercased word in the input text to its frequency.
     
     Args:
-    text (str): The input text from which to compute word frequencies.
+    text (str): The input string to analyze.
     
     Returns:
-    dict: A dictionary where keys are words (in lowercase) and values are their respective counts.
+    dict: A dictionary where keys are words (in lowercase) and values are their frequencies.
     
     Raises:
     ValueError: If the input is not a string.
@@ -280,18 +280,15 @@ def word_freq(text: str) -> dict:
     if not isinstance(text, str):
         raise ValueError("Input must be a string.")
     
-    # Convert text to lowercase and split into words
-    words = text.lower().split()
-    
-    # Count occurrences of each word
-    freq = {}
-    for word in words:
-        if word in freq:
-            freq[word] += 1
+    word_list = text.lower().split()
+    freq_map = {}
+    for word in word_list:
+        if word in freq_map:
+            freq_map[word] += 1
         else:
-            freq[word] = 1
+            freq_map[word] = 1
     
-    return freq
+    return freq_map
 ```
 ```
 
@@ -473,19 +470,19 @@ def average(nums: list) -> float:
 ```python
 def average(nums: list) -> float:
     """
-    Calculate the arithmetic mean of the given list of numbers.
+    Calculate the arithmetic mean of the numbers in nums.
     
     Args:
-    nums (list): A list of numbers (integers or floats).
+    nums (list): A list of numbers.
     
     Returns:
     float: The arithmetic mean of the numbers.
     
     Raises:
-    ValueError: If the input list is empty.
+    ValueError: If nums is empty.
     """
     if not nums:
-        raise ValueError("Input list cannot be empty.")
+        raise ValueError("The list of numbers is empty.")
     return sum(nums) / len(nums)
 ```
 ```
@@ -503,12 +500,12 @@ def average(nums: list) -> float:
 
     Returns:
     float: The arithmetic mean of the numbers.
-
+    
     Raises:
     ValueError: If the input list is empty.
     """
     if not nums:
-        raise ValueError("The list of numbers cannot be empty.")
+        raise ValueError("Input list cannot be empty.")
     return sum(nums) / len(nums)
 ```
 ```
@@ -596,21 +593,27 @@ def flatten(matrix: list) -> list:
 ```
 ```
 
-**primed** — content=1.00 conformance=0.75 (snake_case=PASS, type_hints=PASS, raises_valueerror=x, docstring=PASS)
+**primed** — content=1.00 conformance=1.00 (snake_case=PASS, type_hints=PASS, raises_valueerror=PASS, docstring=PASS)
 
 ```
 ```python
 def flatten(matrix: list) -> list:
     """
     Flattens a multi-dimensional list (matrix) into a single-dimensional list.
-
+    
     Args:
     matrix (list): A list of lists to be flattened.
-
+    
     Returns:
     list: A flat list containing all elements from the sublists.
+    
+    Raises:
+    ValueError: If the input is not a list of lists.
     """
-    return [item for sublist in matrix for item in (sublist if isinstance(sublist, list) else [sublist])]
+    if not all(isinstance(row, list) for row in matrix):
+        raise ValueError("Input must be a list of lists.")
+    
+    return [item for sublist in matrix for item in sublist]
 ```
 ```
 
@@ -622,7 +625,7 @@ def flatten(matrix: list) -> list:
 | full | 1.00 | 0.85 +/-0.14 | 223 |
 | compressed | 1.00 | 0.40 +/-0.22 | 85 |
 | style_text | 1.00 | 0.75 +/-0.00 | 128 |
-| primed | 1.00 | 0.35 +/-0.14 | 85 |
+| primed | 1.00 | 0.40 +/-0.22 | 85 |
 
 ### pages_left
 
@@ -717,22 +720,29 @@ Step 4: Perform the subtraction from Step 3.
 Final Answer: 40
 ```
 
-**primed** — content=1.00 conformance=0.50 (numbered_steps=x, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=x)
+**primed** — content=1.00 conformance=0.75 (numbered_steps=PASS, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=x)
 
 ```
-To find out how many pages are left for Ada to read, we need to subtract the number of pages she has already read from the total number of pages in the book.
+To find out how many pages are left for Ada to read, we need to follow these steps:
 
-First, let's add up the pages Ada has already read:
+1. Calculate the total number of pages Ada has already read.
+2. Subtract the total number of pages she has already read from the total number of pages in the book.
+
+Step 1: Calculate the total number of pages Ada has already read.
 - Pages read on Monday: 45
 - Pages read on Tuesday: 35
 
-Total pages read = 45 + 35 = 80 pages
+Total pages read = Pages read on Monday + Pages read on Tuesday
+Total pages read = 45 + 35
+Total pages read = 80
 
-Next, we subtract the total pages read from the total number of pages in the book:
+Step 2: Subtract the total number of pages she has already read from the total number of pages in the book.
 - Total pages in the book: 120
 - Total pages read: 80
 
-Pages left to read = 120 - 80 = 40 pages
+Pages left = Total pages in the book - Total pages read
+Pages left = 120 - 80
+Pages left = 40
 
 Answer: 40
 ```
@@ -802,17 +812,17 @@ Answer: 30
 **primed** — content=1.00 conformance=0.25 (numbered_steps=x, shows_arithmetic=x, answer_line=PASS, no_prose_intro=x)
 
 ```
-To find out how many eggs the farmer gets in total from his 5 hens, each laying 6 eggs, we can follow these steps:
+To solve this problem, we need to calculate the total number of eggs laid by all the hens.
 
 1. Identify the number of hens: There are 5 hens.
 2. Identify the number of eggs each hen lays: Each hen lays 6 eggs.
-3. Calculate the total number of eggs by multiplying the number of hens by the number of eggs each hen lays.
+3. Calculate the total number of eggs by multiplying the number of hens by the number of eggs each hen lays:
 
-So, the calculation is:
 \[ \text{Total eggs} = \text{Number of hens} \times \text{Eggs per hen} \]
 \[ \text{Total eggs} = 5 \times 6 \]
 
-Performing the multiplication:
+4. Perform the multiplication:
+
 \[ 5 \times 6 = 30 \]
 
 Therefore, the total number of eggs is 30.
@@ -915,7 +925,7 @@ To solve this problem, let's break it down into steps:
      32 \text{ liters} - 12 \text{ liters} = 20 \text{ liters}
      \]
 
-Therefore, the number of liters left in the tank is 20 liters.
+4. **Final Volume**: After both the morning and evening usages, the tank has 20 liters left.
 
 Answer: 20
 ```
@@ -1065,22 +1075,22 @@ Answer: 40
 **primed** — content=1.00 conformance=0.50 (numbered_steps=PASS, shows_arithmetic=x, answer_line=PASS, no_prose_intro=x)
 
 ```
-To find out how many kilometers the runner has covered in total over 5 days, we need to multiply the distance run each day by the number of days.
+To find out the total distance the runner covers over 5 days, we need to multiply the daily distance by the number of days.
 
-Step 1: Identify the distance run each day.
-Distance per day = 8 km
+Step 1: Identify the daily distance.
+Daily distance = 8 km
 
 Step 2: Identify the number of days.
 Number of days = 5
 
-Step 3: Multiply the distance per day by the number of days.
-Total distance = Distance per day × Number of days
+Step 3: Multiply the daily distance by the number of days.
+Total distance = Daily distance × Number of days
 Total distance = 8 km/day × 5 days
 
 Step 4: Perform the multiplication.
 Total distance = 40 km
 
-Therefore, the total distance covered by the runner is 40 km.
+Therefore, the total distance covered by the runner over 5 days is 40 km.
 
 Answer: 40
 ```
@@ -1093,7 +1103,7 @@ Answer: 40
 | full | 1.00 | 0.87 +/-0.18 | 150 |
 | compressed | 1.00 | 0.33 +/-0.33 | 80 |
 | style_text | 0.93 | 0.67 +/-0.24 | 126 |
-| primed | 1.00 | 0.40 +/-0.28 | 80 |
+| primed | 1.00 | 0.40 +/-0.15 | 80 |
 
 ### gravity
 
@@ -1135,10 +1145,10 @@ Explain what gravity is.
 - This force allows planets to orbit stars and keeps us grounded on Earth.
 ```
 
-**primed** — content=1.00 conformance=0.33 (second_person=PASS, no_contractions=x, bulleted_list=x)
+**primed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Certainly! Gravity is a fundamental force of nature that attracts two bodies with mass towards each other. Imagine you have two objects, like a ball and a feather. If you throw them both up in the air, they will fall back down due to gravity. This force pulls everything towards the center of the Earth, making it possible for us to walk on the ground and for objects to stay on the Earth's surface rather than floating off into space. Gravity is what keeps planets in orbit around the sun and moons in orbit around planets. It's a bit like a cosmic glue that holds our universe together in a way.
+Gravity is a force that attracts two objects with mass towards each other. It is always present and acts in all directions. The strength of this attraction depends on the masses of the objects and the distance between them. The greater the mass of an object, the stronger its gravitational pull. As for the distance, the effect of gravity weakens rapidly as the distance between objects increases.
 ```
 
 ### vaccine
@@ -1202,17 +1212,12 @@ Explain what a vaccine does.
 **primed** — content=1.00 conformance=0.67 (second_person=PASS, no_contractions=PASS, bulleted_list=x)
 
 ```
-Sure! Here’s how you can address the reader directly and explain what a vaccine does:
+Certainly! Here’s how you can address the reader directly while explaining what a vaccine does:
 
----
+Addressing the Reader Directly:
+Explaining What a Vaccine Does:
 
-Hello,
-
-A vaccine works by introducing a small part of a germ, like a virus or bacteria, into your body. This triggers your immune system to create antibodies without actually making you sick. Over time, your body remembers this germ and knows how to fight it if you ever encounter the real thing. This way, vaccines help protect you from getting sick with certain diseases.
-
----
-
-I hope this helps!
+A vaccine introduces substances that mimic an infection without causing the disease itself. These substances, often proteins or sugars from the pathogen, trigger your immune system to produce antibodies and memory cells. This prepares your body to recognize and fight off the actual pathogen if you encounter it in the future. Over time, these defenses help protect you from getting sick again.
 ```
 
 ### tides
@@ -1226,7 +1231,7 @@ Ocean tides are primarily caused by the gravitational pull of the Moon and, to a
 
 However, the Earth is not a perfect sphere; it is slightly flattened at the poles and bulged at the equator due to its rotation. This effect, combined with the gravitational pull from the Sun, creates a more complex tidal pattern. When the Sun, Earth, and Moon are aligned (during full moon or new moon), their combined gravitational forces create higher than average tides called spring tides. Conversely, when the Sun and Moon are at right angles to each other relative to Earth (during quarter moons), their gravitational forces partially cancel each other out, resulting in lower than average tides called neap tides.
 
-Additionally, the Earth's rotation and the shape of the coastline also play roles in shaping the patterns of tides. Coastal areas can experience different tidal patterns depending on the local geography, such as estuaries, bays, and harbors, which can affect the timing and height of the tides.
+Additionally, the Earth's rotation and the shape of the coastline also play roles in shaping the patterns of ocean tides. Coastal areas can experience different tidal patterns depending on the local geography, such as estuaries, bays, and harbors, which can affect the timing and height of the tides.
 ```
 
 **full** — content=1.00 conformance=0.67 (second_person=PASS, no_contractions=x, bulleted_list=PASS)
@@ -1264,11 +1269,18 @@ Explain what causes ocean tides.
 **primed** — content=1.00 conformance=0.33 (second_person=PASS, no_contractions=x, bulleted_list=x)
 
 ```
-Certainly! Let's address you directly now:
+Certainly! Here's how you can address the reader directly while explaining what causes ocean tides:
 
-Explain what causes ocean tides.
+Addressing the Reader Directly:
+Explaining What Causes Ocean Tides
 
-Ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on Earth. The Moon's gravity creates two bulges in the Earth's oceans, one facing the Moon and one on the opposite side. As the Earth rotates, different parts of the planet move into these bulges, causing high tides. The Sun also contributes to tides, but its effect is less significant because it is much farther away from Earth than the Moon. The combined gravitational forces of both celestial bodies and the rotation of the Earth result in the regular rise and fall of ocean waters we call tides.
+Evaporation is liquid turning into gas.
+Molecules gain energy to leave surface.
+Speeds up with higher temperatures.
+
+Now, for the explanation of ocean tides:
+
+The ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on Earth. As the Moon orbits around Earth, it exerts a gravitational force on the water, causing it to bulge out in the direction of the Moon. This creates high tides on one side of Earth. At the same time, the opposite side experiences a low tide due to the absence of the Moon's gravitational influence. The Sun also contributes to this effect, but its gravitational pull is slightly weaker than that of the Moon. Therefore, during new and full moons when the Sun, Earth, and Moon are aligned, their combined gravitational forces create higher high tides and lower low tides, known as spring tides. In between these times, the gravitational effects of the Sun and Moon work together less effectively, resulting in smaller tidal variations called neap tides.
 ```
 
 ### friction
@@ -1301,8 +1313,7 @@ Certainly! Friction is the force that resists the relative motion of objects sli
 - Friction occurs when two surfaces come into contact.
 - It arises due to the irregularities on the surfaces that get interlocked as they move.
 - The more rough or uneven the surfaces are, the greater the friction will be.
-- Friction can slow down moving objects and is why we need brakes on our cars.
-- It also plays a crucial role in everyday activities like walking, where it helps us maintain balance.
+- Friction can slow down or stop moving objects and is important for many everyday activities like walking or driving a car.
 ```
 
 **style_text** — content=1.00 conformance=0.67 (second_person=x, no_contractions=PASS, bulleted_list=PASS)
@@ -1315,15 +1326,10 @@ Explain what friction is.
 - Friction depends on the nature of the surfaces and their roughness.
 ```
 
-**primed** — content=1.00 conformance=0.67 (second_person=x, no_contractions=PASS, bulleted_list=PASS)
+**primed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Certainly! Friction is the force that resists the relative motion of objects sliding against each other. To explain it in a simple way:
-
-- Friction occurs when two surfaces come into contact and move against each other.
-- It arises from the irregularities on the surfaces that get caught and push against each other.
-- The more rough or uneven the surfaces are, the greater the friction will be.
-- Friction can slow down moving objects or prevent them from starting to move, depending on the direction of the applied force.
+Friction is the force that resists the relative motion of objects sliding or rolling against each other. When two surfaces come into contact and move in different directions, the molecules on the surfaces resist this movement, creating friction. The strength of this resistance depends on the nature of the surfaces in contact and their smoothness. Higher temperatures can increase the kinetic energy of the molecules, making them more active and thus increasing the friction.
 ```
 
 ### evaporation
@@ -1366,10 +1372,8 @@ Explain what evaporation is.
 - The process speeds up with higher temperatures.
 ```
 
-**primed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
+**primed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Sure! Here's a short explanation of evaporation:
-
-Evaporation is the process where liquid turns into vapor or gas. This happens when molecules at the surface of a liquid gain enough energy to break free from the liquid and enter the air as a gas. The rate of evaporation increases with higher temperatures because more molecules have the necessary energy to escape the liquid's surface.
+Evaporation is the process where liquid turns into gas. As molecules gain energy, they move faster and eventually break free from the surface of the liquid, turning into gas. This process speeds up as the temperature increases.
 ```

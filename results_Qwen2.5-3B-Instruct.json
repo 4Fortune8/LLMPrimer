@@ -73,7 +73,7 @@
       "content_sd": 0.0,
       "conformance": 1.0,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef dedupe(items: list) -> list:\n    \"\"\"\n    Removes duplicate values from a list while preserving the order of items.\n    \n    Args:\n    items (list): The input list containing elements which may have duplicates.\n    \n    Returns:\n    list: A new list with duplicates removed and original order preserved.\n    \n    Raises:\n    ValueError: If the input is not a list.\n    \"\"\"\n    if not isinstance(items, list):\n        raise ValueError(\"Input must be a list.\")\n    seen = set()\n    unique_items = []\n    for item in items:\n        if item not in seen:\n            unique_items.append(item)\n            seen.add(item)\n    return unique_items\n```",
+      "generation": "```python\ndef dedupe(items: list) -> list:\n    \"\"\"\n    Removes duplicate values from a list while preserving the order of items.\n    \n    Args:\n    items (list): The list from which to remove duplicates.\n    \n    Returns:\n    list: A new list with duplicates removed and original order preserved.\n    \n    Raises:\n    ValueError: If the input is not a list.\n    \"\"\"\n    if not isinstance(items, list):\n        raise ValueError(\"Input must be a list.\")\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            seen.add(item)\n            result.append(item)\n    return result\n```",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -158,7 +158,7 @@
       "content_sd": 0.0,
       "conformance": 1.0,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef word_freq(text: str) -> dict:\n    \"\"\"\n    Maps each unique word (in lowercase) to its frequency in the given text.\n    \n    Args:\n    text (str): The input text from which to compute word frequencies.\n    \n    Returns:\n    dict: A dictionary where keys are words (in lowercase) and values are their respective counts.\n    \n    Raises:\n    ValueError: If the input is not a string.\n    \"\"\"\n    if not isinstance(text, str):\n        raise ValueError(\"Input must be a string.\")\n    \n    # Convert text to lowercase and split into words\n    words = text.lower().split()\n    \n    # Count occurrences of each word\n    freq = {}\n    for word in words:\n        if word in freq:\n            freq[word] += 1\n        else:\n            freq[word] = 1\n    \n    return freq\n```",
+      "generation": "```python\ndef word_freq(text: str) -> dict:\n    \"\"\"\n    Maps each lowercased word in the input text to its frequency.\n    \n    Args:\n    text (str): The input string to analyze.\n    \n    Returns:\n    dict: A dictionary where keys are words (in lowercase) and values are their frequencies.\n    \n    Raises:\n    ValueError: If the input is not a string.\n    \"\"\"\n    if not isinstance(text, str):\n        raise ValueError(\"Input must be a string.\")\n    \n    word_list = text.lower().split()\n    freq_map = {}\n    for word in word_list:\n        if word in freq_map:\n            freq_map[word] += 1\n        else:\n            freq_map[word] = 1\n    \n    return freq_map\n```",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -311,7 +311,7 @@
       "content_sd": 0.0,
       "conformance": 1.0,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef average(nums: list) -> float:\n    \"\"\"\n    Calculate the arithmetic mean of the given list of numbers.\n    \n    Args:\n    nums (list): A list of numbers (integers or floats).\n    \n    Returns:\n    float: The arithmetic mean of the numbers.\n    \n    Raises:\n    ValueError: If the input list is empty.\n    \"\"\"\n    if not nums:\n        raise ValueError(\"Input list cannot be empty.\")\n    return sum(nums) / len(nums)\n```",
+      "generation": "```python\ndef average(nums: list) -> float:\n    \"\"\"\n    Calculate the arithmetic mean of the numbers in nums.\n    \n    Args:\n    nums (list): A list of numbers.\n    \n    Returns:\n    float: The arithmetic mean of the numbers.\n    \n    Raises:\n    ValueError: If nums is empty.\n    \"\"\"\n    if not nums:\n        raise ValueError(\"The list of numbers is empty.\")\n    return sum(nums) / len(nums)\n```",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -328,7 +328,7 @@
       "content_sd": 0.0,
       "conformance": 1.0,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef average(nums: list) -> float:\n    \"\"\"\n    Calculate the arithmetic mean of a list of numbers.\n\n    Args:\n    nums (list): A list of numbers.\n\n    Returns:\n    float: The arithmetic mean of the numbers.\n\n    Raises:\n    ValueError: If the input list is empty.\n    \"\"\"\n    if not nums:\n        raise ValueError(\"The list of numbers cannot be empty.\")\n    return sum(nums) / len(nums)\n```",
+      "generation": "```python\ndef average(nums: list) -> float:\n    \"\"\"\n    Calculate the arithmetic mean of a list of numbers.\n\n    Args:\n    nums (list): A list of numbers.\n\n    Returns:\n    float: The arithmetic mean of the numbers.\n    \n    Raises:\n    ValueError: If the input list is empty.\n    \"\"\"\n    if not nums:\n        raise ValueError(\"Input list cannot be empty.\")\n    return sum(nums) / len(nums)\n```",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -411,13 +411,13 @@
     {
       "content": 1.0,
       "content_sd": 0.0,
-      "conformance": 0.75,
+      "conformance": 1.0,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef flatten(matrix: list) -> list:\n    \"\"\"\n    Flattens a multi-dimensional list (matrix) into a single-dimensional list.\n\n    Args:\n    matrix (list): A list of lists to be flattened.\n\n    Returns:\n    list: A flat list containing all elements from the sublists.\n    \"\"\"\n    return [item for sublist in matrix for item in (sublist if isinstance(sublist, list) else [sublist])]\n```",
+      "generation": "```python\ndef flatten(matrix: list) -> list:\n    \"\"\"\n    Flattens a multi-dimensional list (matrix) into a single-dimensional list.\n    \n    Args:\n    matrix (list): A list of lists to be flattened.\n    \n    Returns:\n    list: A flat list containing all elements from the sublists.\n    \n    Raises:\n    ValueError: If the input is not a list of lists.\n    \"\"\"\n    if not all(isinstance(row, list) for row in matrix):\n        raise ValueError(\"Input must be a list of lists.\")\n    \n    return [item for sublist in matrix for item in sublist]\n```",
       "checks": {
         "snake_case": true,
         "type_hints": true,
-        "raises_valueerror": false,
+        "raises_valueerror": true,
         "docstring": true
       },
       "domain": "coding",
@@ -496,11 +496,11 @@
     {
       "content": 1.0,
       "content_sd": 0.0,
-      "conformance": 0.5,
+      "conformance": 0.75,
       "conformance_sd": 0.0,
-      "generation": "To find out how many pages are left for Ada to read, we need to subtract the number of pages she has already read from the total number of pages in the book.\n\nFirst, let's add up the pages Ada has already read:\n- Pages read on Monday: 45\n- Pages read on Tuesday: 35\n\nTotal pages read = 45 + 35 = 80 pages\n\nNext, we subtract the total pages read from the total number of pages in the book:\n- Total pages in the book: 120\n- Total pages read: 80\n\nPages left to read = 120 - 80 = 40 pages\n\nAnswer: 40",
+      "generation": "To find out how many pages are left for Ada to read, we need to follow these steps:\n\n1. Calculate the total number of pages Ada has already read.\n2. Subtract the total number of pages she has already read from the total number of pages in the book.\n\nStep 1: Calculate the total number of pages Ada has already read.\n- Pages read on Monday: 45\n- Pages read on Tuesday: 35\n\nTotal pages read = Pages read on Monday + Pages read on Tuesday\nTotal pages read = 45 + 35\nTotal pages read = 80\n\nStep 2: Subtract the total number of pages she has already read from the total number of pages in the book.\n- Total pages in the book: 120\n- Total pages read: 80\n\nPages left = Total pages in the book - Total pages read\nPages left = 120 - 80\nPages left = 40\n\nAnswer: 40",
       "checks": {
-        "numbered_steps": false,
+        "numbered_steps": true,
         "shows_arithmetic": true,
         "answer_line": true,
         "no_prose_intro": false
@@ -583,7 +583,7 @@
       "content_sd": 0.0,
       "conformance": 0.25,
       "conformance_sd": 0.0,
-      "generation": "To find out how many eggs the farmer gets in total from his 5 hens, each laying 6 eggs, we can follow these steps:\n\n1. Identify the number of hens: There are 5 hens.\n2. Identify the number of eggs each hen lays: Each hen lays 6 eggs.\n3. Calculate the total number of eggs by multiplying the number of hens by the number of eggs each hen lays.\n\nSo, the calculation is:\n\\[ \\text{Total eggs} = \\text{Number of hens} \\times \\text{Eggs per hen} \\]\n\\[ \\text{Total eggs} = 5 \\times 6 \\]\n\nPerforming the multiplication:\n\\[ 5 \\times 6 = 30 \\]\n\nTherefore, the total number of eggs is 30.\n\nAnswer: 30",
+      "generation": "To solve this problem, we need to calculate the total number of eggs laid by all the hens.\n\n1. Identify the number of hens: There are 5 hens.\n2. Identify the number of eggs each hen lays: Each hen lays 6 eggs.\n3. Calculate the total number of eggs by multiplying the number of hens by the number of eggs each hen lays:\n\n\\[ \\text{Total eggs} = \\text{Number of hens} \\times \\text{Eggs per hen} \\]\n\\[ \\text{Total eggs} = 5 \\times 6 \\]\n\n4. Perform the multiplication:\n\n\\[ 5 \\times 6 = 30 \\]\n\nTherefore, the total number of eggs is 30.\n\nAnswer: 30",
       "checks": {
         "numbered_steps": false,
         "shows_arithmetic": false,
@@ -668,7 +668,7 @@
       "content_sd": 0.0,
       "conformance": 0.25,
       "conformance_sd": 0.0,
-      "generation": "To solve this problem, let's break it down into steps:\n\n1. **Initial Volume**: The tank starts with 50 liters of liquid.\n\n2. **Morning Usage**: In the morning, 18 liters are used.\n   - To find out how much is left after the morning usage, we subtract the morning usage from the initial volume:\n     \\[\n     50 \\text{ liters} - 18 \\text{ liters} = 32 \\text{ liters}\n     \\]\n\n3. **Evening Usage**: In the evening, 12 liters are used.\n   - To find out how much is left after the evening usage, we subtract the evening usage from the remaining volume after the morning:\n     \\[\n     32 \\text{ liters} - 12 \\text{ liters} = 20 \\text{ liters}\n     \\]\n\nTherefore, the number of liters left in the tank is 20 liters.\n\nAnswer: 20",
+      "generation": "To solve this problem, let's break it down into steps:\n\n1. **Initial Volume**: The tank starts with 50 liters of liquid.\n\n2. **Morning Usage**: In the morning, 18 liters are used.\n   - To find out how much is left after the morning usage, we subtract the morning usage from the initial volume:\n     \\[\n     50 \\text{ liters} - 18 \\text{ liters} = 32 \\text{ liters}\n     \\]\n\n3. **Evening Usage**: In the evening, 12 liters are used.\n   - To find out how much is left after the evening usage, we subtract the evening usage from the remaining volume after the morning:\n     \\[\n     32 \\text{ liters} - 12 \\text{ liters} = 20 \\text{ liters}\n     \\]\n\n4. **Final Volume**: After both the morning and evening usages, the tank has 20 liters left.\n\nAnswer: 20",
       "checks": {
         "numbered_steps": false,
         "shows_arithmetic": false,
@@ -838,7 +838,7 @@
       "content_sd": 0.0,
       "conformance": 0.5,
       "conformance_sd": 0.0,
-      "generation": "To find out how many kilometers the runner has covered in total over 5 days, we need to multiply the distance run each day by the number of days.\n\nStep 1: Identify the distance run each day.\nDistance per day = 8 km\n\nStep 2: Identify the number of days.\nNumber of days = 5\n\nStep 3: Multiply the distance per day by the number of days.\nTotal distance = Distance per day \u00d7 Number of days\nTotal distance = 8 km/day \u00d7 5 days\n\nStep 4: Perform the multiplication.\nTotal distance = 40 km\n\nTherefore, the total distance covered by the runner is 40 km.\n\nAnswer: 40",
+      "generation": "To find out the total distance the runner covers over 5 days, we need to multiply the daily distance by the number of days.\n\nStep 1: Identify the daily distance.\nDaily distance = 8 km\n\nStep 2: Identify the number of days.\nNumber of days = 5\n\nStep 3: Multiply the daily distance by the number of days.\nTotal distance = Daily distance \u00d7 Number of days\nTotal distance = 8 km/day \u00d7 5 days\n\nStep 4: Perform the multiplication.\nTotal distance = 40 km\n\nTherefore, the total distance covered by the runner over 5 days is 40 km.\n\nAnswer: 40",
       "checks": {
         "numbered_steps": true,
         "shows_arithmetic": false,
@@ -919,10 +919,10 @@
       "content_sd": 0.0,
       "conformance": 0.3333333333333333,
       "conformance_sd": 0.0,
-      "generation": "Certainly! Gravity is a fundamental force of nature that attracts two bodies with mass towards each other. Imagine you have two objects, like a ball and a feather. If you throw them both up in the air, they will fall back down due to gravity. This force pulls everything towards the center of the Earth, making it possible for us to walk on the ground and for objects to stay on the Earth's surface rather than floating off into space. Gravity is what keeps planets in orbit around the sun and moons in orbit around planets. It's a bit like a cosmic glue that holds our universe together in a way.",
+      "generation": "Gravity is a force that attracts two objects with mass towards each other. It is always present and acts in all directions. The strength of this attraction depends on the masses of the objects and the distance between them. The greater the mass of an object, the stronger its gravitational pull. As for the distance, the effect of gravity weakens rapidly as the distance between objects increases.",
       "checks": {
-        "second_person": true,
-        "no_contractions": false,
+        "second_person": false,
+        "no_contractions": true,
         "bulleted_list": false
       },
       "domain": "writing",
@@ -999,7 +999,7 @@
       "content_sd": 0.0,
       "conformance": 0.6666666666666666,
       "conformance_sd": 0.0,
-      "generation": "Sure! Here\u2019s how you can address the reader directly and explain what a vaccine does:\n\n---\n\nHello,\n\nA vaccine works by introducing a small part of a germ, like a virus or bacteria, into your body. This triggers your immune system to create antibodies without actually making you sick. Over time, your body remembers this germ and knows how to fight it if you ever encounter the real thing. This way, vaccines help protect you from getting sick with certain diseases.\n\n---\n\nI hope this helps!",
+      "generation": "Certainly! Here\u2019s how you can address the reader directly while explaining what a vaccine does:\n\nAddressing the Reader Directly:\nExplaining What a Vaccine Does:\n\nA vaccine introduces substances that mimic an infection without causing the disease itself. These substances, often proteins or sugars from the pathogen, trigger your immune system to produce antibodies and memory cells. This prepares your body to recognize and fight off the actual pathogen if you encounter it in the future. Over time, these defenses help protect you from getting sick again.",
       "checks": {
         "second_person": true,
         "no_contractions": true,
@@ -1015,7 +1015,7 @@
       "content_sd": 0.0,
       "conformance": 0.0,
       "conformance_sd": 0.0,
-      "generation": "Ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on Earth's oceans. The gravitational force exerted by these celestial bodies pulls water towards them, creating high tides on the side of Earth closest to the Moon and on the opposite side, where the Moon is farthest away. This phenomenon is known as the \"tidal bulge.\"\n\nHowever, the Earth is not a perfect sphere; it is slightly flattened at the poles and bulged at the equator due to its rotation. This effect, combined with the gravitational pull from the Sun, creates a more complex tidal pattern. When the Sun, Earth, and Moon are aligned (during full moon or new moon), their combined gravitational forces create higher than average tides called spring tides. Conversely, when the Sun and Moon are at right angles to each other relative to Earth (during quarter moons), their gravitational forces partially cancel each other out, resulting in lower than average tides called neap tides.\n\nAdditionally, the Earth's rotation and the shape of the coastline also play roles in shaping the patterns of tides. Coastal areas can experience different tidal patterns depending on the local geography, such as estuaries, bays, and harbors, which can affect the timing and height of the tides.",
+      "generation": "Ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on Earth's oceans. The gravitational force exerted by these celestial bodies pulls water towards them, creating high tides on the side of Earth closest to the Moon and on the opposite side, where the Moon is farthest away. This phenomenon is known as the \"tidal bulge.\"\n\nHowever, the Earth is not a perfect sphere; it is slightly flattened at the poles and bulged at the equator due to its rotation. This effect, combined with the gravitational pull from the Sun, creates a more complex tidal pattern. When the Sun, Earth, and Moon are aligned (during full moon or new moon), their combined gravitational forces create higher than average tides called spring tides. Conversely, when the Sun and Moon are at right angles to each other relative to Earth (during quarter moons), their gravitational forces partially cancel each other out, resulting in lower than average tides called neap tides.\n\nAdditionally, the Earth's rotation and the shape of the coastline also play roles in shaping the patterns of ocean tides. Coastal areas can experience different tidal patterns depending on the local geography, such as estuaries, bays, and harbors, which can affect the timing and height of the tides.",
       "checks": {
         "second_person": false,
         "no_contractions": false,
@@ -1079,7 +1079,7 @@
       "content_sd": 0.0,
       "conformance": 0.3333333333333333,
       "conformance_sd": 0.0,
-      "generation": "Certainly! Let's address you directly now:\n\nExplain what causes ocean tides.\n\nOcean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on Earth. The Moon's gravity creates two bulges in the Earth's oceans, one facing the Moon and one on the opposite side. As the Earth rotates, different parts of the planet move into these bulges, causing high tides. The Sun also contributes to tides, but its effect is less significant because it is much farther away from Earth than the Moon. The combined gravitational forces of both celestial bodies and the rotation of the Earth result in the regular rise and fall of ocean waters we call tides.",
+      "generation": "Certainly! Here's how you can address the reader directly while explaining what causes ocean tides:\n\nAddressing the Reader Directly:\nExplaining What Causes Ocean Tides\n\nEvaporation is liquid turning into gas.\nMolecules gain energy to leave surface.\nSpeeds up with higher temperatures.\n\nNow, for the explanation of ocean tides:\n\nThe ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on Earth. As the Moon orbits around Earth, it exerts a gravitational force on the water, causing it to bulge out in the direction of the Moon. This creates high tides on one side of Earth. At the same time, the opposite side experiences a low tide due to the absence of the Moon's gravitational influence. The Sun also contributes to this effect, but its gravitational pull is slightly weaker than that of the Moon. Therefore, during new and full moons when the Sun, Earth, and Moon are aligned, their combined gravitational forces create higher high tides and lower low tides, known as spring tides. In between these times, the gravitational effects of the Sun and Moon work together less effectively, resulting in smaller tidal variations called neap tides.",
       "checks": {
         "second_person": true,
         "no_contractions": false,
@@ -1127,7 +1127,7 @@
       "content_sd": 0.0,
       "conformance": 0.6666666666666666,
       "conformance_sd": 0.0,
-      "generation": "Certainly! Friction is the force that resists the relative motion of objects sliding against each other. To explain it in a simple way:\n\n- Friction occurs when two surfaces come into contact.\n- It arises due to the irregularities on the surfaces that get interlocked as they move.\n- The more rough or uneven the surfaces are, the greater the friction will be.\n- Friction can slow down moving objects and is why we need brakes on our cars.\n- It also plays a crucial role in everyday activities like walking, where it helps us maintain balance.",
+      "generation": "Certainly! Friction is the force that resists the relative motion of objects sliding against each other. To explain it in a simple way:\n\n- Friction occurs when two surfaces come into contact.\n- It arises due to the irregularities on the surfaces that get interlocked as they move.\n- The more rough or uneven the surfaces are, the greater the friction will be.\n- Friction can slow down or stop moving objects and is important for many everyday activities like walking or driving a car.",
       "checks": {
         "second_person": false,
         "no_contractions": true,
@@ -1157,13 +1157,13 @@
     {
       "content": 1.0,
       "content_sd": 0.0,
-      "conformance": 0.6666666666666666,
+      "conformance": 0.3333333333333333,
       "conformance_sd": 0.0,
-      "generation": "Certainly! Friction is the force that resists the relative motion of objects sliding against each other. To explain it in a simple way:\n\n- Friction occurs when two surfaces come into contact and move against each other.\n- It arises from the irregularities on the surfaces that get caught and push against each other.\n- The more rough or uneven the surfaces are, the greater the friction will be.\n- Friction can slow down moving objects or prevent them from starting to move, depending on the direction of the applied force.",
+      "generation": "Friction is the force that resists the relative motion of objects sliding or rolling against each other. When two surfaces come into contact and move in different directions, the molecules on the surfaces resist this movement, creating friction. The strength of this resistance depends on the nature of the surfaces in contact and their smoothness. Higher temperatures can increase the kinetic energy of the molecules, making them more active and thus increasing the friction.",
       "checks": {
         "second_person": false,
         "no_contractions": true,
-        "bulleted_list": true
+        "bulleted_list": false
       },
       "domain": "writing",
       "task": "friction",
@@ -1237,12 +1237,12 @@
     {
       "content": 1.0,
       "content_sd": 0.0,
-      "conformance": 0.0,
+      "conformance": 0.3333333333333333,
       "conformance_sd": 0.0,
-      "generation": "Sure! Here's a short explanation of evaporation:\n\nEvaporation is the process where liquid turns into vapor or gas. This happens when molecules at the surface of a liquid gain enough energy to break free from the liquid and enter the air as a gas. The rate of evaporation increases with higher temperatures because more molecules have the necessary energy to escape the liquid's surface.",
+      "generation": "Evaporation is the process where liquid turns into gas. As molecules gain energy, they move faster and eventually break free from the surface of the liquid, turning into gas. This process speeds up as the temperature increases.",
       "checks": {
         "second_person": false,
-        "no_contractions": false,
+        "no_contractions": true,
         "bulleted_list": false
       },
       "domain": "writing",
@@ -1289,8 +1289,8 @@
         "primed": {
           "content": 0.8,
           "content_sd": 0.4472135954999579,
-          "conformance": 0.95,
-          "conformance_sd": 0.11180339887498948,
+          "conformance": 1.0,
+          "conformance_sd": 0.0,
           "prompt_tokens": 112.0,
           "n": 5
         },
@@ -1335,8 +1335,8 @@
         "primed": {
           "content": 1.0,
           "content_sd": 0.0,
-          "conformance": 0.35,
-          "conformance_sd": 0.13693063937629152,
+          "conformance": 0.4,
+          "conformance_sd": 0.22360679774997896,
           "prompt_tokens": 85.0,
           "n": 5
         },
@@ -1382,7 +1382,7 @@
           "content": 1.0,
           "content_sd": 0.0,
           "conformance": 0.4,
-          "conformance_sd": 0.27888667551135854,
+          "conformance_sd": 0.14907119849998596,
           "prompt_tokens": 79.8,
           "n": 5
         },
@@ -1428,22 +1428,22 @@
       "primed": {
         "content": 0.9333333333333333,
         "content_sd": 0.2581988897471611,
-        "conformance": 0.5666666666666667,
-        "conformance_sd": 0.3321407236661297,
+        "conformance": 0.6,
+        "conformance_sd": 0.32611226034788443,
         "prompt_tokens": 92.26666666666667,
         "n": 15
       }
     },
     "value": {
       "coding": {
-        "conf_gain_over_compressed": 0.0,
-        "conf_vs_style_text": 0.19999999999999996,
+        "conf_gain_over_compressed": 0.050000000000000044,
+        "conf_vs_style_text": 0.25,
         "tokens_vs_style_text": -43.0,
         "verdict": "primer dominates rival"
       },
       "math": {
-        "conf_gain_over_compressed": -0.050000000000000044,
-        "conf_vs_style_text": -0.4,
+        "conf_gain_over_compressed": 0.0,
+        "conf_vs_style_text": -0.35,
         "tokens_vs_style_text": -43.0,
         "verdict": "mixed (trade-off)"
       },
@@ -1454,8 +1454,8 @@
         "verdict": "mixed (trade-off)"
       },
       "__gated_overall__": {
-        "conf_gain_over_compressed": 0.005555555555555536,
-        "conf_vs_style_text": -0.15555555555555556,
+        "conf_gain_over_compressed": 0.03888888888888886,
+        "conf_vs_style_text": -0.12222222222222223,
         "tokens_vs_style_text": -44.000000000000014,
         "verdict": "mixed (trade-off)"
       }
@@ -1501,8 +1501,8 @@
       "primed": {
         "content": 0.9333333333333333,
         "content_sd": 0.2581988897471611,
-        "conformance": 0.5666666666666667,
-        "conformance_sd": 0.3321407236661297,
+        "conformance": 0.6,
+        "conformance_sd": 0.32611226034788443,
         "prompt_tokens": 92.26666666666667,
         "n": 15
       }
@@ -1516,8 +1516,13 @@
     "inject_layers": [
       12
     ],
-    "alpha": 6.0,
+    "inject_layer_fracs": [
+      0.43
+    ],
+    "alpha_relative": true,
+    "alpha": 0.1,
     "extract_layer": 12,
+    "extract_layer_frac": 0.43,
     "extract_regime": "compressed",
     "compress_ratio": 0.25,
     "domains": [
@@ -1531,12 +1536,17 @@
     ],
     "eval_temperature": 0.0,
     "sweep_alphas": [
-      2.0,
-      4.0,
-      6.0,
-      8.0,
-      10.0,
-      12.0
+      0.04,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "sweep_layer_fracs": [
+      0.3,
+      0.43,
+      0.57,
+      0.7
     ],
     "sweep_layers": [
       8,
@@ -1557,6 +1567,14 @@
       },
       {
         "model_name": "Qwen/Qwen2.5-7B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-14B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-32B-Instruct",
         "load_in_4bit": true
       }
     ],

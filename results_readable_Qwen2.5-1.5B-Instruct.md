@@ -8,16 +8,16 @@
 | full | 0.91 | 0.63 +/-0.27 | 203 |
 | compressed | 0.87 | 0.47 +/-0.29 | 112 |
 | style_text | 0.87 | 0.66 +/-0.30 | 156 |
-| primed | 0.93 | 0.47 +/-0.29 | 112 |
+| primed | 0.87 | 0.53 +/-0.33 | 112 |
 
 ## Value (cost-adjusted: primer vs re-pasted text rival)
 
 | scope | conf gain vs compressed | conf vs style_text | tokens vs style_text | verdict |
 |---|---|---|---|---|
-| coding | +0.00 | -0.20 | -43 | mixed (trade-off) |
+| coding | +0.20 | +0.00 | -43 | primer dominates rival |
 | math (below gate) | +0.00 | -0.25 | -43 | mixed (trade-off) |
 | writing (below gate) | +0.00 | -0.13 | -46 | mixed (trade-off) |
-| **gated overall** | +0.00 | -0.20 | -43 | mixed (trade-off) |
+| **gated overall** | +0.20 | +0.00 | -43 | primer dominates rival |
 
 ## Domain: coding (full conformance=0.80 -> PASS)
 
@@ -27,7 +27,7 @@
 | full | 0.80 | 0.80 +/-0.11 | 235 |
 | compressed | 0.80 | 0.70 +/-0.27 | 107 |
 | style_text | 0.60 | 0.90 +/-0.14 | 150 |
-| primed | 0.80 | 0.70 +/-0.27 | 107 |
+| primed | 0.60 | 0.90 +/-0.14 | 107 |
 
 ### dedupe_preserve_order
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     print(unique_items)
 ```
 
-This Python code defines a function `dedupe` that takes a list of items and returns a new list with duplicates removed, maintaining the original order of the first occurrence of each element. The `seen` set is used to keep track of elements that have already been encountered. For each item in the input list, it checks whether the item has been seen before using the `not in` operator on the `seen` set. If the item hasn't been seen (i.e., it's the first time we've seen it), it yields the item and adds it to the `seen` set so that future occurrences of this item will also be yielded without being added again.
+This Python code defines a function `dedupe` that takes a list of items and returns a new list with duplicates removed, maintaining the original order of the first occurrence of each element. The `seen` set is used to keep track of elements that have already been encountered. For each item in the input list, it checks whether the item has been seen before using the `not in` operator on the `seen` set. If the item hasn't been seen (i.e., it's a new one), it yields the item and adds it to the `seen` set. This ensures that only the first occurrence of each item is kept in the output list.
 ```
 
 **full** — content=1.00 conformance=0.75 (snake_case=PASS, type_hints=PASS, raises_valueerror=x, docstring=PASS)
@@ -121,16 +121,32 @@ def dedupe(items: List) -> List:
 ```
 ```
 
-**primed** — content=1.00 conformance=0.25 (snake_case=PASS, type_hints=x, raises_valueerror=x, docstring=x)
+**primed** — content=1.00 conformance=0.75 (snake_case=PASS, type_hints=PASS, raises_valueerror=x, docstring=PASS)
 
 ```
 ```python
-def dedupe(items):
+from typing import List
+
+def dedupe(items: List) -> List:
+    """
+    Deduplicates items in a list while preserving the order of the first occurrence.
+    
+    Args:
+        items (List): A list of items to be deduplicated.
+        
+    Returns:
+        List: A new list containing unique items from the input list, maintaining their original order.
+    """
     seen = set()
-    return [x for x in items if not (x in seen or seen.add(x))]
+    deduped_items = []
+    for item in items:
+        if item not in seen:
+            seen.add(item)
+            deduped_items.append(item)
+    return deduped_items
 ```
 
-This function uses a set to keep track of seen elements and filters out any duplicates as it iterates through the input list. The use of `seen.add(x)` ensures that each element is added to the set exactly once, maintaining the order of first occurrence.
+This function takes a list of items as an argument and returns a new list with duplicates removed, preserving the order of the first occurrence of each item. It uses a set (`seen`) to keep track of items that have already been added to the result list (`deduped_items`). The function iterates over the input list, adding each item to both the set and the result list if it hasn't been seen before. This ensures that all duplicates are removed while maintaining the order of the first appearance of each item.
 ```
 
 ### word_frequencies
@@ -145,27 +161,34 @@ from typing import Dict
 
 def word_freq(text: str) -> Dict[str, int]:
     """
-    Maps each unique lowercased word in the given text to its frequency.
+    Returns a dictionary with words as keys and their frequencies as values.
     
     Parameters:
-    - text (str): The input string containing words separated by spaces.
+    text (str): The input string from which to extract word frequencies.
     
     Returns:
-    - Dict[str, int]: A dictionary where keys are unique lowercased words and values are their respective counts.
+    Dict[str, int]: A dictionary where each key is a unique word from the input string,
+                    and the corresponding value is the frequency of that word.
     """
-    # Convert the text to lowercase and split into words
-    words = text.lower().split()
+    # Convert the text to lowercase to ensure case-insensitive counting
+    text = text.lower()
+    # Split the text into words based on whitespace
+    words = text.split()
+    # Initialize an empty dictionary to store word counts
+    freq_dict = {}
+    # Iterate over each word in the list of words
+    for word in words:
+        # If the word is already in the dictionary, increment its count
+        if word in freq_dict:
+            freq_dict[word] += 1
+        else:
+            # Otherwise, add the word to the dictionary with a count of 1
+            freq_dict[word] = 1
     
-    # Use a dictionary comprehension to map each word to its count
-    return {word: words.count(word) for word in set(words)}
-
-# Example usage
-if __name__ == "__main__":
-    example_text = "Hello world hello Python programming"
-    print(word_freq(example_text))
+    return freq_dict
 ```
 
-This code snippet defines a function `word_freq` that takes a string as input and returns a dictionary with the frequency of each unique lowercased word found in the input text. It uses a dictionary comprehension to efficiently calculate these frequencies.
+This Python function takes a string `text` as input and returns a dictionary where each key is a unique word from the input string, and the corresponding value is the frequency of that word. The function first converts all characters in the input string to lowercase to ensure that the counting process is case-insensitive. It then splits the text into individual words using whitespace as the delimiter. For each word encountered during this split operation, it checks whether the word is already present in the resulting dictionary (`freq_dict`). If the word exists, its count is incremented; otherwise, the word is added to the dictionary with a count of one. Finally, the function returns the populated dictionary containing word frequencies.
 ```
 
 **full** — content=1.00 conformance=0.75 (snake_case=PASS, type_hints=PASS, raises_valueerror=x, docstring=PASS)
@@ -207,7 +230,7 @@ def word_freq(text: str) -> Dict[str, int]:
     >>> word_freq("Hello world! Hello everyone.")
     {'hello': 2, 'world': 1, 'everyone': 1}
     """
-    return {word.lower(): text.count(word) for word in set(text.split())}
+    return {word.lower(): text.count(word) for word in text.split()}
 ```
 ```
 
@@ -238,15 +261,34 @@ def word_freq(text: str) -> Dict[str, int]:
 
 ```
 ```python
-def word_freq(text: str) -> dict:
+from typing import Dict
+
+def word_freq(text: str) -> Dict[str, int]:
     """
     Returns a dictionary of words from the input text, where keys are lowercase words and values are their counts.
     
-    >>> word_freq("Hello world! Hello everyone.")
-    {'hello': 2, 'world': 1, 'everyone': 1}
+    >>> word_freq("Hello world! Hello again.")
+    {'hello': 2, 'world': 1}
+    >>> word_freq("")
+    {}
     """
-    return {word.lower(): text.count(word) for word in set(text.split())}
+
+    # Normalize the text to lowercase and split into words
+    words = text.lower().split()
+
+    # Initialize an empty dictionary to store word frequencies
+    freqs = {}
+
+    # Iterate over each word in the list
+    for word in words:
+        if word not in freqs:
+            freqs[word] = 0  # If the word is new, initialize its frequency to zero
+        freqs[word] += 1   # Increment the frequency of the current word
+
+    return freqs
 ```
+
+This function takes a string as input and returns a dictionary where the keys are unique words (in lowercase) found in the input text, and the values are the number of times each word appears. The function follows all specified guidelines: it uses snake_case for the function name, provides full type hints, raises a ValueError with a clear error message for invalid inputs, and includes a one-liner Google-style docstring.
 ```
 
 ### running_max
@@ -261,10 +303,13 @@ from typing import List
 
 def running_max(nums: List[int]) -> List[int]:
     """
-    Returns a new list where each element is the maximum value encountered up to that point.
+    Returns a list of cumulative maximum values for each element in nums.
     
-    :param nums: List of integers
-    :return: A list containing the cumulative maximum values
+    Args:
+    nums (List[int]): A list of integers.
+    
+    Returns:
+    List[int]: A list containing the cumulative maximum value up to each index.
     """
     if not nums:
         return []
@@ -276,7 +321,7 @@ def running_max(nums: List[int]) -> List[int]:
     return max_values
 ```
 
-This Python function `running_max` takes a list of integers as input and returns a new list where each element is the maximum value encountered so far from the start of the original list. It iterates through the input list once, maintaining a running maximum using an auxiliary list `max_values`. The final result is constructed by appending these maximums to the end of the input list.
+This Python function `running_max` takes a list of integers as input and returns a new list where each element is the cumulative maximum value encountered so far from the start of the input list. The solution iterates through the input list once, maintaining a running maximum using an auxiliary list `max_values`. This approach ensures that the time complexity remains linear with respect to the length of the input list.
 ```
 
 **full** — content=1.00 conformance=0.75 (snake_case=PASS, type_hints=PASS, raises_valueerror=x, docstring=PASS)
@@ -373,31 +418,34 @@ def running_max(nums: List[int]) -> List[int]:
 
 ```
 ```python
-def running_max(nums: list) -> list:
+from typing import List
+
+def running_max(nums: List[int]) -> List[int]:
     """
-    Calculate the cumulative maximum of a given list of numbers.
+    Calculate the cumulative maximum of a given list of integers.
     
     Args:
-        nums (list): A list of numeric values.
+        nums (List[int]): A list of integers.
         
     Returns:
-        list: A list containing the cumulative maximum value at each index.
+        List[int]: A list containing the cumulative maximum values at each index.
     """
-    if not nums:
-        raise ValueError("Input list cannot be empty.")
-    
-    max_values = [nums[0]]
-    for num in nums[1:]:
-        if num > max_values[-1]:
-            max_values.append(num)
-        else:
-            max_values[-1] = num
-    
-    return max_values
 
-# Example usage:
-print(running_max([1, 2, 3, 2, 3, 4]))  # Output: [1, 2, 3, 3, 3, 4]
+    if not nums:
+        raise ValueError("Input list cannot be empty")
+
+    result = [nums[0]]
+    max_so_far = nums[0]
+
+    for num in nums[1:]:
+        if num > max_so_far:
+            max_so_far = num
+        result.append(max_so_far)
+
+    return result
 ```
+
+This function calculates the cumulative maximum of a list of integers. It raises a `ValueError` if the input list is empty. The docstring provides details about the function's purpose, arguments, and return value.
 ```
 
 ### average
@@ -483,16 +531,34 @@ def average(nums: List[float]) -> Float:
 ```
 ```
 
-**primed** — content=1.00 conformance=0.75 (snake_case=PASS, type_hints=PASS, raises_valueerror=PASS, docstring=x)
+**primed** — content=0.00 conformance=1.00 (snake_case=PASS, type_hints=PASS, raises_valueerror=PASS, docstring=PASS)
 
 ```
 ```python
-def average(nums: list) -> float:
-    if not nums:
-        raise ValueError("Input list is empty")
+def average(nums: list[float]) -> float:
+    """
+    Calculate the arithmetic mean of a list of numbers.
     
+    Args:
+        nums (list[float]): A list of floating-point numbers.
+        
+    Returns:
+        float: The arithmetic mean of the input numbers.
+        
+    Raises:
+        ValueError: If 'nums' is not a list or contains non-numeric elements.
+    """
+
+    if not isinstance(nums, list):
+        raise ValueError("Input must be a list.")
+    
+    if any(not isinstance(num, float) for num in nums):
+        raise ValueError("All elements in the list must be numeric.")
+
     return sum(nums) / len(nums)
 ```
+
+This function calculates the arithmetic mean of a list of numbers while adhering to the specified guidelines. It includes type checking and raises appropriate exceptions when necessary.
 ```
 
 ### flatten
@@ -588,25 +654,31 @@ def flatten(matrix: List[List[int]]) -> List[int]:
 ```
 ```
 
-**primed** — content=1.00 conformance=0.75 (snake_case=PASS, type_hints=PASS, raises_valueerror=x, docstring=PASS)
+**primed** — content=1.00 conformance=1.00 (snake_case=PASS, type_hints=PASS, raises_valueerror=PASS, docstring=PASS)
 
 ```
 ```python
 def flatten(matrix: list) -> list:
     """
-    Concatenates a list of lists into one flat list.
+    Flattens a given matrix (list of lists) into a single list.
     
     Args:
-        matrix (list): A list of lists to be flattened.
-        
+    matrix (list): A list of lists to be flattened.
+    
     Returns:
-        list: A single list containing all elements from the input lists.
-        
+    list: A single list containing all elements from the input matrix.
+    
     Raises:
-        ValueError: If any element within the input is not a list.
+    ValueError: If the input is not a list or any element within the matrix is not a list.
     """
+
+    if not isinstance(matrix, list):
+        raise ValueError("Input must be a list.")
+    
     return [item for sublist in matrix for item in sublist]
 ```
+
+This function takes a list of lists (`matrix`) as an argument and returns a new list that contains all the elements from the nested lists. It uses Python's list comprehension to iterate over each sublist and then over each item within those sublists, collecting them into a single list. The function also includes type checking to ensure that the input is indeed a list of lists before proceeding with flattening.
 ```
 
 ## Domain: math (full conformance=0.75 -> BELOW GATE (capability-bound))
@@ -631,7 +703,7 @@ Ada started with 120 pages in the book.
 On Monday, she read 45 pages.
 On Tuesday, she read an additional 35 pages.
 
-To find out how many pages she has left to read, we subtract the total number of pages she has already read from the original number of pages:
+To find out how many pages she has left after these two days, we subtract the total number of pages she read from the original number of pages:
 
 Total pages read = Pages read on Monday + Pages read on Tuesday
 Total pages read = 45 + 35
@@ -639,13 +711,13 @@ Total pages read = 45 + 35
 Now let's calculate that:
 Total pages read = 80
 
-Pages left to read = Original number of pages - Total pages read
-Pages left to read = 120 - 80
+Pages left = Original number of pages - Total pages read
+Pages left = 120 - 80
 
-Let's do the subtraction:
-Pages left to read = 40
+So, the number of pages left is:
+Pages left = 40
 
-So, Ada has 40 pages left to read.
+Therefore, Ada has 40 pages left in her book.
 ```
 
 **full** — content=1.00 conformance=1.00 (numbered_steps=PASS, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
@@ -702,19 +774,13 @@ Answer: 40 pages.
 **primed** — content=1.00 conformance=0.75 (numbered_steps=PASS, shows_arithmetic=PASS, answer_line=x, no_prose_intro=PASS)
 
 ```
-Step 1: Calculate the total number of pages Ada read over the two days.
+Step 1: Calculate the total number of pages Ada initially read.
 Ada read 45 pages on Monday and 35 pages on Tuesday.
-Total pages read = 45 + 35
+Total pages read = 45 + 35 = 80 pages
 
-Step 2: Perform the addition to find the total number of pages read.
-Total pages read = 80
-
-Step 3: Subtract the total number of pages read from the original number of pages in the book.
-Pages left = Total pages in the book - Total pages read
-Pages left = 120 - 80
-
-Step 4: Perform the subtraction to find the remaining number of pages.
-Pages left = 40
+Step 2: Subtract the total pages read from the initial number of pages in the book.
+Initial number of pages = 120
+Pages left = 120 - 80 = 40 pages
 
 Answer: There are 40 pages left in the book.
 ```
@@ -770,12 +836,12 @@ Step 1: Calculate the number of eggs laid by all the hens together.
 Answer: 30 eggs.
 ```
 
-**primed** — content=1.00 conformance=0.50 (numbered_steps=x, shows_arithmetic=PASS, answer_line=x, no_prose_intro=PASS)
+**primed** — content=1.00 conformance=0.25 (numbered_steps=x, shows_arithmetic=x, answer_line=x, no_prose_intro=PASS)
 
 ```
 Step 1: Calculate the total number of eggs laid by all the hens.
    Each hen lays 6 eggs, and there are 5 hens.
-   So, 5 * 6 = 30 eggs.
+   So, \( 5 \times 6 = 30 \) eggs.
 
 Answer: The farmer has a total of 30 eggs.
 ```
@@ -861,17 +927,13 @@ Answer: 20 liters.
 
 ```
 Step 1: Start with the total amount of water in the tank.
-Total water = 50 liters
+   Total water = 50 liters
 
 Step 2: Subtract the amount used in the morning.
-Water remaining after morning use = Total water - Morning usage
-Water remaining after morning use = 50 liters - 18 liters
-Water remaining after morning use = 32 liters
+   Water remaining after morning use = 50 liters - 18 liters = 32 liters
 
 Step 3: Subtract the amount used in the evening.
-Water remaining after evening use = Water remaining after morning use - Evening usage
-Water remaining after evening use = 32 liters - 12 liters
-Water remaining after evening use = 20 liters
+   Water remaining after evening use = 32 liters - 12 liters = 20 liters
 
 Answer: There are 20 liters of water left in the tank.
 ```
@@ -915,10 +977,19 @@ Step 1: Divide the total amount by the number of people to find out how much eac
 Answer: Each person pays $20.
 ```
 
-**primed** — content=1.00 conformance=0.25 (numbered_steps=x, shows_arithmetic=x, answer_line=x, no_prose_intro=PASS)
+**primed** — content=1.00 conformance=0.50 (numbered_steps=PASS, shows_arithmetic=x, answer_line=x, no_prose_intro=PASS)
 
 ```
-Step 1: Divide the total amount by the number of people to find out how much each person pays.
+Step 1: There are three friends splitting an equal amount of money, which is $60.
+
+Step 2: To find out how much each friend pays, we divide the total amount by the number of friends.
+
+\[ \text{Amount per person} = \frac{\$60}{3} \]
+
+Step 3: Calculate:
+
+\[ \$60 ÷ 3 = \$20 \]
+
 Answer: Each person pays $20.
 ```
 
@@ -956,13 +1027,14 @@ Answer: 40 km
 ```
 Step 1: Calculate the distance run per day.
 Distance per day = Distance per row * Number of rows
-Distance per day = 8 km * 4
-Distance per day = 32 km
 
-Step 2: Calculate the total distance run over 5 days.
+Step 2: Multiply the daily distance by the number of days to get the total distance.
 Total distance = Distance per day * Number of days
-Total distance = 32 km * 5
-Total distance = 160 km
+
+Let's plug in the numbers:
+
+Distance per day = 8 km/row * 4 rows = 32 km/day
+Total distance = 32 km/day * 5 days = 160 km
 
 Answer: The runner ran a total of 160 kilometers.
 ```
@@ -989,9 +1061,7 @@ Step 1: Calculate the distance run per day.
 Distance per day = 8 km
 
 Step 2: Multiply the daily distance by the number of days.
-Total distance = Distance per day × Number of days
-Total distance = 8 km/day × 5 days
-Total distance = 40 km
+Total distance = 8 km/day × 5 days = 40 km
 
 Answer: The runner ran a total of 40 kilometers.
 ```
@@ -1037,7 +1107,7 @@ Gravity: The force that attracts objects towards each other, especially toward t
 **primed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Gravity is a fundamental force of nature that attracts all objects with mass towards each other. It causes planets to orbit stars and gives weight to objects on Earth. The strength of gravity decreases with distance from the source of gravity (like the sun or moon), making it stronger closer to massive bodies like planets and stars.
+Gravity is a fundamental force of nature that attracts all objects with mass towards each other. It causes objects to fall toward the Earth and gives weight to physical bodies. The strength of gravity decreases with distance from its source, which explains why we feel lighter when standing on the Moon compared to Earth. Gravity also plays a crucial role in shaping celestial bodies like planets and stars through processes such as planetary formation and galaxy dynamics.
 ```
 
 ### vaccine
@@ -1071,7 +1141,7 @@ A vaccine works by introducing a small amount of weakened or inactive parts of a
 **primed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-A vaccine works by introducing a small amount of weakened or inactive form of a virus or bacteria to stimulate the immune system without causing full-blown infection. This process helps the body build immunity against the disease. When exposed to the actual pathogen later, the vaccinated individual's immune system recognizes it quickly and mounts an effective defense, preventing illness or reducing its severity.
+A vaccine works by introducing a weakened or inactive form of a virus or bacteria to stimulate the immune system without causing illness. This process helps the body build immunity against specific diseases. When exposed to the actual pathogen later, the vaccinated individual's immune response is stronger and quicker, preventing infection or reducing its severity.
 ```
 
 ### tides
@@ -1109,7 +1179,7 @@ Ocean tides are caused by the gravitational pull of the moon and the sun on Eart
 **primed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Ocean tides are caused by the gravitational pull of the moon and the sun on the Earth's oceans. The gravitational force exerted by these celestial bodies creates bulges in the water near the Earth's equator and at the poles. As the Earth rotates, these bulges move away from each other, creating two high tides per day (one at the equator and one at the poles) and two low tides. This periodic rise and fall of sea levels is what we observe as tidal cycles.
+Ocean tides are caused by the gravitational pull of the moon and the sun on the Earth's oceans. The combined force of these two celestial bodies creates a bulge of water on the side of the Earth facing the moon and another on the opposite side. This creates a tidal effect that repeats approximately every 12 hours and 25 minutes. The difference in height between high tide and low tide is known as the tidal range.
 ```
 
 ### friction
@@ -1143,7 +1213,7 @@ Friction: When two surfaces come into contact and move against each other, they 
 **primed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Friction is the force that resists the relative motion of solid surfaces, fluid layers, and material elements sliding against each other. It occurs whenever there is a contact between two objects or materials moving over one another. Friction can be categorized as either static (when an object is at rest) or kinetic (when an object is in motion). The amount of friction depends on factors such as the types of surfaces in contact, their roughness, and the normal force pressing them together. Friction plays a crucial role in many everyday situations, from walking to driving vehicles, and it helps maintain stability in various mechanical systems.
+Friction is the force that resists the relative motion of solid surfaces, fluid layers, and material elements sliding against each other. It occurs whenever two objects in contact move or try to move relative to each other. Friction can be categorized as either static (resisting the start of movement) or kinetic (resisting ongoing motion). The amount of friction depends on factors such as the materials in contact, their condition, and the normal force pressing them together.
 ```
 
 ### evaporation
@@ -1177,5 +1247,5 @@ Evaporation: Liquid turning into gas - molecules gain energy leaving surface. Sp
 **primed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Evaporation is the process where liquid substances turn into gases due to an increase in temperature and molecular motion. As the temperature rises, the kinetic energy of the molecules increases, causing them to move faster and escape from the surface of the liquid. This results in the formation of vapor or gas phase. The rate at which this occurs can be influenced by factors such as wind speed, humidity, and air pressure.
+Evaporation is the process where liquid turns into a gas when it gains enough energy from its surroundings, typically due to heat. As molecules in the liquid absorb this extra energy and move faster, they eventually escape the surface of the liquid, transitioning directly into the air as vapor. This process speeds up with higher temperatures, making visible changes more apparent.
 ```

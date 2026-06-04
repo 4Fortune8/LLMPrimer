@@ -4,20 +4,20 @@
 
 | arm | content | conformance | avg_tokens |
 |---|---|---|---|
-| zero_shot | 0.93 | 0.33 +/-0.35 | 53 |
-| full | 0.98 | 0.89 +/-0.14 | 203 |
-| compressed | 0.93 | 0.55 +/-0.38 | 110 |
-| style_text | 0.93 | 0.92 +/-0.12 | 154 |
-| primed | 0.93 | 0.61 +/-0.31 | 110 |
+| zero_shot | 0.93 | 0.33 +/-0.33 | 53 |
+| full | 0.98 | 0.87 +/-0.19 | 203 |
+| compressed | 0.93 | 0.62 +/-0.31 | 127 |
+| style_text | 0.93 | 0.89 +/-0.14 | 171 |
+| primed | 0.93 | 0.63 +/-0.37 | 127 |
 
 ## Value (cost-adjusted: primer vs re-pasted text rival)
 
 | scope | conf gain vs compressed | conf vs style_text | tokens vs style_text | verdict |
 |---|---|---|---|---|
 | coding | +0.00 | +0.00 | -43 | primer dominates rival |
-| math | +0.10 | -0.20 | -43 | mixed (trade-off) |
-| writing | +0.07 | -0.73 | -46 | mixed (trade-off) |
-| **gated overall** | +0.06 | -0.31 | -44 | mixed (trade-off) |
+| math | +0.10 | -0.05 | -43 | mixed (trade-off) |
+| writing | -0.07 | -0.73 | -46 | mixed (trade-off) |
+| **gated overall** | +0.01 | -0.26 | -44 | mixed (trade-off) |
 
 ## Domain: coding (full conformance=0.90 -> PASS)
 
@@ -74,12 +74,8 @@ def dedupe(items: list) -> list:
     Removes duplicates from a list while preserving the first-seen order.
     """
     seen = set()
-    result = []
-    for item in items:
-        if item not in seen:
-            seen.add(item)
-            result.append(item)
-    return result
+    deduped_items = [x for x in items if not (x in seen or seen.add(x))]
+    return deduped_items
 ```
 ```
 
@@ -135,20 +131,26 @@ def word_freq(text: str) -> dict:
     :param text: A string containing the text to analyze
     :return: A dictionary with words as keys and their respective counts as values
     """
-    # Initialize an empty dictionary to store word counts
-    word_count = {}
+    # Lowercase the text to ensure consistent word comparison
+    text = text.lower()
+    # Import necessary library
+    from collections import defaultdict
     
-    # Split the text into words based on spaces and iterate over them
+    # Initialize a default dictionary to store word counts
+    word_count = defaultdict(int)
+    
+    # Split the text into words and count them
     for word in text.split():
-        # Convert the word to lowercase
-        lower_word = word.lower()
-        # Update the word's count in the dictionary
-        if lower_word in word_count:
-            word_count[lower_word] += 1
-        else:
-            word_count[lower_word] = 1
-            
-    return word_count
+        # Remove non-alphanumeric characters
+        word = ''.join(e for e in word if e.isalnum())
+        word_count[word] += 1
+    
+    return dict(word_count)
+
+# Example usage:
+# text = "Hello world! Hello everyone. Welcome to the world of Python."
+# print(word_freq(text))
+# Output: {'hello': 2, 'world': 2, 'everyone': 1, 'welcome': 1, 'to': 1, 'the': 1, 'of': 1, 'python': 1}
 ```
 ```
 
@@ -179,10 +181,8 @@ def word_freq(text: str) -> dict:
     words = text.lower().split()
     freq_dict = {}
     for word in words:
-        if word in freq_dict:
-            freq_dict[word] += 1
-        else:
-            freq_dict[word] = 1
+        if word.strip():  # Skip empty strings from multiple spaces
+            freq_dict[word] = freq_dict.get(word, 0) + 1
     return freq_dict
 ```
 ```
@@ -197,12 +197,14 @@ def word_freq(text: str) -> dict:
     """
     if not isinstance(text, str):
         raise ValueError("Input must be a string.")
-    
     words = text.lower().split()
     freq_dict = {}
     for word in words:
-        if word.strip():  # skip empty strings from multiple spaces
-            freq_dict[word] = freq_dict.get(word, 0) + 1
+        if word.isalpha():  # Ensure the word contains only letters
+            if word in freq_dict:
+                freq_dict[word] += 1
+            else:
+                freq_dict[word] = 1
     return freq_dict
 ```
 ```
@@ -274,7 +276,7 @@ def running_max(nums: list) -> list:
 ```python
 def running_max(nums: list) -> list:
     """
-    Return a list of cumulative maximum values up to each index in nums.
+    Return a list of cumulative maximum values up to each index in the input list.
     """
     if not nums:
         raise ValueError("Input list cannot be empty")
@@ -306,6 +308,7 @@ def running_max(nums: list) -> list:
     """
     if not nums:
         raise ValueError("Input list cannot be empty")
+    
     return [max(nums[:i+1]) for i in range(len(nums))]
 ```
 ```
@@ -340,7 +343,7 @@ def average(nums: list) -> float:
 ```python
 def average(nums: list) -> float:
     """Return the arithmetic mean of the numbers in nums."""
-    if not nums or any(not isinstance(n, (int, float)) for n in nums):
+    if not nums or not all(isinstance(x, (int, float)) for x in nums):
         raise ValueError("nums must contain only integers or floats and cannot be empty")
     return sum(nums) / len(nums)
 ```
@@ -365,11 +368,9 @@ def average(nums: list) -> float:
 ```
 ```python
 def average(nums: list) -> float:
-    """
-    Return the arithmetic mean of the numbers in the list.
-    """
-    if not nums or len(nums) == 0:
-        raise ValueError("The list must not be empty.")
+    """Calculate the arithmetic mean of a list of numbers."""
+    if not nums or any(not isinstance(n, (int, float)) for n in nums):
+        raise ValueError("List must contain only integers or floats and cannot be empty.")
     return sum(nums) / len(nums)
 ```
 ```
@@ -383,7 +384,7 @@ def average(nums: list) -> float:
     Compute the arithmetic mean of a list of numbers.
     """
     if not nums:
-        raise ValueError("List must not be empty")
+        raise ValueError("The list cannot be empty.")
     return sum(nums) / len(nums)
 ```
 ```
@@ -400,7 +401,7 @@ def flatten(matrix: list) -> list:
     """
     Flattens a list of lists into a single flat list.
     
-    Parameters:
+    Args:
     matrix (list): A list containing other lists.
     
     Returns:
@@ -462,9 +463,9 @@ def flatten(matrix: list) -> list:
 |---|---|---|---|
 | zero_shot | 0.80 | 0.05 +/-0.11 | 57 |
 | full | 1.00 | 0.85 +/-0.14 | 223 |
-| compressed | 1.00 | 0.55 +/-0.37 | 109 |
-| style_text | 1.00 | 0.85 +/-0.14 | 152 |
-| primed | 1.00 | 0.65 +/-0.22 | 109 |
+| compressed | 1.00 | 0.70 +/-0.21 | 161 |
+| style_text | 1.00 | 0.85 +/-0.14 | 204 |
+| primed | 1.00 | 0.80 +/-0.11 | 161 |
 
 ### pages_left
 
@@ -498,50 +499,38 @@ Step 3: Subtract the total pages read from the total number of pages in the book
 Answer: 40
 ```
 
-**compressed** — content=1.00 conformance=0.00 (numbered_steps=x, shows_arithmetic=x, answer_line=x, no_prose_intro=x)
+**compressed** — content=1.00 conformance=0.75 (numbered_steps=PASS, shows_arithmetic=x, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-To find out how many pages are left for Ada to read, we need to subtract the pages she has already read from the total number of pages in the book.
+Step 1: Calculate the total number of pages Ada read on Monday and Tuesday.
+45 (Monday) + 35 (Tuesday) = 80 pages
 
-First, add the pages Ada read on Monday and Tuesday:
-45 pages (Monday) + 35 pages (Tuesday) = 80 pages
+Step 2: Subtract the total number of pages read from the total number of pages in the book.
+120 (total pages) - 80 (pages read) = 40 pages
 
-Next, subtract the total pages read from the total number of pages in the book:
-120 pages (total) - 80 pages (read) = 40 pages
-
-So, Ada has 40 pages left to read.
+Answer: 40 pages are left.
 ```
 
 **style_text** — content=1.00 conformance=1.00 (numbered_steps=PASS, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Calculate the total number of pages read.
-Pages read on Monday = 45
-Pages read on Tuesday = 35
-Total pages read = 45 + 35 = 80
-
-Step 2: Subtract the total pages read from the total number of pages in the book to find the number of pages left.
-Total pages in the book = 120
-Total pages read = 80
-Pages left = 120 - 80 = 40
-
+Step 1: Calculate the total number of pages Ada read on Monday and Tuesday.
+Step 2: 45 + 35 = 80
+Step 3: Subtract the total number of pages read from the total number of pages in the book to find the number of pages left.
+Step 4: 120 - 80 = 40
 Answer: 40
 ```
 
-**primed** — content=1.00 conformance=0.50 (numbered_steps=PASS, shows_arithmetic=PASS, answer_line=x, no_prose_intro=x)
+**primed** — content=1.00 conformance=1.00 (numbered_steps=PASS, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-To find out how many pages are left for Ada to read, we need to follow these steps:
+Step 1: Calculate the total number of pages Ada read on Monday and Tuesday.
+Step 2: Subtract the total number of pages read from the total number of pages in the book.
 
-Step 1: Calculate the total number of pages Ada has read.
-Ada read 45 pages on Monday and 35 pages on Tuesday. So, we add these two numbers together:
-45 + 35 = 80
+Step 1: 45 + 35 = 80
+Step 2: 120 - 80 = 40
 
-Step 2: Subtract the number of pages read from the total number of pages in the book.
-The book has 120 pages in total. Ada has read 80 pages so far. To find out how many pages are left, we subtract the number of pages read from the total number of pages:
-120 - 80 = 40
-
-So, Ada has 40 pages left to read.
+Answer: 40 pages are left.
 ```
 
 ### hen_eggs
@@ -570,26 +559,24 @@ Answer: 30
 **compressed** — content=1.00 conformance=0.75 (numbered_steps=x, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Multiply the number of hens by the number of eggs each hen lays = 5 * 6 = 30
+Step 1: 5 * 6 = 30
 Answer: 30
 
-In this case, the total number of eggs is 30.
+The farmer has a total of 30 eggs.
 ```
 
 **style_text** — content=1.00 conformance=0.75 (numbered_steps=x, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Multiply the number of hens by the number of eggs each hen lays = 5 * 6 = 30
+Step 1: 5 * 6 = 30  
 Answer: 30
 ```
 
 **primed** — content=1.00 conformance=0.75 (numbered_steps=x, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Multiply the number of hens by the number of eggs each hen lays = 5 * 6 = 30
+Step 1: 5 * 6 = 30  
 Answer: 30
-
-So, the farmer has a total of 30 eggs.
 ```
 
 ### tank_left
@@ -620,15 +607,9 @@ Answer: 20
 **compressed** — content=1.00 conformance=1.00 (numbered_steps=PASS, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Calculate the total liters used.
-- Liters used in the morning: 18 liters
-- Liters used in the evening: 12 liters
-- Total liters used: 18 + 12 = 30 liters
-
-Step 2: Subtract the total liters used from the initial amount.
-- Initial amount of liters: 50 liters
-- Total liters used: 30 liters
-- Liters left: 50 - 30 = 20 liters
+Step 1: Start with the total amount of liters in the tank, which is 50 liters.
+Step 2: Subtract the 18 liters used in the morning from the total: 50 - 18 = 32 liters.
+Step 3: Subtract the 12 liters used in the evening from the remaining amount: 32 - 12 = 20 liters.
 
 Answer: 20 liters are left.
 ```
@@ -636,24 +617,21 @@ Answer: 20 liters are left.
 **style_text** — content=1.00 conformance=1.00 (numbered_steps=PASS, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Start with the initial amount of liters in the tank, which is 50 liters.
-Step 2: Subtract the liters used in the morning from the initial amount: 50 - 18 = 32 liters.
-Step 3: Subtract the liters used in the evening from the remaining amount: 32 - 12 = 20 liters.
+Step 1: 50 - 18 = 32  
+Step 2: 32 - 12 = 20  
 Answer: 20
 ```
 
-**primed** — content=1.00 conformance=1.00 (numbered_steps=PASS, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
+**primed** — content=1.00 conformance=0.75 (numbered_steps=PASS, shows_arithmetic=x, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Calculate the total liters used.
-- Liters used in the morning: 18 liters
-- Liters used in the evening: 12 liters
-- Total liters used: 18 + 12 = 30 liters
+Step 1: Start with the initial amount of liters in the tank.
+Step 2: Subtract the liters used in the morning.
+Step 3: Subtract the liters used in the evening.
 
-Step 2: Subtract the total liters used from the initial amount.
-- Initial amount of liters: 50 liters
-- Total liters used: 30 liters
-- Liters left: 50 - 30 = 20 liters
+Initial amount: 50 liters
+Morning usage: 50 liters - 18 liters = 32 liters remaining
+Evening usage: 32 liters - 12 liters = 20 liters remaining
 
 Answer: 20 liters are left.
 ```
@@ -681,25 +659,29 @@ Step 1: divide the total amount by the number of friends = 60 / 3 = 20
 Answer: 20
 ```
 
-**compressed** — content=1.00 conformance=0.50 (numbered_steps=x, shows_arithmetic=PASS, answer_line=x, no_prose_intro=PASS)
+**compressed** — content=1.00 conformance=0.50 (numbered_steps=PASS, shows_arithmetic=x, answer_line=x, no_prose_intro=PASS)
 
 ```
-Step 1: Divide the total amount by the number of people = 60 / 3 = 20
+Step 1: First, we need to divide the total amount of the bill by the number of friends.
+Step 2: So, 60 ÷ 3 = 20
+
 Answer: Each person pays $20.
 ```
 
 **style_text** — content=1.00 conformance=0.75 (numbered_steps=x, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: divide the total amount by the number of friends = 60 / 3 = 20
+Step 1: 60 / 3 = 20  
 Answer: 20
 ```
 
-**primed** — content=1.00 conformance=0.50 (numbered_steps=x, shows_arithmetic=PASS, answer_line=x, no_prose_intro=PASS)
+**primed** — content=1.00 conformance=0.75 (numbered_steps=x, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Divide the total amount by the number of friends = 60 / 3 = 20
-Answer: Each person pays $20.
+Step 1: 60 / 3 = 20  
+Answer: 20
+
+Each person pays $20.
 ```
 
 ### weekly_run
@@ -730,33 +712,34 @@ Answer: 40
 **compressed** — content=1.00 conformance=0.50 (numbered_steps=x, shows_arithmetic=x, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Multiply the distance run each day by the number of days = 8 km/day * 5 days = 40 km
+Step 1: 8 km/day * 5 days = 40 km
+
 Answer: 40 km
 ```
 
 **style_text** — content=1.00 conformance=0.75 (numbered_steps=x, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Multiply the distance run each day by the number of days = 8 * 5 = 40
+Step 1: 8 * 5 = 40  
 Answer: 40
 ```
 
-**primed** — content=1.00 conformance=0.50 (numbered_steps=x, shows_arithmetic=x, answer_line=PASS, no_prose_intro=PASS)
+**primed** — content=1.00 conformance=0.75 (numbered_steps=x, shows_arithmetic=PASS, answer_line=PASS, no_prose_intro=PASS)
 
 ```
-Step 1: Multiply the distance run each day by the number of days = 8 km/day * 5 days = 40 km
-Answer: 40 km
+Step 1: 8 * 5 = 40  
+Answer: 40
 ```
 
-## Domain: writing (full conformance=0.93 -> PASS)
+## Domain: writing (full conformance=0.87 -> PASS)
 
 | arm | content | conformance | avg_tokens |
 |---|---|---|---|
-| zero_shot | 1.00 | 0.20 +/-0.30 | 41 |
-| full | 0.93 | 0.93 +/-0.15 | 150 |
-| compressed | 1.00 | 0.20 +/-0.18 | 95 |
-| style_text | 1.00 | 1.00 +/-0.00 | 141 |
-| primed | 1.00 | 0.27 +/-0.15 | 95 |
+| zero_shot | 1.00 | 0.20 +/-0.18 | 41 |
+| full | 0.93 | 0.87 +/-0.30 | 150 |
+| compressed | 1.00 | 0.27 +/-0.15 | 95 |
+| style_text | 1.00 | 0.93 +/-0.15 | 141 |
+| primed | 1.00 | 0.20 +/-0.30 | 95 |
 
 ### gravity
 
@@ -765,7 +748,7 @@ Answer: 40 km
 **zero_shot** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Gravity is a fundamental force of nature that causes any two masses to attract or pull towards each other. It is the weakest of the four fundamental forces but acts over all distances, from the smallest subatomic particles to the largest structures in the universe, like galaxies. On Earth, we experience gravity as the force that pulls us and objects downward toward the center of the planet. This force is what gives weight to objects and causes them to fall when dropped. The strength of gravity depends on the masses of the objects involved; the more mass an object has, the stronger its gravitational pull. Gravity is described mathematically by Einstein's theory of general relativity, which explains it as the curvature of spacetime caused by massive objects.
+Gravity is a fundamental force of nature that causes any two masses to be attracted to each other. It is the force that keeps our feet on the ground and allows us to throw objects into the air, as they eventually fall back down. The strength of this force depends on the masses of the objects and the distance between them. On Earth, we experience gravity as the force pulling us towards the center of the planet. This force is what gives objects weight and explains why objects fall at an acceleration of approximately 9.8 meters per second squared near the Earth's surface.
 ```
 
 **full** — content=1.00 conformance=1.00 (second_person=PASS, no_contractions=PASS, bulleted_list=PASS)
@@ -776,13 +759,13 @@ Explain what gravity is.
 - You can think of gravity as the force that pulls objects towards each other.
 - It is the reason why you feel your weight on Earth and why objects fall down when dropped.
 - The strength of this force depends on the mass of the objects involved; the more mass an object has, the stronger its gravitational pull.
-- Gravity is always attractive and does not require physical contact between the objects.
+- Gravity is always attractive and does not have any repulsive properties.
 ```
 
-**compressed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
+**compressed** — content=1.00 conformance=0.33 (second_person=PASS, no_contractions=x, bulleted_list=x)
 
 ```
-Gravity is the force of attraction between masses. It causes objects to fall towards the center of mass, like how objects are pulled towards the Earth's surface. This force increases with the product of the two masses and decreases with the square of the distance between them, as described by Newton's law of universal gravitation. On Earth, we experience gravity as the reason why we and all objects are pulled downward with a constant acceleration of approximately 9.8 meters per second squared.
+Gravity is the force of attraction between masses. It causes objects to fall towards the center of the Earth and is what holds us and all objects on the planet's surface. This force increases with the mass of the objects and decreases with the distance between them. As you might observe, the effect of gravity from larger objects like planets is much stronger than that from smaller objects.
 ```
 
 **style_text** — content=1.00 conformance=1.00 (second_person=PASS, no_contractions=PASS, bulleted_list=PASS)
@@ -790,16 +773,15 @@ Gravity is the force of attraction between masses. It causes objects to fall tow
 ```
 House register:
 
-- You can understand gravity as the force that attracts two objects towards each other.
-- It is caused by the mass of an object; the more mass, the stronger the gravitational pull.
-- You will notice that gravity affects all objects, regardless of their size, but its effect is more noticeable with larger masses.
-- The strength of the gravitational force between two objects increases with increasing mass and decreases with increasing distance between the objects.
+- You can understand gravity as the force that attracts masses towards each other.
+- It is responsible for the weight you feel on Earth and the orbits of planets around the sun.
+- You observe that its strength increases with the mass of the objects involved and decreases with the distance between them.
 ```
 
-**primed** — content=1.00 conformance=0.33 (second_person=PASS, no_contractions=x, bulleted_list=x)
+**primed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Gravity is the force of attraction between masses. It causes objects to fall towards the center of the Earth and is what holds us and all objects on the planet's surface. This force increases with the mass of the objects and decreases with the distance between them. As you might observe, the gravitational pull from larger objects like planets is stronger than that from smaller objects.
+Gravity is the force of attraction between masses. It causes objects to fall towards the center of mass, such as towards the Earth's surface due to its significant mass. As temperature increases, the rate of evaporation also increases because molecules gain more energy and can escape the liquid's surface more easily.
 ```
 
 ### vaccine
@@ -809,7 +791,7 @@ Gravity is the force of attraction between masses. It causes objects to fall tow
 **zero_shot** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-A vaccine works by imitating an infection in the body, but in a controlled and safe way. It introduces a small, weakened, or dead pathogen (like a virus or bacteria) into the body, which triggers the immune system to produce antibodies and build up defenses against that specific pathogen. If the person is later exposed to the actual disease-causing pathogen, their immune system will be prepared to recognize it and fight it off effectively, often preventing the disease or making it much milder. This process helps protect individuals from getting sick and can also contribute to herd immunity, where enough people are immune to stop the spread of the disease altogether.
+A vaccine works by preparing the immune system to recognize and fight off specific pathogens, such as viruses or bacteria, that cause diseases. When a person is vaccinated, a small, safe amount of a weakened or killed pathogen is introduced into the body. This triggers the immune system to produce an immune response, including the production of antibodies and memory cells. If the person is later exposed to the actual pathogen, their immune system can quickly recognize it and mount a rapid response to prevent the disease from developing. In this way, vaccines help protect individuals and communities from infectious diseases.
 ```
 
 **full** — content=0.67 conformance=1.00 (second_person=PASS, no_contractions=PASS, bulleted_list=PASS)
@@ -826,7 +808,7 @@ Explain what a vaccine does.
 **compressed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-A vaccine works by introducing a small and usually weakened or dead pathogen into the body. This triggers the immune system to recognize and fight the pathogen. Once the immune system is primed, it can quickly respond if the actual pathogen enters the body in the future, providing protection against infection. Vaccines essentially create immunity without causing the disease, helping to prevent illnesses and save lives.
+A vaccine works by introducing a small and usually weakened or dead pathogen into the body. This triggers the immune system to recognize and fight the pathogen. The immune system then creates memory cells that remember the pathogen. If the person is later exposed to the actual disease-causing pathogen, their immune system can quickly respond to prevent illness or reduce its severity. Essentially, vaccines help the body build immunity without causing the disease itself.
 ```
 
 **style_text** — content=1.00 conformance=1.00 (second_person=PASS, no_contractions=PASS, bulleted_list=PASS)
@@ -840,10 +822,10 @@ House register:
 - You should understand that vaccines stimulate your body to produce antibodies without causing the disease itself.
 ```
 
-**primed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
+**primed** — content=1.00 conformance=0.67 (second_person=PASS, no_contractions=PASS, bulleted_list=x)
 
 ```
-A vaccine works by introducing a small and usually weakened or dead pathogen into the body. This triggers the immune system to recognize and fight the pathogen. Once the immune system is primed, it can quickly respond if the actual pathogen enters the body in the future, providing protection against infection. Vaccines essentially create immunity without causing the disease, helping to prevent illnesses and save lives.
+A vaccine works by stimulating your immune system to recognize and fight off specific pathogens, such as viruses or bacteria. It does this by introducing a small, usually weakened or dead, piece of the pathogen into your body. When the vaccine is administered, your immune system responds by producing antibodies and memory cells. If you are later exposed to the actual pathogen, your immune system can quickly recognize it and mount a rapid response, helping to prevent illness or reduce its severity. This process effectively "teaches" your immune system to be prepared for the real threat, making vaccines a powerful tool in public health.
 ```
 
 ### tides
@@ -853,52 +835,60 @@ A vaccine works by introducing a small and usually weakened or dead pathogen int
 **zero_shot** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Ocean tides are primarily caused by the gravitational pull of the Moon on the Earth's oceans. The Moon's gravity exerts a stronger force on the side of the Earth facing the Moon, causing a bulge in the water level towards the Moon. Simultaneously, a similar bulge forms on the opposite side of the Earth due to the centrifugal effect of the Earth-Moon system. Additionally, the Sun also influences tides, although its effect is less pronounced because it is farther away from the Earth. When the Sun and Moon align during a new or full moon, their combined gravitational forces create higher than normal tides called spring tides. Conversely, when the Sun and Moon are at right angles to each other relative to the Earth, their effects partially cancel out, leading to lower than normal tides known as neap tides.
+Ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on the Earth's oceans. The Moon has a stronger influence because it is much closer to the Earth. As the Earth rotates on its axis, the gravitational force from the Moon (and the Sun) pulls on different parts of the Earth and its water bodies, creating high and low tides.
+
+The Moon's gravity exerts a greater pull on the side of the Earth closest to it, causing that part of the ocean to bulge outward. Simultaneously, the far side of the Earth experiences a similar but slightly weaker effect due to the centrifugal force, which also results in a bulge. The side of the Earth facing away from the Moon experiences less gravitational pull, leading to a lower tide.
+
+The Sun also contributes to tidal forces, but its effect is about half as strong as that of the Moon. During new and full moons, when the Sun and Moon align with Earth, their combined gravitational pull creates higher than normal tides called spring tides. Conversely, during the first and third quarters of the moon cycle, the Sun and Moon are at right angles to each other relative to Earth, resulting in lower than normal tides known as neap tides.
+
+These tidal forces cause the oceans to rise and fall approximately every 12 hours and 25 minutes, creating the regular ebb and flow of tides observed along coastlines around the world.
 ```
 
-**full** — content=1.00 conformance=0.67 (second_person=x, no_contractions=PASS, bulleted_list=PASS)
+**full** — content=1.00 conformance=0.33 (second_person=x, no_contractions=x, bulleted_list=PASS)
 
 ```
 Explain what causes ocean tides.
 
-- The primary cause of ocean tides is the gravitational pull of the moon on the Earth.
-- As the moon orbits around the Earth, its gravity pulls on the water in the oceans, causing them to rise and fall.
-- The sun also contributes to tides, but its effect is less significant due to its greater distance from the Earth.
-- The rotation of the Earth on its axis further influences the formation of tides, leading to two high tides and two low tides each day.
+- The primary cause of ocean tides is the gravitational pull exerted by the moon on the Earth.
+- As the Earth rotates, different parts of the oceans are exposed to varying degrees of this gravitational pull.
+- The moon's gravity is stronger on the side of the Earth facing the moon, causing a slight bulge in the water level.
+- Simultaneously, the far side of the Earth experiences a similar bulge due to the centrifugal force from Earth's rotation.
+- Additionally, the sun also influences tides, although its effect is less pronounced than that of the moon.
+- The combined effects of the moon and the sun create two high tides and two low tides each day, leading to the rise and fall of ocean levels.
 ```
 
 **compressed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on the Earth's oceans. The Moon has a stronger influence due to its proximity to Earth. As the Earth rotates, the gravitational force from the Moon (and the Sun) exerts a tidal bulge on the side of the Earth facing the Moon and another bulge on the opposite side. This results in two high tides and two low tides each day. The energy required for this transformation comes from the gravitational interaction between the Earth and the Moon, leading to periodic rises and falls in sea levels that we observe as tides.
+Ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on the Earth's oceans. The Moon has a stronger influence due to its proximity to Earth. As the Earth rotates, the gravitational force from the Moon exerts a tidal bulge on the side of the Earth facing the Moon and another bulge on the opposite side. This results in two high tides and two low tides each day. The Sun also contributes to tides, but its effect is less pronounced because it is much farther away. Together, these gravitational forces cause the water levels in the oceans to rise and fall, creating the phenomenon we observe as tides.
 ```
 
-**style_text** — content=1.00 conformance=1.00 (second_person=PASS, no_contractions=PASS, bulleted_list=PASS)
+**style_text** — content=1.00 conformance=0.67 (second_person=PASS, no_contractions=x, bulleted_list=PASS)
 
 ```
 House register:
 
 - You can observe ocean tides caused by the gravitational pull of the moon and the sun on the Earth.
 - The moon has a stronger influence due to its proximity to the Earth.
-- You will notice that tidal forces cause water levels to rise and fall in predictable patterns.
-- The rotation of the Earth also plays a role, as it moves relative to the rising and falling water levels.
-- You may find that the combined effect of these forces results in two high tides and two low tides each day.
+- You will notice that tidal forces cause water levels to rise and fall at regular intervals.
+- The rotation of the Earth also plays a role, as it affects how the gravitational forces are distributed over the planet's surface.
+- You may find that the combined effect of these forces results in two high tides and two low tides each day in most locations.
 ```
 
 **primed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on the Earth's oceans. The Moon has a stronger influence due to its proximity to Earth. As the Earth rotates, the gravitational force from the Moon exerts a tidal bulge on the side of the Earth facing the Moon and another bulge on the opposite side. This results in two high tides and two low tides each day. The Sun also contributes to tides, but its effect is less pronounced because it is much farther away. Together, these gravitational forces cause the water levels in the oceans to rise and fall, creating the phenomenon we observe as tides.
+Ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun on the Earth's oceans. The Moon's gravity exerts a stronger influence because it is closer to the Earth. As the Earth rotates, the gravitational force from the Moon pulls on the water in the oceans, causing a bulge or high tide on the side of the Earth facing the Moon. Simultaneously, there is a low tide on the opposite side due to the centrifugal force from Earth's rotation. The Sun also contributes to tides, but its effect is less pronounced because it is much farther away. Together, these gravitational forces create two high tides and two low tides each day, leading to the regular rise and fall of sea levels that we observe as ocean tides.
 ```
 
 ### friction
 
 > Explain what friction is.
 
-**zero_shot** — content=1.00 conformance=0.67 (second_person=PASS, no_contractions=PASS, bulleted_list=x)
+**zero_shot** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Friction is a force that resists the relative motion of objects in contact with each other. When two surfaces touch and slide against each other, the force that opposes this motion is called friction. This force depends on the nature of the surfaces in contact and the force pressing them together. Friction can cause heat to be generated as the surfaces rub against each other, and it plays a crucial role in many everyday activities, such as walking (where friction between your shoes and the ground allows you to move), driving (where friction between tires and the road surface keeps the car from skidding), and even in the functioning of machines and vehicles.
+Friction is a force that resists the relative motion of objects in contact with each other. When two surfaces touch and slide against each other, the microscopic irregularities on these surfaces interact, creating resistance to their movement. This resistance is what we perceive as friction. Friction can occur between any two surfaces that are in contact and moving relative to each other. It plays a crucial role in many everyday phenomena and applications, such as allowing us to walk without slipping, enabling vehicles to stop safely, and even generating heat through rubbing or grinding actions.
 ```
 
 **full** — content=1.00 conformance=1.00 (second_person=PASS, no_contractions=PASS, bulleted_list=PASS)
@@ -908,39 +898,39 @@ Explain what friction is.
 
 - You can think of friction as the force that resists the relative motion of objects sliding against each other.
 - It occurs when two surfaces come into contact and try to slide past one another.
-- You will find that the amount of friction depends on the materials involved and how hard the surfaces are pressed together.
+- You will find that the amount of friction depends on the roughness of the surfaces and the force pressing them together.
 ```
 
 **compressed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Friction is the force that resists the relative motion of objects in contact with each other. When two surfaces touch and slide against each other, the molecules on these surfaces interact, creating resistance to their movement. This resistance is what we perceive as friction. As the temperature increases, the molecules gain more energy and move faster, which can increase the friction between surfaces due to more frequent and energetic collisions.
+Friction is the force that resists the relative motion of objects in contact with each other. When two surfaces touch and slide against each other, the molecules on these surfaces interact, creating resistance to their movement. This resistance is what we perceive as friction. As the temperature increases, the molecules gain more kinetic energy, leading to an increase in the intensity of these interactions and thus making the frictional force stronger.
 ```
 
 **style_text** — content=1.00 conformance=1.00 (second_person=PASS, no_contractions=PASS, bulleted_list=PASS)
 
 ```
-Friction is the force that resists the relative motion of objects in contact. Here are the key points:
+House register:
 
-- You can think of friction as the interaction between surfaces that opposes their movement against each other.
-- It arises from the microscopic roughness of surfaces and the resulting interlocking of these surfaces.
-- You will notice that the force of friction depends on the materials in contact and the normal force pressing them together.
+- You can understand friction as the force that resists the relative motion of objects in contact with each other.
+- It arises from the interactions between the surfaces of the objects.
+- You will notice that the amount of friction depends on the materials involved and how hard the surfaces are pressed together.
 ```
 
 **primed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Friction is the force that resists the relative motion of objects in contact with each other. When two surfaces touch and slide against each other, the molecules on these surfaces interact, creating resistance to their movement. This resistance is what we perceive as friction. The amount of friction depends on the materials involved and how much force is applied to make the surfaces move against each other. As the temperature increases, the molecules gain more energy, which can increase the friction between surfaces if they are rough or if there is more kinetic energy to overcome the intermolecular forces.
+Friction is the force that resists the relative motion of objects in contact with each other. It occurs when two surfaces touch and slide past one another, causing the molecules on these surfaces to interact and create resistance. As the temperature increases, the molecules gain more energy and move faster, which can increase the friction between surfaces due to more frequent and stronger interactions.
 ```
 
 ### evaporation
 
 > Explain what evaporation is.
 
-**zero_shot** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
+**zero_shot** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
 
 ```
-Evaporation is the process by which a liquid transforms into a gas at temperatures below its boiling point. This occurs when molecules at the surface of the liquid gain enough energy to escape into the air as vapor. Factors that influence evaporation include temperature, surface area, and humidity. As the temperature increases, more molecules have the necessary energy to escape, speeding up the evaporation process. Similarly, increasing the surface area allows more molecules to escape, and decreasing the surrounding humidity can also enhance evaporation because there's more space for the liquid to turn into vapor. Evaporation is a crucial part of the water cycle and plays a significant role in cooling surfaces through the process of phase change from liquid to gas.
+Evaporation is the process by which a liquid transforms into a gas at temperatures below its boiling point. This occurs when molecules at the surface of the liquid gain enough energy to escape into the air as vapor. This process is responsible for cooling the remaining liquid and can be observed in various natural phenomena like water turning into steam or sweat evaporating from the skin, leading to a cooling effect. Evaporation is also a key part of the water cycle, where water changes from liquid to gas and rises into the atmosphere.
 ```
 
 **full** — content=1.00 conformance=1.00 (second_person=PASS, no_contractions=PASS, bulleted_list=PASS)
@@ -949,7 +939,7 @@ Evaporation is the process by which a liquid transforms into a gas at temperatur
 Explain what evaporation is.
 
 - You can think of evaporation as the process where a liquid transforms into a gas.
-- It occurs when individual molecules at the surface of the liquid gain sufficient energy to escape into the air.
+- It occurs when individual molecules at the surface of the liquid gain enough energy to escape into the air.
 - You will observe that evaporation increases as the temperature of the liquid rises.
 ```
 
@@ -973,8 +963,8 @@ Explain what evaporation is.
 - Evaporation is the process where you observe a liquid changing into a gas. This happens when individual molecules within the liquid gain enough energy to break free from the liquid and enter the air above it. As the temperature increases, more molecules gain this necessary energy, leading to a faster rate of evaporation.
 ```
 
-**primed** — content=1.00 conformance=0.33 (second_person=x, no_contractions=PASS, bulleted_list=x)
+**primed** — content=1.00 conformance=0.00 (second_person=x, no_contractions=x, bulleted_list=x)
 
 ```
-Evaporation is the process where a liquid transforms into a gas. This happens when molecules in the liquid gain enough energy to overcome the intermolecular forces that keep them in the liquid state, allowing them to escape into the air. As the temperature increases, this process speeds up because there are more molecules with sufficient energy to evaporate.
+Evaporation is the process where a liquid transforms into a gas. This happens when molecules in the liquid gain enough energy to escape the liquid's surface and enter the air above it. As the temperature increases, this process speeds up because there are more energetic molecules available to turn into gas.
 ```

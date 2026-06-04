@@ -18,6 +18,7 @@ Usage:
 import argparse
 import os
 import pathlib
+import time
 
 # ---- load credentials from .env before importing the SDK -------------------
 def _load_dotenv(path=".env"):
@@ -71,12 +72,28 @@ SOURCE_FILES = [
 def get_studio(machine):
     ts = Teamspace(name=TEAMSPACE, user=USER)
     studio = Studio(name=STUDIO_NAME, teamspace=ts, user=USER, create_ok=True)
-    if studio.status.name.lower() != "running":
+    status = studio.status.name.lower()
+    if status == "running":
+        if studio.machine != machine:
+            print(f"Switching studio to {machine} ...")
+            studio.switch_machine(machine)
+    elif status in ("stopped", "notcreated", "not_created"):
         print(f"Starting studio '{STUDIO_NAME}' on {machine} ...")
         studio.start(machine)
-    elif studio.machine != machine:
-        print(f"Switching studio to {machine} ...")
-        studio.switch_machine(machine)
+    else:
+        # Pending / starting (e.g. a previous launch is mid-provision). Don't
+        # call start() again (that errors); just wait for it to come up.
+        print(f"Studio is '{status}'; waiting for it to finish starting ...")
+        for _ in range(120):  # up to ~10 min
+            time.sleep(5)
+            if studio.status.name.lower() == "running":
+                break
+        if studio.status.name.lower() != "running":
+            raise SystemExit(f"Studio did not reach 'running' (still "
+                             f"{studio.status.name}). Retry shortly.")
+        if studio.machine != machine:
+            print(f"Switching studio to {machine} ...")
+            studio.switch_machine(machine)
     # Long, non-interactive model loads look "idle" to the platform; auto-sleep
     # (seen with auto_sleep_time=0) can reclaim the instance mid-run and break
     # the keepalive stream. Disable it for the duration of the batch run.
@@ -103,7 +120,12 @@ def main():
                     help="run scale_ladder.py (identical harness across model sizes)")
     args = ap.parse_args()
 
-    machine = getattr(Machine, args.machine)
+    try:
+        machine = getattr(Machine, args.machine)
+    except AttributeError:
+        avail = [m for m in dir(Machine) if m.isupper() and not m.startswith("_")]
+        raise SystemExit(
+            f"Unknown machine '{args.machine}'. Available: {', '.join(avail)}")
 
     if args.stop_only:
         ts = Teamspace(name=TEAMSPACE, user=USER)
@@ -158,7 +180,7 @@ def main():
         try:
             listing = studio.run(
                 f"cd ~/{REMOTE_DIR} && ls results_*.json results_readable_*.md "
-                f"2>/dev/null")
+                f"sweep_*.json sweep_*.png 2>/dev/null")
             for fn in listing.split():
                 fn = fn.strip()
                 if fn:

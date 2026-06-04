@@ -9,9 +9,9 @@
       "full_conformance": 0.6277777777777778,
       "compressed_conf": 0.7,
       "style_text_conf": 0.9,
-      "primed_conf": 0.7,
-      "primer_effect": 0.0,
-      "rival_gap": -0.20000000000000007,
+      "primed_conf": 0.9,
+      "primer_effect": 0.20000000000000007,
+      "rival_gap": 0.0,
       "tokens_primed": 107.0,
       "tokens_style_text": 150.0
     },
@@ -26,9 +26,9 @@
       "full_conformance": 0.888888888888889,
       "compressed_conf": 0.5611111111111111,
       "style_text_conf": 0.7222222222222222,
-      "primed_conf": 0.5666666666666667,
-      "primer_effect": 0.005555555555555536,
-      "rival_gap": -0.15555555555555556,
+      "primed_conf": 0.6,
+      "primer_effect": 0.03888888888888886,
+      "rival_gap": -0.12222222222222223,
       "tokens_primed": 92.26666666666667,
       "tokens_style_text": 136.26666666666668
     },
@@ -40,12 +40,46 @@
         "math",
         "writing"
       ],
+      "full_conformance": 0.8722222222222222,
+      "compressed_conf": 0.6222222222222222,
+      "style_text_conf": 0.8944444444444444,
+      "primed_conf": 0.6333333333333333,
+      "primer_effect": 0.011111111111111072,
+      "rival_gap": -0.26111111111111107,
+      "tokens_primed": 127.26666666666667,
+      "tokens_style_text": 171.26666666666668
+    },
+    {
+      "tag": "Qwen2.5-14B-Instruct",
+      "params_b": 14.0,
+      "gated_domains": [
+        "coding",
+        "math",
+        "writing"
+      ],
       "full_conformance": 0.8944444444444444,
-      "compressed_conf": 0.55,
-      "style_text_conf": 0.9166666666666666,
-      "primed_conf": 0.6055555555555556,
-      "primer_effect": 0.05555555555555558,
-      "rival_gap": -0.311111111111111,
+      "compressed_conf": 0.6333333333333333,
+      "style_text_conf": 0.8444444444444444,
+      "primed_conf": 0.75,
+      "primer_effect": 0.1166666666666667,
+      "rival_gap": -0.09444444444444444,
+      "tokens_primed": 121.26666666666667,
+      "tokens_style_text": 165.26666666666668
+    },
+    {
+      "tag": "Qwen2.5-32B-Instruct",
+      "params_b": 32.0,
+      "gated_domains": [
+        "coding",
+        "math",
+        "writing"
+      ],
+      "full_conformance": 0.9111111111111111,
+      "compressed_conf": 0.611111111111111,
+      "style_text_conf": 0.9055555555555556,
+      "primed_conf": 0.611111111111111,
+      "primer_effect": 0.0,
+      "rival_gap": -0.2944444444444445,
       "tokens_primed": 109.93333333333334,
       "tokens_style_text": 153.93333333333334
     }
@@ -58,8 +92,13 @@
     "inject_layers": [
       12
     ],
-    "alpha": 6.0,
+    "inject_layer_fracs": [
+      0.43
+    ],
+    "alpha_relative": true,
+    "alpha": 0.1,
     "extract_layer": 12,
+    "extract_layer_frac": 0.43,
     "extract_regime": "compressed",
     "compress_ratio": 0.25,
     "domains": [
@@ -73,12 +112,17 @@
     ],
     "eval_temperature": 0.0,
     "sweep_alphas": [
-      2.0,
-      4.0,
-      6.0,
-      8.0,
-      10.0,
-      12.0
+      0.04,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "sweep_layer_fracs": [
+      0.3,
+      0.43,
+      0.57,
+      0.7
     ],
     "sweep_layers": [
       8,
@@ -99,6 +143,14 @@
       },
       {
         "model_name": "Qwen/Qwen2.5-7B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-14B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-32B-Instruct",
         "load_in_4bit": true
       }
     ],

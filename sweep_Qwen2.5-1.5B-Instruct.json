@@ -1,0 +1,775 @@
+{
+  "grid": [
+    {
+      "domain": "coding",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.04,
+      "alpha_eff": 1.341934928894043,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.08,
+      "alpha_eff": 2.683869857788086,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.12,
+      "alpha_eff": 4.025804786682129,
+      "content": 1.0,
+      "conformance": 0.8,
+      "conf_gain": -0.04999999999999993,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.2,
+      "alpha_eff": 6.7096746444702156,
+      "content": 1.0,
+      "conformance": 0.7,
+      "conf_gain": -0.15000000000000002,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.3,
+      "alpha_eff": 10.064511966705322,
+      "content": 1.0,
+      "conformance": 0.75,
+      "conf_gain": -0.09999999999999998,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.04,
+      "alpha_eff": 1.6412333297729493,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.08,
+      "alpha_eff": 3.2824666595458987,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.12,
+      "alpha_eff": 4.923699989318847,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.2,
+      "alpha_eff": 8.206166648864746,
+      "content": 1.0,
+      "conformance": 0.75,
+      "conf_gain": -0.09999999999999998,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.3,
+      "alpha_eff": 12.309249973297119,
+      "content": 1.0,
+      "conformance": 0.7,
+      "conf_gain": -0.15000000000000002,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.04,
+      "alpha_eff": 2.1218712234497072,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.08,
+      "alpha_eff": 4.2437424468994145,
+      "content": 1.0,
+      "conformance": 0.9,
+      "conf_gain": 0.050000000000000044,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.12,
+      "alpha_eff": 6.365613670349121,
+      "content": 1.0,
+      "conformance": 0.95,
+      "conf_gain": 0.09999999999999998,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.2,
+      "alpha_eff": 10.609356117248536,
+      "content": 1.0,
+      "conformance": 0.95,
+      "conf_gain": 0.09999999999999998,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.3,
+      "alpha_eff": 15.914034175872802,
+      "content": 0.6,
+      "conformance": 1.0,
+      "conf_gain": 0.15000000000000002,
+      "content_delta": -0.4
+    },
+    {
+      "domain": "coding",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.04,
+      "alpha_eff": 2.9027862548828125,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.08,
+      "alpha_eff": 5.805572509765625,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.12,
+      "alpha_eff": 8.708358764648438,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.2,
+      "alpha_eff": 14.513931274414062,
+      "content": 1.0,
+      "conformance": 0.85,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "coding",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.3,
+      "alpha_eff": 21.770896911621094,
+      "content": 0.8,
+      "conformance": 0.85,
+      "conf_gain": 0.0,
+      "content_delta": -0.19999999999999996
+    },
+    {
+      "domain": "math",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.04,
+      "alpha_eff": 1.3178948974609375,
+      "content": 1.0,
+      "conformance": 0.4,
+      "conf_gain": -0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.08,
+      "alpha_eff": 2.635789794921875,
+      "content": 1.0,
+      "conformance": 0.4,
+      "conf_gain": -0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.12,
+      "alpha_eff": 3.9536846923828124,
+      "content": 1.0,
+      "conformance": 0.4,
+      "conf_gain": -0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.2,
+      "alpha_eff": 6.589474487304688,
+      "content": 1.0,
+      "conformance": 0.45,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.3,
+      "alpha_eff": 9.88421173095703,
+      "content": 1.0,
+      "conformance": 0.5,
+      "conf_gain": 0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.04,
+      "alpha_eff": 1.658286590576172,
+      "content": 1.0,
+      "conformance": 0.45,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.08,
+      "alpha_eff": 3.316573181152344,
+      "content": 1.0,
+      "conformance": 0.45,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.12,
+      "alpha_eff": 4.974859771728515,
+      "content": 1.0,
+      "conformance": 0.45,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.2,
+      "alpha_eff": 8.291432952880859,
+      "content": 1.0,
+      "conformance": 0.4,
+      "conf_gain": -0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.3,
+      "alpha_eff": 12.43714942932129,
+      "content": 1.0,
+      "conformance": 0.4,
+      "conf_gain": -0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.04,
+      "alpha_eff": 2.0196496200561525,
+      "content": 1.0,
+      "conformance": 0.4,
+      "conf_gain": -0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.08,
+      "alpha_eff": 4.039299240112305,
+      "content": 1.0,
+      "conformance": 0.5,
+      "conf_gain": 0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.12,
+      "alpha_eff": 6.0589488601684565,
+      "content": 1.0,
+      "conformance": 0.45,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.2,
+      "alpha_eff": 10.098248100280763,
+      "content": 0.8,
+      "conformance": 0.4,
+      "conf_gain": -0.04999999999999999,
+      "content_delta": -0.19999999999999996
+    },
+    {
+      "domain": "math",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.3,
+      "alpha_eff": 15.147372150421141,
+      "content": 0.8,
+      "conformance": 0.6,
+      "conf_gain": 0.14999999999999997,
+      "content_delta": -0.19999999999999996
+    },
+    {
+      "domain": "math",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.04,
+      "alpha_eff": 2.8849024200439453,
+      "content": 1.0,
+      "conformance": 0.5,
+      "conf_gain": 0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.08,
+      "alpha_eff": 5.7698048400878905,
+      "content": 1.0,
+      "conformance": 0.5,
+      "conf_gain": 0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.12,
+      "alpha_eff": 8.654707260131836,
+      "content": 1.0,
+      "conformance": 0.5,
+      "conf_gain": 0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.2,
+      "alpha_eff": 14.424512100219728,
+      "content": 1.0,
+      "conformance": 0.5,
+      "conf_gain": 0.04999999999999999,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "math",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.3,
+      "alpha_eff": 21.63676815032959,
+      "content": 1.0,
+      "conformance": 0.45,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.04,
+      "alpha_eff": 1.3422645950317382,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.08,
+      "alpha_eff": 2.6845291900634765,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.12,
+      "alpha_eff": 4.026793785095215,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.2,
+      "alpha_eff": 6.711322975158692,
+      "content": 0.9333333333333333,
+      "conformance": 0.4,
+      "conf_gain": 0.06666666666666671,
+      "content_delta": -0.06666666666666665
+    },
+    {
+      "domain": "writing",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.3,
+      "alpha_eff": 10.066984462738036,
+      "content": 0.9333333333333333,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": -0.06666666666666665
+    },
+    {
+      "domain": "writing",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.04,
+      "alpha_eff": 1.7964617538452148,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.08,
+      "alpha_eff": 3.5929235076904296,
+      "content": 1.0,
+      "conformance": 0.4,
+      "conf_gain": 0.06666666666666671,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.12,
+      "alpha_eff": 5.389385261535645,
+      "content": 1.0,
+      "conformance": 0.13333333333333333,
+      "conf_gain": -0.19999999999999998,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.2,
+      "alpha_eff": 8.982308769226075,
+      "content": 0.8666666666666666,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": -0.13333333333333341
+    },
+    {
+      "domain": "writing",
+      "layer": 12,
+      "frac": 0.43,
+      "alpha": 0.3,
+      "alpha_eff": 13.473463153839111,
+      "content": 0.8666666666666666,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": -0.13333333333333341
+    },
+    {
+      "domain": "writing",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.04,
+      "alpha_eff": 2.128596572875977,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.08,
+      "alpha_eff": 4.257193145751954,
+      "content": 0.9333333333333333,
+      "conformance": 0.4,
+      "conf_gain": 0.06666666666666671,
+      "content_delta": -0.06666666666666665
+    },
+    {
+      "domain": "writing",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.12,
+      "alpha_eff": 6.3857897186279295,
+      "content": 0.9333333333333333,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": -0.06666666666666665
+    },
+    {
+      "domain": "writing",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.2,
+      "alpha_eff": 10.642982864379883,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.3,
+      "alpha_eff": 15.964474296569824,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.04,
+      "alpha_eff": 2.812046585083008,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.08,
+      "alpha_eff": 5.624093170166016,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.12,
+      "alpha_eff": 8.436139755249023,
+      "content": 1.0,
+      "conformance": 0.26666666666666666,
+      "conf_gain": -0.06666666666666665,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.2,
+      "alpha_eff": 14.06023292541504,
+      "content": 1.0,
+      "conformance": 0.3333333333333333,
+      "conf_gain": 0.0,
+      "content_delta": 0.0
+    },
+    {
+      "domain": "writing",
+      "layer": 20,
+      "frac": 0.7,
+      "alpha": 0.3,
+      "alpha_eff": 21.090349388122558,
+      "content": 0.9333333333333333,
+      "conformance": 0.4,
+      "conf_gain": 0.06666666666666671,
+      "content_delta": -0.06666666666666665
+    }
+  ],
+  "selections": {
+    "coding": {
+      "domain": "coding",
+      "layer": 16,
+      "frac": 0.57,
+      "alpha": 0.12,
+      "alpha_eff": 6.365613670349121,
+      "content": 1.0,
+      "conformance": 0.95,
+      "conf_gain": 0.09999999999999998,
+      "content_delta": 0.0
+    },
+    "math": {
+      "domain": "math",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.3,
+      "alpha_eff": 9.88421173095703,
+      "content": 1.0,
+      "conformance": 0.5,
+      "conf_gain": 0.04999999999999999,
+      "content_delta": 0.0
+    },
+    "writing": {
+      "domain": "writing",
+      "layer": 8,
+      "frac": 0.3,
+      "alpha": 0.2,
+      "alpha_eff": 6.711322975158692,
+      "content": 0.9333333333333333,
+      "conformance": 0.4,
+      "conf_gain": 0.06666666666666671,
+      "content_delta": -0.06666666666666665
+    }
+  },
+  "config": {
+    "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+    "dtype": "float16",
+    "device": "cuda",
+    "load_in_4bit": false,
+    "inject_layers": [
+      12
+    ],
+    "inject_layer_fracs": [
+      0.43
+    ],
+    "alpha_relative": true,
+    "alpha": 0.1,
+    "extract_layer": 12,
+    "extract_layer_frac": 0.43,
+    "extract_regime": "compressed",
+    "compress_ratio": 0.25,
+    "domains": [
+      "coding",
+      "math",
+      "writing"
+    ],
+    "eval_split": "test",
+    "seeds": [
+      0
+    ],
+    "eval_temperature": 0.0,
+    "sweep_alphas": [
+      0.04,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "sweep_layer_fracs": [
+      0.3,
+      0.43,
+      0.57,
+      0.7
+    ],
+    "sweep_layers": [
+      8,
+      12,
+      16,
+      20
+    ],
+    "content_tolerance": 0.1,
+    "capability_gate": 0.8,
+    "model_ladder": [
+      {
+        "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+        "load_in_4bit": false
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-3B-Instruct",
+        "load_in_4bit": false
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-7B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-14B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-32B-Instruct",
+        "load_in_4bit": true
+      }
+    ],
+    "max_new_tokens": 512,
+    "temperature": 0.0,
+    "seed": 0,
+    "bank_path": "primer_bank",
+    "results_path": "results.json"
+  }
+}

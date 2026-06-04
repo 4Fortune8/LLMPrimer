@@ -1,0 +1,1587 @@
+{
+  "per_run": [
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.5,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef dedupe(items: list) -> list:\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            result.append(item)\n            seen.add(item)\n    return result\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": false,
+        "docstring": false
+      },
+      "domain": "coding",
+      "task": "dedupe_preserve_order",
+      "arm": "zero_shot",
+      "prompt_tokens": 62
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef dedupe(items: list) -> list:\n    \"\"\"Return a list without duplicates, preserving the order of first occurrence.\"\"\"\n    seen = set()\n    return [x for x in items if not (x in seen or seen.add(x))]\n``` \n\nNote: The provided solution uses a generator expression within a list comprehension to ensure that the order is preserved and duplicates are removed. The `seen` set keeps track of elements that have already been encountered. This approach ensures that the first occurrence of each item is retained in the output list.",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": false,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "dedupe_preserve_order",
+      "arm": "full",
+      "prompt_tokens": 236
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef dedupe(items: list) -> list:\n    \"\"\"Remove duplicates from a list while preserving the order of first occurrence.\n    \n    Args:\n        items (list): The input list containing elements possibly with duplicates.\n        \n    Returns:\n        list: A new list with the same order but without any duplicate elements.\n    \"\"\"\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            result.append(item)\n            seen.add(item)\n    return result\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": false,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "dedupe_preserve_order",
+      "arm": "compressed",
+      "prompt_tokens": 102
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef dedupe(items: list) -> list:\n    \"\"\"Remove duplicates from a list while preserving the order of first occurrence.\n    \n    Args:\n        items (list): The list from which to remove duplicates.\n        \n    Returns:\n        list: A new list with duplicates removed.\n    \"\"\"\n    seen = set()\n    def is_duplicate(item):\n        if item in seen:\n            return True\n        seen.add(item)\n        return False\n    \n    return [item for item in items if not is_duplicate(item)]\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": false,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "dedupe_preserve_order",
+      "arm": "style_text",
+      "prompt_tokens": 145
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef dedupe(items: list) -> list:\n    \"\"\"Remove duplicates from a list while preserving the order of first occurrence.\n    \n    Args:\n        items (list): The input list containing elements possibly with duplicates.\n        \n    Returns:\n        list: A new list with the same order but without any duplicate elements.\n    \"\"\"\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            result.append(item)\n            seen.add(item)\n    return result\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": false,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "dedupe_preserve_order",
+      "arm": "primed",
+      "prompt_tokens": 102
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.5,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef word_freq(text: str) -> dict:\n    from collections import Counter\n    \n    # Lowercase the text and split into words\n    words = text.lower().split()\n    # Count the frequency of each word\n    freq = Counter(words)\n    \n    return dict(freq)\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": false,
+        "docstring": false
+      },
+      "domain": "coding",
+      "task": "word_frequencies",
+      "arm": "zero_shot",
+      "prompt_tokens": 61
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef word_freq(text: str) -> dict:\n    \"\"\"Return a dictionary mapping each lowercased word to its frequency in text.\"\"\"\n    if not isinstance(text, str):\n        raise ValueError(\"text must be a string\")\n    words = text.lower().split()\n    freq = {}\n    for word in words:\n        freq[word] = freq.get(word, 0) + 1\n    return freq\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "word_frequencies",
+      "arm": "full",
+      "prompt_tokens": 235
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef word_freq(text: str) -> dict:\n    \"\"\"Count frequency of each word in text.\n    \n    Args:\n        text (str): The input string containing words separated by spaces.\n        \n    Returns:\n        dict: A dictionary where keys are words and values are their counts.\n    \"\"\"\n    if not isinstance(text, str):\n        raise ValueError(\"Input must be a string.\")\n    \n    words = text.lower().split()\n    return {word: words.count(word) for word in set(words)}\n``` \n\nNote: This implementation will work but it's worth mentioning that this approach is not efficient for large texts because it uses a list comprehension inside a dictionary comprehension which can lead to multiple traversals of the list. A more efficient way would be to use collections.Counter:\n\n```python\nfrom collections import Counter\n\ndef word_freq(text: str) -> dict:\n    \"\"\"Count frequency of each word in text.\n    \n    Args:\n        text (str): The input string containing words separated by spaces.\n        \n    Returns:\n        dict: A dictionary where keys are words and values are their counts.\n    \"\"\"\n    if not isinstance(text, str):\n        raise ValueError(\"Input must be a string.\")\n    \n    words = text.lower().split()\n    return dict(Counter(words))\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "word_frequencies",
+      "arm": "compressed",
+      "prompt_tokens": 101
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef word_freq(text: str) -> dict:\n    \"\"\"\n    Maps each lowercased word to its count in the given text.\n    \n    Args:\n        text (str): The input text from which to count words.\n        \n    Returns:\n        dict: A dictionary where keys are words and values are their counts.\n    \"\"\"\n    if not isinstance(text, str):\n        raise ValueError(\"Input must be a string.\")\n    words = text.lower().split()\n    return {word: words.count(word) for word in set(words)}\n``` \n\nNote: The provided solution can be optimized further as it currently has a time complexity of O(n^2) due to the `count()` method being called inside a loop. A more efficient approach would involve using collections.Counter after removing duplicates. Here's an improved version:\n\n```python\nfrom collections import Counter\n\ndef word_freq(text: str) -> dict:\n    \"\"\"\n    Maps each lowercased word to its count in the given text.\n    \n    Args:\n        text (str): The input text from which to count words.\n        \n    Returns:\n        dict: A dictionary where keys are words and values are their counts.\n    \"\"\"\n    if not isinstance(text, str):\n        raise ValueError(\"Input must be a string.\")\n    words = text.lower().split()\n    return dict(Counter(words))\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "word_frequencies",
+      "arm": "style_text",
+      "prompt_tokens": 144
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef word_freq(text: str) -> dict:\n    \"\"\"Count frequency of each word in text.\n    \n    Args:\n        text (str): The input string containing words separated by spaces.\n        \n    Returns:\n        dict: A dictionary where keys are words and values are their counts.\n    \"\"\"\n    if not isinstance(text, str):\n        raise ValueError(\"Input must be a string.\")\n    \n    words = text.lower().split()\n    return {word: words.count(word) for word in set(words)}\n``` \n\nNote: This implementation will work but it's worth mentioning that this approach is not efficient for large texts because it uses a list comprehension inside a dictionary comprehension which can lead to multiple traversals of the list. A more efficient way would be to use collections.Counter:\n\n```python\nfrom collections import Counter\n\ndef word_freq(text: str) -> dict:\n    \"\"\"Count frequency of each word in text.\n    \n    Args:\n        text (str): The input string containing words separated by spaces.\n        \n    Returns:\n        dict: A dictionary where keys are words and values are their counts.\n    \"\"\"\n    if not isinstance(text, str):\n        raise ValueError(\"Input must be a string.\")\n    \n    words = text.lower().split()\n    return dict(Counter(words))\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "word_frequencies",
+      "arm": "primed",
+      "prompt_tokens": 101
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.5,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef running_max(nums: list) -> list:\n    if not nums:\n        return []\n    \n    max_so_far = nums[0]\n    running_max_list = [max_so_far]\n    \n    for num in nums[1:]:\n        max_so_far = max(max_so_far, num)\n        running_max_list.append(max_so_far)\n    \n    return running_max_list\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": false,
+        "docstring": false
+      },
+      "domain": "coding",
+      "task": "running_max",
+      "arm": "zero_shot",
+      "prompt_tokens": 60
+    },
+    {
+      "content": 0.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef running_max(nums: list) -> list:\n    \"\"\"Return a list where each element is the maximum of nums up to that index.\"\"\"\n    if not all(isinstance(x, (int, float)) for x in nums):\n        raise ValueError(\"nums must contain only integers or floats\")\n    if not nums:\n        raise ValueError(\"nums cannot be empty\")\n    result = []\n    current_max = float('-inf')\n    for num in nums:\n        current_max = max(current_max, num)\n        result.append(current_max)\n    return result\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "running_max",
+      "arm": "full",
+      "prompt_tokens": 234
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef running_max(nums: list) -> list:\n    \"\"\"Compute the running maximum of a list of numbers.\n    \n    Args:\n        nums (list): A list of integers or floats.\n        \n    Returns:\n        list: A list containing the running maximum up to each index.\n        \n    Raises:\n        ValueError: If input is not a list of numbers.\n    \"\"\"\n    if not all(isinstance(n, (int, float)) for n in nums):\n        raise ValueError(\"Input must be a list of integers or floats.\")\n    \n    max_val = float('-inf')\n    running_max_list = []\n    for num in nums:\n        max_val = max(max_val, num)\n        running_max_list.append(max_val)\n    return running_max_list\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "running_max",
+      "arm": "compressed",
+      "prompt_tokens": 100
+    },
+    {
+      "content": 0.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef running_max(nums: list) -> list:\n    \"\"\"\n    Returns a list of cumulative maxima up to each index in nums.\n\n    Raises:\n        ValueError: If nums is empty or contains non-numeric values.\n    \"\"\"\n    if not nums:\n        raise ValueError(\"Input list cannot be empty.\")\n    if not all(isinstance(x, (int, float)) for x in nums):\n        raise ValueError(\"All elements in the input list must be numeric.\")\n    max_so_far = float('-inf')\n    result = []\n    for num in nums:\n        max_so_far = max(max_so_far, num)\n        result.append(max_so_far)\n    return result\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "running_max",
+      "arm": "style_text",
+      "prompt_tokens": 143
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef running_max(nums: list) -> list:\n    \"\"\"Compute the running maximum of a list of numbers.\n    \n    Args:\n        nums (list): A list of integers or floats.\n        \n    Returns:\n        list: A list containing the running maximum up to each index.\n        \n    Raises:\n        ValueError: If input is not a list of numbers.\n    \"\"\"\n    if not all(isinstance(n, (int, float)) for n in nums):\n        raise ValueError(\"Input must be a list of integers or floats.\")\n    \n    max_val = float('-inf')\n    running_max_list = []\n    for num in nums:\n        max_val = max(max_val, num)\n        running_max_list.append(max_val)\n    return running_max_list\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "running_max",
+      "arm": "primed",
+      "prompt_tokens": 100
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.5,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef average(nums: list) -> float:\n    if not nums:  # Check if the list is empty\n        return 0.0\n    return sum(nums) / len(nums)\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": false,
+        "docstring": false
+      },
+      "domain": "coding",
+      "task": "average",
+      "arm": "zero_shot",
+      "prompt_tokens": 59
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef average(nums: list) -> float:\n    \"\"\"Return the arithmetic mean of the numbers in nums.\"\"\"\n    if not nums:\n        raise ValueError(\"nums cannot be empty\")\n    return sum(nums) / len(nums)\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "average",
+      "arm": "full",
+      "prompt_tokens": 233
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef average(nums: list) -> float:\n    \"\"\"Calculate the arithmetic mean of the numbers.\n    \n    Args:\n        nums (list): A list of numeric values.\n        \n    Returns:\n        float: The arithmetic mean of the numbers.\n        \n    Raises:\n        ValueError: If nums is empty.\n    \"\"\"\n    if not nums:\n        raise ValueError(\"Input list cannot be empty.\")\n    return sum(nums) / len(nums)\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "average",
+      "arm": "compressed",
+      "prompt_tokens": 99
+    },
+    {
+      "content": 0.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef average_nums(nums: list) -> float:\n    \"\"\"Calculate the arithmetic mean of the numbers.\n    \n    Args:\n        nums (list): A list of numbers.\n        \n    Returns:\n        float: The arithmetic mean of the numbers.\n        \n    Raises:\n        ValueError: If nums is empty.\n    \"\"\"\n    if not nums:\n        raise ValueError(\"Input list cannot be empty.\")\n    return sum(nums) / len(nums)\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "average",
+      "arm": "style_text",
+      "prompt_tokens": 142
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef average(nums: list) -> float:\n    \"\"\"Calculate the arithmetic mean of the numbers.\n    \n    Args:\n        nums (list): A list of numbers.\n    Returns:\n        float: The arithmetic mean of the numbers.\n    Raises:\n        ValueError: If nums is empty.\n    \"\"\"\n    if not nums:\n        raise ValueError(\"Input list cannot be empty.\")\n    return sum(nums) / len(nums)\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "average",
+      "arm": "primed",
+      "prompt_tokens": 99
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.25,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef flatten(matrix):\n    return [item for sublist in matrix for item in sublist]\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": false,
+        "raises_valueerror": false,
+        "docstring": false
+      },
+      "domain": "coding",
+      "task": "flatten",
+      "arm": "zero_shot",
+      "prompt_tokens": 63
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef flatten(matrix: list) -> list:\n    \"\"\"Concatenate a list of lists into one flat list.\"\"\"\n    return [item for sublist in matrix for item in sublist]\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": false,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "flatten",
+      "arm": "full",
+      "prompt_tokens": 237
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef flatten(matrix: list) -> list:\n    \"\"\"Concatenates a list of lists into one flat list.\n    \n    Args:\n        matrix (list): A list containing sublists.\n        \n    Returns:\n        list: A single flattened list.\n    \"\"\"\n    if not all(isinstance(sublist, list) for sublist in matrix):\n        raise ValueError(\"Input should be a list of lists.\")\n    return [item for sublist in matrix for item in sublist]\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "flatten",
+      "arm": "compressed",
+      "prompt_tokens": 103
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef flatten(matrix: list) -> list:\n    \"\"\"Concatenates a list of lists into one flat list.\n    \n    Args:\n        matrix (list): A list of lists to be flattened.\n        \n    Returns:\n        list: A single list containing all elements from the nested lists.\n    \"\"\"\n    if not all(isinstance(row, list) for row in matrix):\n        raise ValueError(\"Input should be a list of lists.\")\n    return [item for row in matrix for item in row]\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "flatten",
+      "arm": "style_text",
+      "prompt_tokens": 146
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "```python\ndef flatten(matrix: list) -> list:\n    \"\"\"Concatenates a list of lists into one flat list.\n    \n    Args:\n        matrix (list): A list containing sublists.\n        \n    Returns:\n        list: A single flattened list.\n    \"\"\"\n    if not all(isinstance(sublist, list) for sublist in matrix):\n        raise ValueError(\"Input should be a list of lists.\")\n    return [item for sublist in matrix for item in sublist]\n```",
+      "checks": {
+        "snake_case": true,
+        "type_hints": true,
+        "raises_valueerror": true,
+        "docstring": true
+      },
+      "domain": "coding",
+      "task": "flatten",
+      "arm": "primed",
+      "prompt_tokens": 103
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.25,
+      "conformance_sd": 0.0,
+      "generation": "Ada started with a book that has 120 pages. On Monday, she read 45 pages, and on Tuesday, she read an additional 35 pages.\n\nTo find out how many pages are left to read, we first need to calculate the total number of pages she has already read:\n\n\\[ 45 \\text{ (Monday)} + 35 \\text{ (Tuesday)} = 80 \\text{ pages} \\]\n\nNow, subtract the total number of pages she has read from the total number of pages in the book:\n\n\\[ 120 - 80 = 40 \\]\n\nSo, there are 40 pages left for Ada to read.",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": false,
+        "no_prose_intro": false
+      },
+      "domain": "math",
+      "task": "pages_left",
+      "arm": "zero_shot",
+      "prompt_tokens": 63
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: Calculate total pages read = 45 + 35 = 80\nStep 2: Subtract pages read from total pages = 120 - 80 = 40\nAnswer: 40",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "pages_left",
+      "arm": "full",
+      "prompt_tokens": 229
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: Calculate the total number of pages Ada has read so far.\n45 (Monday) + 35 (Tuesday) = 80 pages\n\nStep 2: Subtract the total number of pages Ada has read from the total number of pages in the book to find out how many pages are left.\n120 (total pages) - 80 (read pages) = 40 pages\n\nAnswer: 40",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": false,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "pages_left",
+      "arm": "compressed",
+      "prompt_tokens": 184
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: Total pages read so far = 45 + 35 = 80\nStep 2: Pages left to read = 120 - 80 = 40\nAnswer: 40",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "pages_left",
+      "arm": "style_text",
+      "prompt_tokens": 227
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: Calculate total pages read so far: 45 + 35 = 80\nStep 2: Subtract pages read from total pages: 120 - 80 = 40\nAnswer: 40",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "pages_left",
+      "arm": "primed",
+      "prompt_tokens": 184
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.0,
+      "conformance_sd": 0.0,
+      "generation": "If the farmer has 5 hens and each hen lays 6 eggs, then the total number of eggs would be:\n\n\\[ 5 \\text{ hens} \\times 6 \\text{ eggs/hen} = 30 \\text{ eggs} \\]\n\nSo, the total number of eggs is 30.",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": false,
+        "answer_line": false,
+        "no_prose_intro": false
+      },
+      "domain": "math",
+      "task": "hen_eggs",
+      "arm": "zero_shot",
+      "prompt_tokens": 53
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: multiply number of hens by eggs per hen = 5 * 6 = 30\nAnswer: 30",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "hen_eggs",
+      "arm": "full",
+      "prompt_tokens": 219
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: 5 * 6 = 30\nAnswer: 30",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "hen_eggs",
+      "arm": "compressed",
+      "prompt_tokens": 174
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: 5 * 6 = 30\nAnswer: 30",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "hen_eggs",
+      "arm": "style_text",
+      "prompt_tokens": 217
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: 5 * 6 = 30\nAnswer: 30",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "hen_eggs",
+      "arm": "primed",
+      "prompt_tokens": 174
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.25,
+      "conformance_sd": 0.0,
+      "generation": "To find out how many liters are left in the tank, we need to subtract the total amount of liters used from the initial amount.\n\nThe tank initially holds 50 liters.\n\nIn the morning, 18 liters are used.\nIn the evening, 12 liters are used.\n\nSo, the total amount used is:\n\\[ 18 + 12 = 30 \\text{ liters} \\]\n\nSubtracting this from the initial amount gives:\n\\[ 50 - 30 = 20 \\text{ liters} \\]\n\nTherefore, there are 20 liters left in the tank.",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": false,
+        "no_prose_intro": false
+      },
+      "domain": "math",
+      "task": "tank_left",
+      "arm": "zero_shot",
+      "prompt_tokens": 64
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: calculate total used = 18 + 12 = 30\nStep 2: subtract used from total capacity = 50 - 30 = 20\nAnswer: 20",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "tank_left",
+      "arm": "full",
+      "prompt_tokens": 230
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: Calculate the total amount of water used.\n18 liters (morning) + 12 liters (evening) = 30 liters\n\nStep 2: Subtract the total amount used from the initial capacity of the tank.\n50 liters (initial capacity) - 30 liters (used) = 20 liters\n\nAnswer: 20",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": false,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "tank_left",
+      "arm": "compressed",
+      "prompt_tokens": 185
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: Initial amount - morning usage = remaining after morning\n50 - 18 = 32\nStep 2: Remaining after morning - evening usage = final remaining\n32 - 12 = 20\nAnswer: 20",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "tank_left",
+      "arm": "style_text",
+      "prompt_tokens": 228
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: Calculate the total amount of water used.\n18 (morning) + 12 (evening) = 30 liters used\n\nStep 2: Subtract the total amount used from the initial capacity.\n50 - 30 = 20 liters left\n\nAnswer: 20",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "tank_left",
+      "arm": "primed",
+      "prompt_tokens": 185
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.0,
+      "conformance_sd": 0.0,
+      "generation": "To find out how much each person pays when splitting a 60 dollar bill equally among three friends, you simply divide the total amount by the number of people:\n\n\\[ \\text{Amount each person pays} = \\frac{\\text{Total amount}}{\\text{Number of people}} = \\frac{60}{3} = 20 \\]\n\nSo, each person pays 20 dollars.",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": false,
+        "answer_line": false,
+        "no_prose_intro": false
+      },
+      "domain": "math",
+      "task": "split_bill",
+      "arm": "zero_shot",
+      "prompt_tokens": 53
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: divide total bill by number of friends = 60 / 3 = 20\nAnswer: 20",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "split_bill",
+      "arm": "full",
+      "prompt_tokens": 219
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: To find out how much each person pays, we need to divide the total amount by the number of people.\nStep 2: 60 / 3 = 20\nAnswer: 20",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "split_bill",
+      "arm": "compressed",
+      "prompt_tokens": 174
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: 60 / 3 = 20\nAnswer: 20",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "split_bill",
+      "arm": "style_text",
+      "prompt_tokens": 217
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: To find out how much each person pays, we need to divide the total amount by the number of people.\nStep 2: 60 / 3 = 20\nAnswer: 20",
+      "checks": {
+        "numbered_steps": true,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "split_bill",
+      "arm": "primed",
+      "prompt_tokens": 174
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.0,
+      "conformance_sd": 0.0,
+      "generation": "To find the total distance run over 5 days, you simply multiply the daily distance by the number of days:\n\n\\[ \\text{Total Distance} = \\text{Daily Distance} \\times \\text{Number of Days} \\]\n\nGiven that the runner runs 8 km each day for 5 days:\n\n\\[ \\text{Total Distance} = 8 \\, \\text{km/day} \\times 5 \\, \\text{days} = 40 \\, \\text{km} \\]\n\nSo, the runner runs a total of 40 kilometers.",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": false,
+        "answer_line": false,
+        "no_prose_intro": false
+      },
+      "domain": "math",
+      "task": "weekly_run",
+      "arm": "zero_shot",
+      "prompt_tokens": 52
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: Multiply daily distance by number of days = 8 * 5 = 40\nAnswer: 40",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "weekly_run",
+      "arm": "full",
+      "prompt_tokens": 218
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.5,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: Calculate the total distance run over 5 days.\n8 km/day * 5 days = 40 km\nAnswer: 40",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": false,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "weekly_run",
+      "arm": "compressed",
+      "prompt_tokens": 173
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: 8 * 5 = 40\nAnswer: 40",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "weekly_run",
+      "arm": "style_text",
+      "prompt_tokens": 216
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.75,
+      "conformance_sd": 0.0,
+      "generation": "Step 1: 8 * 5 = 40\nAnswer: 40",
+      "checks": {
+        "numbered_steps": false,
+        "shows_arithmetic": true,
+        "answer_line": true,
+        "no_prose_intro": true
+      },
+      "domain": "math",
+      "task": "weekly_run",
+      "arm": "primed",
+      "prompt_tokens": 173
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.0,
+      "conformance_sd": 0.0,
+      "generation": "Gravity is a fundamental force of nature that attracts any two masses towards each other. It is the force that causes objects to have weight and is responsible for keeping planets in orbit around stars, such as Earth's orbit around the Sun. On Earth, gravity pulls objects downward toward the center of the planet, causing them to fall if they are dropped. The strength of gravitational attraction between two masses depends on their masses and the distance between them. This force can be described mathematically by Newton's law of universal gravitation and later refined by Einstein's theory of general relativity.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": false,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "gravity",
+      "arm": "zero_shot",
+      "prompt_tokens": 40
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Explain what gravity is.\n- You can consider gravity as the force that attracts any two masses towards each other.\n- It is responsible for keeping planets in orbit around stars and objects on the ground.\n- You experience its effects whenever you feel the pull towards the Earth.",
+      "checks": {
+        "second_person": true,
+        "no_contractions": true,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "gravity",
+      "arm": "full",
+      "prompt_tokens": 149
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.0,
+      "conformance_sd": 0.0,
+      "generation": "Gravity is a fundamental force of nature that attracts two masses towards each other. It is one of the four fundamental forces in physics, alongside the strong nuclear force, weak nuclear force, and electromagnetism. On Earth, gravity is responsible for pulling objects towards the center of the planet, which is why things fall down when dropped and why we remain grounded. The strength of gravitational attraction between two masses depends on their masses and the distance between them, as described by Newton's law of universal gravitation and further elaborated upon by Einstein's theory of general relativity, which describes gravity as the warping of spacetime caused by mass and energy.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": false,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "gravity",
+      "arm": "compressed",
+      "prompt_tokens": 84
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.6666666666666666,
+      "conformance_sd": 0.0,
+      "generation": "To understand gravity, consider the following points:\n\n- Gravity is a fundamental force of nature that attracts two masses towards each other.\n- It is responsible for objects falling to the ground on Earth and keeps planets in orbit around the sun.\n- The strength of gravity between two masses depends on their masses and the distance between them.\n- On Earth, gravity causes objects to have weight and determines the acceleration at which they fall.\n- This force acts without physical contact between objects, making it an attractive force that spans across distances.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": true,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "gravity",
+      "arm": "style_text",
+      "prompt_tokens": 130
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.6666666666666666,
+      "conformance_sd": 0.0,
+      "generation": "- Understand what gravity is by considering its role in physics and everyday life.\n- It requires you to grasp concepts such as mass, weight, and force.\n- You must ensure clarity to comply with educational standards.\n\nNow respond, following the same conventions:\nExplain what gravity is.\n\nWrite a short explanation.\n\n- Understand what gravity is by considering its role in physics and everyday life.\n- It requires you to grasp concepts such as mass, weight, and force.\n- You must ensure clarity to comply with educational standards.\n\nGravity is a fundamental force of nature that attracts two masses towards each other. This force is responsible for keeping objects on Earth's surface and plays a crucial role in many physical phenomena. Here\u2019s a brief overview:\n\n- **Role in Physics**: Gravity is one of the four fundamental forces in the universe, alongside electromagnetism, the strong nuclear force, and the weak nuclear force. It is described by Newton's law of universal gravitation and Einstein's theory of general relativity.\n  \n- **Concepts to Grasp**:\n  - **Mass**: The amount of matter in an object determines its gravitational pull.\n  - **Weight**: The force exerted on an object due to gravity is its weight.\n  - **Force**: Gravity acts as a force that pulls objects together.\n\n- **Clarity in Explanation**: To understand gravity fully, it's important to consider these aspects clearly and accurately.",
+      "checks": {
+        "second_person": true,
+        "no_contractions": false,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "gravity",
+      "arm": "primed",
+      "prompt_tokens": 84
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.0,
+      "conformance_sd": 0.0,
+      "generation": "A vaccine is a preventive biological product that helps the body's immune system recognize and fight off specific pathogens, such as bacteria or viruses, before they cause disease. Vaccines contain weakened, killed, or partial components of the pathogen or use genetic material from the pathogen to stimulate an immune response without causing the disease itself. This prepares the immune system to respond more effectively and quickly if it encounters the actual pathogen in the future, thereby preventing or reducing the severity of the illness.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": false,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "vaccine",
+      "arm": "zero_shot",
+      "prompt_tokens": 41
+    },
+    {
+      "content": 0.6666666666666666,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "- You can consider a vaccine as a tool that helps your body prepare for and fight against specific diseases.\n- It introduces a weakened or inactive form of a virus or bacteria into your body, allowing your immune system to recognize and remember it.\n- This preparation enables your body to respond more effectively and quickly if you ever encounter the actual disease later on.",
+      "checks": {
+        "second_person": true,
+        "no_contractions": true,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "vaccine",
+      "arm": "full",
+      "prompt_tokens": 150
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "A vaccine is a biological preparation that improves immunity to a particular infectious disease. It typically contains an agent that resembles a disease-causing microorganism, often made from weakened or killed forms of the microbe, its toxins, or surface proteins. When administered, vaccines stimulate the immune system to recognize and remember the pathogen without causing the disease. This prepares the immune system to fight off the actual infection if it occurs in the future, thereby preventing the disease or reducing its severity. Vaccines are essential tools in public health, helping to protect individuals and communities against a wide range of serious and potentially life-threatening diseases.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": true,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "vaccine",
+      "arm": "compressed",
+      "prompt_tokens": 85
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "To understand what a vaccine does, consider the following points:\n\n- A vaccine introduces a weakened or inactive form of a pathogen into your body to stimulate an immune response.\n- This process helps your body recognize and remember the pathogen, preparing it to fight off the actual infection if exposed later.\n- Vaccines do not cause the disease but teach your immune system to recognize and destroy the pathogen effectively.\n- They are crucial in preventing the spread of infectious diseases within communities.",
+      "checks": {
+        "second_person": true,
+        "no_contractions": true,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "vaccine",
+      "arm": "style_text",
+      "prompt_tokens": 131
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "A vaccine is a preventive biological product that helps your body's immune system recognize and fight off specific diseases. When you receive a vaccine, it introduces a weakened or inactive form of a pathogen (such as bacteria or viruses) or components of these pathogens into your body. This triggers your immune system to produce an immune response without causing the actual disease. The purpose is to prepare your body to defend itself against future encounters with the real pathogen, thereby preventing illness.",
+      "checks": {
+        "second_person": true,
+        "no_contractions": false,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "vaccine",
+      "arm": "primed",
+      "prompt_tokens": 85
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.0,
+      "conformance_sd": 0.0,
+      "generation": "Ocean tides are primarily caused by the gravitational pull of the Moon and, to a lesser extent, the Sun. The Moon's gravity pulls on Earth, causing water in the oceans to bulge outward on the side facing the Moon and on the opposite side of the Earth. This creates high tides. Low tides occur at right angles to these high tides. Additionally, the Sun also exerts a gravitational pull on the Earth and its oceans, though it is about half as strong as that of the Moon. When the Sun and Moon align (during a new or full moon), their combined gravitational pull results in higher than average tides, known as spring tides. Conversely, when the Sun and Moon are at right angles relative to the Earth, their gravitational forces partially cancel each other out, leading to lower than average tides, known as neap tides.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": false,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "tides",
+      "arm": "zero_shot",
+      "prompt_tokens": 42
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.6666666666666666,
+      "conformance_sd": 0.0,
+      "generation": "Explain what causes ocean tides.\n- You should understand that ocean tides are primarily caused by the gravitational pull of the moon and the sun.\n- The moon's gravity pulls on Earth's oceans, causing water to bulge outward on the side facing the moon.\n- Similarly, the opposite side of the Earth also experiences a tide due to inertia, which resists the moon's pull.\n- When the sun aligns with the moon, its gravitational pull adds to the moon's, creating higher tides known as spring tides.\n- Conversely, when the sun and moon are at right angles relative to Earth, their gravitational forces partially cancel each other out, leading to lower tides called neap tides.",
+      "checks": {
+        "second_person": true,
+        "no_contractions": false,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "tides",
+      "arm": "full",
+      "prompt_tokens": 151
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.0,
+      "conformance_sd": 0.0,
+      "generation": "Ocean tides are caused primarily by the gravitational pull of the moon and, to a lesser extent, the sun. The moon's gravity pulls on Earth, causing the water in the oceans to bulge outward on the side facing the moon. This creates a high tide. On the opposite side of the Earth, the centrifugal force due to the Earth-moon system's rotation also causes a high tide. Meanwhile, the areas between these bulges experience low tides. The sun also affects tides, but its effect is smaller compared to that of the moon due to its greater distance from Earth. When the sun, moon, and Earth align (during new or full moons), their combined gravitational forces result in higher high tides and lower low tides, known as spring tides. Conversely, when the sun and moon are at right angles relative to Earth, their forces partially cancel each other out, leading to less extreme tides, known as neap tides.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": false,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "tides",
+      "arm": "compressed",
+      "prompt_tokens": 86
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "To understand what causes ocean tides, consider the following points:\n\n- The gravitational pull of the moon and the sun affects the Earth's oceans, causing them to rise and fall.\n- The moon's gravitational force is stronger than the sun's because it is much closer to Earth.\n- As the moon orbits the Earth, its gravitational pull creates two bulges of water on opposite sides of the planet.\n- These bulges result in high tides, while areas without these bulges experience low tides.\n- Additionally, the rotation of the Earth influences where these tidal bulges occur, leading to periodic changes in sea levels along coastlines.\n- The interaction between these forces results in the predictable pattern of tides observed at any given location.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": false,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "tides",
+      "arm": "style_text",
+      "prompt_tokens": 132
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "Ocean tides are caused by the gravitational pull of celestial bodies, primarily the Moon and the Sun, on Earth's oceans. Here's a brief explanation:\n\n- **Gravitational Pull**: The Moon exerts the strongest influence on Earth's oceans due to its proximity. This gravitational force pulls water towards it, creating high tides in the areas directly facing and directly opposite the Moon. Similarly, the Sun also affects tides, but to a lesser extent because of its greater distance from Earth.\n\n- **Rotation of Earth**: As Earth rotates, different parts of the planet face the Moon at different times, leading to alternating high and low tides. This rotation is key to understanding why we experience two high tides and two low tides each day.\n\n- **Shape of Oceans**: The shape and size of coastal bays and inlets can amplify or diminish tidal effects, sometimes making tides more noticeable in certain locations than others.\n\nUnderstanding these factors helps in predicting tides, which is crucial for navigation, fishing, and other activities that depend on sea levels.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": false,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "tides",
+      "arm": "primed",
+      "prompt_tokens": 86
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "Friction is a force that resists the relative motion of objects or surfaces in contact. It occurs when two surfaces are pressed together and there is an attempt to slide one surface over the other. Friction can be thought of as a force that acts opposite to the intended direction of motion. This force is generally proportional to the normal force (the force perpendicular to the surface) and depends on the types of materials interacting. Friction plays a crucial role in many everyday activities, such as allowing us to walk without slipping or enabling cars to stop when braking.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": true,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "friction",
+      "arm": "zero_shot",
+      "prompt_tokens": 40
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Explain what friction is.\n- You can consider friction as the force that resists the relative motion of surfaces sliding against each other.\n- This force occurs when two surfaces come into contact and try to move past one another.\n- You will observe that friction increases with the pressure between the surfaces and depends on the materials involved.",
+      "checks": {
+        "second_person": true,
+        "no_contractions": true,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "friction",
+      "arm": "full",
+      "prompt_tokens": 149
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "Friction is a force that resists the relative motion of objects or surfaces in contact. When two surfaces slide against each other, friction acts opposite to the direction of motion, slowing down or preventing movement. This force depends on the types of surfaces involved and the normal force pressing them together. Friction plays a crucial role in many everyday activities, such as allowing us to walk without slipping or enabling brakes to stop vehicles.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": true,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "friction",
+      "arm": "compressed",
+      "prompt_tokens": 84
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "To understand what friction is, consider the following points:\n\n- Friction refers to the force that resists the relative motion of objects or surfaces in contact.\n- This force acts opposite to the direction of motion and can occur between solid surfaces, liquid, and even within fluids like gases.\n- Friction plays a crucial role in everyday activities, such as allowing you to walk without slipping or enabling vehicles to stop when braking.\n- There are different types of friction, including static friction, which prevents stationary objects from starting to move, and kinetic friction, which slows down moving objects.\n- Understanding and managing friction is important in engineering and physics to optimize performance and efficiency in various applications.",
+      "checks": {
+        "second_person": true,
+        "no_contractions": true,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "friction",
+      "arm": "style_text",
+      "prompt_tokens": 130
+    },
+    {
+      "content": 0.6666666666666666,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "Friction is a force that resists the relative motion of objects sliding against each other. This force acts in the direction opposite to the motion and can be observed when one object moves over another. Friction is crucial for many everyday activities, such as walking or driving, as it helps to prevent slipping. Understanding and managing friction is important in various fields, including engineering and physics, where minimizing or maximizing this force can be essential for safety and efficiency.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": true,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "friction",
+      "arm": "primed",
+      "prompt_tokens": 84
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "Evaporation is the process by which a liquid changes to a gas or vapor. It occurs when molecules at the surface of a liquid gain enough energy to escape into the surrounding air. This process happens at any temperature, but it increases with higher temperatures and lower atmospheric pressure. Evaporation is a key component in the water cycle, helping to move water from bodies of liquid water to the atmosphere where it can form clouds and eventually precipitate as rain or snow.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": true,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "evaporation",
+      "arm": "zero_shot",
+      "prompt_tokens": 41
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 1.0,
+      "conformance_sd": 0.0,
+      "generation": "Explain what evaporation is.\n- You can think of evaporation as the process where a liquid transforms into a gas.\n- This occurs when molecules within the liquid gain sufficient energy to escape its surface.\n- You will observe that evaporation increases with higher temperatures and greater exposure to air.",
+      "checks": {
+        "second_person": true,
+        "no_contractions": true,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "evaporation",
+      "arm": "full",
+      "prompt_tokens": 150
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "Evaporation is the process by which a liquid changes into a gas at temperatures below its boiling point. This occurs when molecules in a liquid gain enough energy to escape the surface and enter the atmosphere as vapor. The rate of evaporation depends on factors such as temperature, surface area, air flow, and the surrounding humidity. Evaporation is a key component of the water cycle, helping to regulate climate and weather patterns.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": true,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "evaporation",
+      "arm": "compressed",
+      "prompt_tokens": 85
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.6666666666666666,
+      "conformance_sd": 0.0,
+      "generation": "To understand what evaporation is, consider the following points:\n\n- Evaporation refers to the process where liquid transforms into gas at temperatures below its boiling point.\n- This transformation occurs when molecules in a liquid gain enough energy to escape into the air.\n- The rate of evaporation can be influenced by factors such as temperature, surface area, and wind speed.\n- Evaporation plays a crucial role in various natural processes, including the water cycle.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": true,
+        "bulleted_list": true
+      },
+      "domain": "writing",
+      "task": "evaporation",
+      "arm": "style_text",
+      "prompt_tokens": 131
+    },
+    {
+      "content": 1.0,
+      "content_sd": 0.0,
+      "conformance": 0.3333333333333333,
+      "conformance_sd": 0.0,
+      "generation": "Evaporation is the process by which water changes from a liquid to a gas or vapor. This transformation occurs at the surface of a liquid and can happen at any temperature, but it happens more rapidly at higher temperatures. During evaporation, individual molecules of water gain enough energy to break free from the surface and enter the air as water vapor. This process plays a crucial role in the water cycle and affects various natural processes and human activities.",
+      "checks": {
+        "second_person": false,
+        "no_contractions": true,
+        "bulleted_list": false
+      },
+      "domain": "writing",
+      "task": "evaporation",
+      "arm": "primed",
+      "prompt_tokens": 85
+    }
+  ],
+  "aggregate": {
+    "by_domain": {
+      "coding": {
+        "zero_shot": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.45,
+          "conformance_sd": 0.11180339887498948,
+          "prompt_tokens": 61.0,
+          "n": 5
+        },
+        "full": {
+          "content": 0.8,
+          "content_sd": 0.4472135954999579,
+          "conformance": 0.9,
+          "conformance_sd": 0.13693063937629152,
+          "prompt_tokens": 235.0,
+          "n": 5
+        },
+        "compressed": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.95,
+          "conformance_sd": 0.11180339887498948,
+          "prompt_tokens": 101.0,
+          "n": 5
+        },
+        "style_text": {
+          "content": 0.6,
+          "content_sd": 0.5477225575051662,
+          "conformance": 0.95,
+          "conformance_sd": 0.11180339887498948,
+          "prompt_tokens": 144.0,
+          "n": 5
+        },
+        "primed": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.95,
+          "conformance_sd": 0.11180339887498948,
+          "prompt_tokens": 101.0,
+          "n": 5
+        },
+        "_gate": {
+          "full_conformance": 0.9,
+          "passes": true
+        }
+      },
+      "math": {
+        "zero_shot": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.1,
+          "conformance_sd": 0.13693063937629155,
+          "prompt_tokens": 57.0,
+          "n": 5
+        },
+        "full": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.85,
+          "conformance_sd": 0.13693063937629152,
+          "prompt_tokens": 223.0,
+          "n": 5
+        },
+        "compressed": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.75,
+          "conformance_sd": 0.1767766952966369,
+          "prompt_tokens": 178.0,
+          "n": 5
+        },
+        "style_text": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.85,
+          "conformance_sd": 0.13693063937629152,
+          "prompt_tokens": 221.0,
+          "n": 5
+        },
+        "primed": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.9,
+          "conformance_sd": 0.13693063937629152,
+          "prompt_tokens": 178.0,
+          "n": 5
+        },
+        "_gate": {
+          "full_conformance": 0.85,
+          "passes": true
+        }
+      },
+      "writing": {
+        "zero_shot": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.13333333333333333,
+          "conformance_sd": 0.18257418583505536,
+          "prompt_tokens": 40.8,
+          "n": 5
+        },
+        "full": {
+          "content": 0.9333333333333333,
+          "content_sd": 0.14907119849998599,
+          "conformance": 0.9333333333333333,
+          "conformance_sd": 0.14907119849998599,
+          "prompt_tokens": 149.8,
+          "n": 5
+        },
+        "compressed": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.2,
+          "conformance_sd": 0.18257418583505536,
+          "prompt_tokens": 84.8,
+          "n": 5
+        },
+        "style_text": {
+          "content": 1.0,
+          "content_sd": 0.0,
+          "conformance": 0.7333333333333333,
+          "conformance_sd": 0.27888667551135854,
+          "prompt_tokens": 130.8,
+          "n": 5
+        },
+        "primed": {
+          "content": 0.9333333333333333,
+          "content_sd": 0.14907119849998599,
+          "conformance": 0.4,
+          "conformance_sd": 0.14907119849998596,
+          "prompt_tokens": 84.8,
+          "n": 5
+        },
+        "_gate": {
+          "full_conformance": 0.9333333333333333,
+          "passes": true
+        }
+      }
+    },
+    "overall": {
+      "zero_shot": {
+        "content": 1.0,
+        "content_sd": 0.0,
+        "conformance": 0.22777777777777777,
+        "conformance_sd": 0.21238130827787108,
+        "prompt_tokens": 52.93333333333333,
+        "n": 15
+      },
+      "full": {
+        "content": 0.9111111111111111,
+        "content_sd": 0.2662695455726601,
+        "conformance": 0.8944444444444444,
+        "conformance_sd": 0.1353517854337571,
+        "prompt_tokens": 202.6,
+        "n": 15
+      },
+      "compressed": {
+        "content": 1.0,
+        "content_sd": 0.0,
+        "conformance": 0.6333333333333333,
+        "conformance_sd": 0.360224797538849,
+        "prompt_tokens": 121.26666666666667,
+        "n": 15
+      },
+      "style_text": {
+        "content": 0.8666666666666667,
+        "content_sd": 0.3518657752744984,
+        "conformance": 0.8444444444444444,
+        "conformance_sd": 0.19887248313998734,
+        "prompt_tokens": 165.26666666666668,
+        "n": 15
+      },
+      "primed": {
+        "content": 0.9777777777777777,
+        "content_sd": 0.08606629658238706,
+        "conformance": 0.75,
+        "conformance_sd": 0.2852178226359748,
+        "prompt_tokens": 121.26666666666667,
+        "n": 15
+      }
+    },
+    "value": {
+      "coding": {
+        "conf_gain_over_compressed": 0.0,
+        "conf_vs_style_text": 0.0,
+        "tokens_vs_style_text": -43.0,
+        "verdict": "primer dominates rival"
+      },
+      "math": {
+        "conf_gain_over_compressed": 0.15000000000000002,
+        "conf_vs_style_text": 0.050000000000000044,
+        "tokens_vs_style_text": -43.0,
+        "verdict": "primer dominates rival"
+      },
+      "writing": {
+        "conf_gain_over_compressed": 0.2,
+        "conf_vs_style_text": -0.33333333333333326,
+        "tokens_vs_style_text": -46.000000000000014,
+        "verdict": "mixed (trade-off)"
+      },
+      "__gated_overall__": {
+        "conf_gain_over_compressed": 0.1166666666666667,
+        "conf_vs_style_text": -0.09444444444444444,
+        "tokens_vs_style_text": -44.000000000000014,
+        "verdict": "mixed (trade-off)"
+      }
+    },
+    "gated_domains": [
+      "coding",
+      "math",
+      "writing"
+    ],
+    "overall_gated": {
+      "zero_shot": {
+        "content": 1.0,
+        "content_sd": 0.0,
+        "conformance": 0.22777777777777777,
+        "conformance_sd": 0.21238130827787108,
+        "prompt_tokens": 52.93333333333333,
+        "n": 15
+      },
+      "full": {
+        "content": 0.9111111111111111,
+        "content_sd": 0.2662695455726601,
+        "conformance": 0.8944444444444444,
+        "conformance_sd": 0.1353517854337571,
+        "prompt_tokens": 202.6,
+        "n": 15
+      },
+      "compressed": {
+        "content": 1.0,
+        "content_sd": 0.0,
+        "conformance": 0.6333333333333333,
+        "conformance_sd": 0.360224797538849,
+        "prompt_tokens": 121.26666666666667,
+        "n": 15
+      },
+      "style_text": {
+        "content": 0.8666666666666667,
+        "content_sd": 0.3518657752744984,
+        "conformance": 0.8444444444444444,
+        "conformance_sd": 0.19887248313998734,
+        "prompt_tokens": 165.26666666666668,
+        "n": 15
+      },
+      "primed": {
+        "content": 0.9777777777777777,
+        "content_sd": 0.08606629658238706,
+        "conformance": 0.75,
+        "conformance_sd": 0.2852178226359748,
+        "prompt_tokens": 121.26666666666667,
+        "n": 15
+      }
+    }
+  },
+  "config": {
+    "model_name": "Qwen/Qwen2.5-14B-Instruct",
+    "dtype": "float16",
+    "device": "cuda",
+    "load_in_4bit": true,
+    "inject_layers": [
+      12
+    ],
+    "inject_layer_fracs": [
+      0.43
+    ],
+    "alpha_relative": true,
+    "alpha": 0.1,
+    "extract_layer": 12,
+    "extract_layer_frac": 0.43,
+    "extract_regime": "compressed",
+    "compress_ratio": 0.25,
+    "domains": [
+      "coding",
+      "math",
+      "writing"
+    ],
+    "eval_split": "test",
+    "seeds": [
+      0
+    ],
+    "eval_temperature": 0.0,
+    "sweep_alphas": [
+      0.04,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "sweep_layer_fracs": [
+      0.3,
+      0.43,
+      0.57,
+      0.7
+    ],
+    "sweep_layers": [
+      8,
+      12,
+      16,
+      20
+    ],
+    "content_tolerance": 0.1,
+    "capability_gate": 0.8,
+    "model_ladder": [
+      {
+        "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+        "load_in_4bit": false
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-3B-Instruct",
+        "load_in_4bit": false
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-7B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-14B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-32B-Instruct",
+        "load_in_4bit": true
+      }
+    ],
+    "max_new_tokens": 512,
+    "temperature": 0.0,
+    "seed": 0,
+    "bank_path": "primer_bank",
+    "results_path": "results.json"
+  }
+}

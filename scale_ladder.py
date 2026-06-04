@@ -16,9 +16,10 @@ capability gate count as evidence; INVARIANT #3). Per-model results are saved as
 results_<tag>.json / results_readable_<tag>.md; the ladder summary goes to
 ladder.json (+ ladder.png if matplotlib is present).
 
-NOTE on hyperparameters: operating points come from sweep.json if present (shared
-across models) else config defaults. For a rigorous ladder, sweep each model on
-val first; this runner uses whatever sweep.json provides and falls back cleanly.
+NOTE on hyperparameters: each model is swept on its OWN val split first
+(sweep_<tag>.json) before the test report, so no model inherits another's
+operating point. Layers are depth-relative and alpha is norm-relative
+(config.py), making the selected points comparable across scales.
 """
 import dataclasses
 import gc
@@ -28,6 +29,7 @@ import re
 from config import Config
 from model import HookedLM
 import run as runner
+from sweep import run_sweep
 
 
 def _tag(model_name):
@@ -69,7 +71,15 @@ def main():
                                error=str(e)))
             continue
 
-        rows, aggregate = runner.evaluate(cfg, lm)
+        # Pick this model's operating points on its OWN val split first
+        # (depth/norm-relative grid), then report on test with that selection.
+        sweep_path = f"sweep_{tag}.json"
+        try:
+            run_sweep(cfg, lm, out_path=sweep_path)
+        except Exception as e:
+            print(f"  !! sweep failed for {tag} ({e}); using config defaults")
+
+        rows, aggregate = runner.evaluate(cfg, lm, sweep_path=sweep_path)
 
         with open(f"results_{tag}.json", "w") as f:
             json.dump(dict(per_run=rows, aggregate=aggregate,

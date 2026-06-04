@@ -1,0 +1,32 @@
+  auto-sleep disabled for this run
+Studio status: Running | machine: L40S
+  no HF_TOKEN in env/.env -> anonymous HF downloads (may be throttled)
+  uploading config.py
+Uploading config.py:   0%|          | 0.00/5.33k [00:00<?, ?B/s]Uploading config.py: 10.4kB [00:00, 39.6kB/s]                   Uploading config.py: 10.4kB [00:00, 28.2kB/s]
+  uploading model.py
+Uploading model.py:   0%|          | 0.00/5.28k [00:00<?, ?B/s]Uploading model.py: 10.3kB [00:00, 45.3kB/s]                   Uploading model.py: 10.3kB [00:00, 31.4kB/s]
+  uploading primers.py
+Uploading primers.py:   0%|          | 0.00/3.53k [00:00<?, ?B/s]Uploading primers.py: 6.89kB [00:00, 26.6kB/s]                   Uploading primers.py: 6.89kB [00:00, 17.1kB/s]
+  uploading compress.py
+Uploading compress.py:   0%|          | 0.00/1.19k [00:00<?, ?B/s]Uploading compress.py: 2.33kB [00:00, 8.78kB/s]                   Uploading compress.py: 2.33kB [00:00, 6.37kB/s]
+  uploading tasks.py
+Uploading tasks.py:   0%|          | 0.00/3.27k [00:00<?, ?B/s]Uploading tasks.py: 6.39kB [00:00, 26.0kB/s]                   Uploading tasks.py: 6.39kB [00:00, 18.9kB/s]
+  uploading suite.py
+Uploading suite.py:   0%|          | 0.00/16.3k [00:00<?, ?B/s]Uploading suite.py: 31.9kB [00:00, 117kB/s]                    Uploading suite.py: 31.9kB [00:00, 72.3kB/s]
+  uploading metrics.py
+Uploading metrics.py:   0%|          | 0.00/5.83k [00:00<?, ?B/s]Uploading metrics.py: 11.4kB [00:00, 48.4kB/s]                   Uploading metrics.py: 11.4kB [00:00, 34.5kB/s]
+  uploading run.py
+Uploading run.py:   0%|          | 0.00/15.8k [00:00<?, ?B/s]Uploading run.py: 30.9kB [00:00, 124kB/s]                    Uploading run.py: 30.9kB [00:00, 80.1kB/s]
+  uploading sweep.py
+Uploading sweep.py:   0%|          | 0.00/5.79k [00:00<?, ?B/s]Uploading sweep.py: 11.3kB [00:00, 47.7kB/s]                   Uploading sweep.py: 11.3kB [00:00, 34.1kB/s]
+  uploading scale_ladder.py
+Uploading scale_ladder.py:   0%|          | 0.00/6.66k [00:00<?, ?B/s]Uploading scale_ladder.py: 13.0kB [00:00, 53.2kB/s]                   Uploading scale_ladder.py: 13.0kB [00:00, 37.4kB/s]
+  uploading requirements.txt
+Uploading requirements.txt:   0%|          | 0.00/286 [00:00<?, ?B/s]Uploading requirements.txt: 572B [00:00, 2.48kB/s]                   Uploading requirements.txt: 572B [00:00, 1.76kB/s]
+  uploading sweep.json (val-selected operating points)
+Uploading sweep.json:   0%|          | 0.00/14.6k [00:00<?, ?B/s]Uploading sweep.json: 100%|██████████| 14.3k/14.3k [00:01<00:00, 13.5kB/s]Uploading sweep.json: 28.5kB [00:01, 25.9kB/s]                            Uploading sweep.json: 28.5kB [00:01, 18.5kB/s]
+Installing requirements (first run downloads torch; be patient) ...
+[notice] A new release of pip is available: 26.1.1 -> 26.1.2
+[notice] To update, run: pip install --upgrade pip
+DEPS_OK
+Running scale_ladder.py ...

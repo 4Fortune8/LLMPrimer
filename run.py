@@ -72,18 +72,23 @@ def extraction_pairs(cfg, domain, summary):
     return pairs
 
 
-def _operating_points(cfg):
+def _operating_points(cfg, lm, sweep_path="sweep.json"):
     """Per-domain (layer, alpha) chosen by the val sweep. Falls back to the
-    config defaults when sweep.json is absent or a domain was not selected, so
-    the test report always uses hyperparameters picked on val (never on test)."""
-    default = (cfg.extract_layer, cfg.alpha)
+    config defaults when the sweep file is absent or a domain was not selected,
+    so the test report always uses hyperparameters picked on val (never on test).
+
+    `layer` is resolved to an absolute index for THIS model's depth; `alpha` is
+    the (norm-relative) fraction selected by the sweep. The sweep file is
+    model-specific (sweep_<tag>.json) so no model inherits another's point.
+    """
+    default = (lm.resolve_layer(cfg.extract_layer_frac), cfg.alpha)
     points = {d: default for d in cfg.domains}
-    if os.path.exists("sweep.json"):
-        with open("sweep.json") as f:
+    if os.path.exists(sweep_path):
+        with open(sweep_path) as f:
             sel = json.load(f).get("selections", {})
         for d, best in sel.items():
             if best:
-                points[d] = (int(best["layer"]), float(best["alpha"]))
+                points[d] = (lm.resolve_layer(best["layer"]), float(best["alpha"]))
     return points
 
 
@@ -116,18 +121,19 @@ def _score_arm(lm, cfg, domain, ids, primers, content_spec):
                 generation=first_gen, checks=first_checks)
 
 
-def evaluate(cfg, lm, bank=None, points=None, log=print):
+def evaluate(cfg, lm, bank=None, points=None, log=print, sweep_path="sweep.json"):
     """Run the full multi-domain, multi-arm evaluation for one model.
 
     Returns (rows, aggregate). Reused by scale_ladder.py across model sizes."""
     bank = bank or PrimerBank(cfg.bank_path)
-    points = points or _operating_points(cfg)
+    points = points or _operating_points(cfg, lm, sweep_path)
     rows = []
 
     for domain in cfg.domains:
         info = suite.DOMAINS[domain]
         layer, alpha = points[domain]
-        log(f"\n###### DOMAIN: {domain} (layer={layer} alpha={alpha}) ######")
+        log(f"\n###### DOMAIN: {domain} (layer={layer}/{lm.n_layers} "
+            f"alpha={alpha}{' x||h||' if cfg.alpha_relative else ''}) ######")
 
         # compress the styled prior session ONCE (shared by compressed/primed)
         log("  compressing prior session ...")
@@ -135,9 +141,13 @@ def evaluate(cfg, lm, bank=None, points=None, log=print):
 
         # build the domain primer from TRAIN tasks, in the injection regime.
         log("  extracting primer ...")
-        direction = extract_primer(lm, extraction_pairs(cfg, domain, summary), layer)
+        direction, ref_norm = extract_primer(
+            lm, extraction_pairs(cfg, domain, summary), layer)
+        # norm-relative steering: scale the unit primer to a fraction of the
+        # local residual norm so alpha is comparable across model sizes.
+        alpha_eff = alpha * ref_norm if cfg.alpha_relative else alpha
         bank.save(domain, direction, layer,
-                  descriptor=info["descriptor"], alpha=alpha)
+                  descriptor=info["descriptor"], alpha=alpha_eff)
 
         contexts = {
             "full": info["session"],
@@ -145,7 +155,7 @@ def evaluate(cfg, lm, bank=None, points=None, log=print):
             "style_text": info["contract"] + "\n" + summary,
             "primed": summary,
         }
-        primers = bank.as_injection([domain], alpha)
+        primers = bank.as_injection([domain], alpha_eff)
 
         for t in suite.tasks_for(domain, cfg.eval_split):
             for arm in ARMS:

@@ -37,6 +37,15 @@ def _eval_split(lm, domain, summary, split, primers):
 def main():
     cfg = Config()
     lm = HookedLM(cfg)
+    run_sweep(cfg, lm, out_path="sweep.json")
+
+
+def run_sweep(cfg, lm, out_path="sweep.json"):
+    """Sweep alpha x inject-layer on VAL for one already-loaded model, write
+    `out_path`, and return the per-domain selections. Layers are swept as
+    FRACTIONS of this model's depth (so the grid covers mid-stack at any size);
+    alpha is norm-relative (a fraction of the local residual norm) when
+    cfg.alpha_relative, so selections transfer meaningfully across scales."""
     grid = []          # every (domain, layer, alpha) cell
     selections = {}    # best cell per domain
 
@@ -51,18 +60,22 @@ def main():
               f"conformance={base_f:.2f}")
 
         best = None
-        for layer in cfg.sweep_layers:
-            direction = extract_primer(lm, pairs, layer)
+        for frac in cfg.sweep_layer_fracs:
+            layer = lm.resolve_layer(frac)
+            direction, ref_norm = extract_primer(lm, pairs, layer)
             for alpha in cfg.sweep_alphas:
-                primers = [(layer, direction, float(alpha))]
+                alpha_eff = alpha * ref_norm if cfg.alpha_relative else float(alpha)
+                primers = [(layer, direction, alpha_eff)]
                 c, fconf = _eval_split(lm, domain, summary, "val", primers)
-                cell = dict(domain=domain, layer=layer, alpha=float(alpha),
+                cell = dict(domain=domain, layer=layer, frac=float(frac),
+                            alpha=float(alpha), alpha_eff=float(alpha_eff),
                             content=c, conformance=fconf,
                             conf_gain=fconf - base_f, content_delta=c - base_c)
                 grid.append(cell)
                 ok = cell["content_delta"] >= -cfg.content_tolerance
                 flag = "" if ok else "  (content drop too big)"
-                print(f"  layer={layer:>2} alpha={alpha:>4.1f} | "
+                print(f"  L{layer:>2} (f{frac:.2f}) alpha={alpha:>4.2f} "
+                      f"(eff {alpha_eff:>5.1f}) | "
                       f"content={c:.2f} ({cell['content_delta']:+.2f}) "
                       f"conformance={fconf:.2f} (gain {cell['conf_gain']:+.2f}){flag}")
                 if ok and (best is None or cell["conf_gain"] > best["conf_gain"]):
@@ -75,19 +88,20 @@ def main():
         else:
             print("  -> no cell kept content within tolerance")
 
-    with open("sweep.json", "w") as f:
+    with open(out_path, "w") as f:
         json.dump(dict(grid=grid, selections=selections,
                        config=cfg.__dict__), f, indent=2)
-    print("\nWrote sweep.json")
+    print(f"\nWrote {out_path}")
     print("Selected (per domain) layer/alpha:")
     for d, b in selections.items():
         if b:
             print(f"  {d:>8}: layer={b['layer']} alpha={b['alpha']} "
                   f"conf_gain={b['conf_gain']:+.2f}")
-    _maybe_plot(grid)
+    _maybe_plot(grid, out_path)
+    return selections
 
 
-def _maybe_plot(grid):
+def _maybe_plot(grid, out_path="sweep.json"):
     try:
         import matplotlib
         matplotlib.use("Agg")
@@ -106,12 +120,13 @@ def _maybe_plot(grid):
                     [c["conf_gain"] for c in pts], marker="o", label=f"L{layer}")
         ax.axhline(0, color="grey", lw=0.5)
         ax.set_title(domain)
-        ax.set_xlabel("alpha")
+        ax.set_xlabel("alpha (fraction of residual norm)")
         ax.set_ylabel("conformance gain over compressed")
         ax.legend(fontsize=7)
     fig.tight_layout()
-    fig.savefig("sweep.png", dpi=120)
-    print("Wrote sweep.png")
+    png = out_path.replace(".json", ".png")
+    fig.savefig(png, dpi=120)
+    print(f"Wrote {png}")
 
 
 if __name__ == "__main__":

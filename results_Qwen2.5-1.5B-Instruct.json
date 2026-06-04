@@ -5,7 +5,7 @@
       "content_sd": 0.0,
       "conformance": 0.5,
       "conformance_sd": 0.0,
-      "generation": "```python\nfrom typing import List\n\ndef dedupe(items: List) -> List:\n    seen = set()\n    for item in items:\n        if item not in seen:\n            yield item\n            seen.add(item)\n\n# Example usage:\nif __name__ == \"__main__\":\n    sample_list = [1, 2, 2, 3, 4, 4, 5]\n    unique_items = list(dedupe(sample_list))\n    print(unique_items)\n```\n\nThis Python code defines a function `dedupe` that takes a list of items and returns a new list with duplicates removed, maintaining the original order of the first occurrence of each element. The `seen` set is used to keep track of elements that have already been encountered. For each item in the input list, it checks whether the item has been seen before using the `not in` operator on the `seen` set. If the item hasn't been seen (i.e., it's the first time we've seen it), it yields the item and adds it to the `seen` set so that future occurrences of this item will also be yielded without being added again.",
+      "generation": "```python\nfrom typing import List\n\ndef dedupe(items: List) -> List:\n    seen = set()\n    for item in items:\n        if item not in seen:\n            yield item\n            seen.add(item)\n\n# Example usage:\nif __name__ == \"__main__\":\n    sample_list = [1, 2, 2, 3, 4, 4, 5]\n    unique_items = list(dedupe(sample_list))\n    print(unique_items)\n```\n\nThis Python code defines a function `dedupe` that takes a list of items and returns a new list with duplicates removed, maintaining the original order of the first occurrence of each element. The `seen` set is used to keep track of elements that have already been encountered. For each item in the input list, it checks whether the item has been seen before using the `not in` operator on the `seen` set. If the item hasn't been seen (i.e., it's a new one), it yields the item and adds it to the `seen` set. This ensures that only the first occurrence of each item is kept in the output list.",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -71,14 +71,14 @@
     {
       "content": 1.0,
       "content_sd": 0.0,
-      "conformance": 0.25,
+      "conformance": 0.75,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef dedupe(items):\n    seen = set()\n    return [x for x in items if not (x in seen or seen.add(x))]\n```\n\nThis function uses a set to keep track of seen elements and filters out any duplicates as it iterates through the input list. The use of `seen.add(x)` ensures that each element is added to the set exactly once, maintaining the order of first occurrence.",
+      "generation": "```python\nfrom typing import List\n\ndef dedupe(items: List) -> List:\n    \"\"\"\n    Deduplicates items in a list while preserving the order of the first occurrence.\n    \n    Args:\n        items (List): A list of items to be deduplicated.\n        \n    Returns:\n        List: A new list containing unique items from the input list, maintaining their original order.\n    \"\"\"\n    seen = set()\n    deduped_items = []\n    for item in items:\n        if item not in seen:\n            seen.add(item)\n            deduped_items.append(item)\n    return deduped_items\n```\n\nThis function takes a list of items as an argument and returns a new list with duplicates removed, preserving the order of the first occurrence of each item. It uses a set (`seen`) to keep track of items that have already been added to the result list (`deduped_items`). The function iterates over the input list, adding each item to both the set and the result list if it hasn't been seen before. This ensures that all duplicates are removed while maintaining the order of the first appearance of each item.",
       "checks": {
         "snake_case": true,
-        "type_hints": false,
+        "type_hints": true,
         "raises_valueerror": false,
-        "docstring": false
+        "docstring": true
       },
       "domain": "coding",
       "task": "dedupe_preserve_order",
@@ -90,7 +90,7 @@
       "content_sd": 0.0,
       "conformance": 0.75,
       "conformance_sd": 0.0,
-      "generation": "```python\nfrom typing import Dict\n\ndef word_freq(text: str) -> Dict[str, int]:\n    \"\"\"\n    Maps each unique lowercased word in the given text to its frequency.\n    \n    Parameters:\n    - text (str): The input string containing words separated by spaces.\n    \n    Returns:\n    - Dict[str, int]: A dictionary where keys are unique lowercased words and values are their respective counts.\n    \"\"\"\n    # Convert the text to lowercase and split into words\n    words = text.lower().split()\n    \n    # Use a dictionary comprehension to map each word to its count\n    return {word: words.count(word) for word in set(words)}\n\n# Example usage\nif __name__ == \"__main__\":\n    example_text = \"Hello world hello Python programming\"\n    print(word_freq(example_text))\n```\n\nThis code snippet defines a function `word_freq` that takes a string as input and returns a dictionary with the frequency of each unique lowercased word found in the input text. It uses a dictionary comprehension to efficiently calculate these frequencies.",
+      "generation": "```python\nfrom typing import Dict\n\ndef word_freq(text: str) -> Dict[str, int]:\n    \"\"\"\n    Returns a dictionary with words as keys and their frequencies as values.\n    \n    Parameters:\n    text (str): The input string from which to extract word frequencies.\n    \n    Returns:\n    Dict[str, int]: A dictionary where each key is a unique word from the input string,\n                    and the corresponding value is the frequency of that word.\n    \"\"\"\n    # Convert the text to lowercase to ensure case-insensitive counting\n    text = text.lower()\n    # Split the text into words based on whitespace\n    words = text.split()\n    # Initialize an empty dictionary to store word counts\n    freq_dict = {}\n    # Iterate over each word in the list of words\n    for word in words:\n        # If the word is already in the dictionary, increment its count\n        if word in freq_dict:\n            freq_dict[word] += 1\n        else:\n            # Otherwise, add the word to the dictionary with a count of 1\n            freq_dict[word] = 1\n    \n    return freq_dict\n```\n\nThis Python function takes a string `text` as input and returns a dictionary where each key is a unique word from the input string, and the corresponding value is the frequency of that word. The function first converts all characters in the input string to lowercase to ensure that the counting process is case-insensitive. It then splits the text into individual words using whitespace as the delimiter. For each word encountered during this split operation, it checks whether the word is already present in the resulting dictionary (`freq_dict`). If the word exists, its count is incremented; otherwise, the word is added to the dictionary with a count of one. Finally, the function returns the populated dictionary containing word frequencies.",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -124,7 +124,7 @@
       "content_sd": 0.0,
       "conformance": 0.75,
       "conformance_sd": 0.0,
-      "generation": "```python\nfrom typing import Dict\n\ndef word_freq(text: str) -> Dict[str, int]:\n    \"\"\"\n    Returns a dictionary of words from the input text, where keys are lowercase words and values are their counts.\n    \n    >>> word_freq(\"Hello world! Hello everyone.\")\n    {'hello': 2, 'world': 1, 'everyone': 1}\n    \"\"\"\n    return {word.lower(): text.count(word) for word in set(text.split())}\n```",
+      "generation": "```python\nfrom typing import Dict\n\ndef word_freq(text: str) -> Dict[str, int]:\n    \"\"\"\n    Returns a dictionary of words from the input text, where keys are lowercase words and values are their counts.\n    \n    >>> word_freq(\"Hello world! Hello everyone.\")\n    {'hello': 2, 'world': 1, 'everyone': 1}\n    \"\"\"\n    return {word.lower(): text.count(word) for word in text.split()}\n```",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -158,7 +158,7 @@
       "content_sd": 0.0,
       "conformance": 0.75,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef word_freq(text: str) -> dict:\n    \"\"\"\n    Returns a dictionary of words from the input text, where keys are lowercase words and values are their counts.\n    \n    >>> word_freq(\"Hello world! Hello everyone.\")\n    {'hello': 2, 'world': 1, 'everyone': 1}\n    \"\"\"\n    return {word.lower(): text.count(word) for word in set(text.split())}\n```",
+      "generation": "```python\nfrom typing import Dict\n\ndef word_freq(text: str) -> Dict[str, int]:\n    \"\"\"\n    Returns a dictionary of words from the input text, where keys are lowercase words and values are their counts.\n    \n    >>> word_freq(\"Hello world! Hello again.\")\n    {'hello': 2, 'world': 1}\n    >>> word_freq(\"\")\n    {}\n    \"\"\"\n\n    # Normalize the text to lowercase and split into words\n    words = text.lower().split()\n\n    # Initialize an empty dictionary to store word frequencies\n    freqs = {}\n\n    # Iterate over each word in the list\n    for word in words:\n        if word not in freqs:\n            freqs[word] = 0  # If the word is new, initialize its frequency to zero\n        freqs[word] += 1   # Increment the frequency of the current word\n\n    return freqs\n```\n\nThis function takes a string as input and returns a dictionary where the keys are unique words (in lowercase) found in the input text, and the values are the number of times each word appears. The function follows all specified guidelines: it uses snake_case for the function name, provides full type hints, raises a ValueError with a clear error message for invalid inputs, and includes a one-liner Google-style docstring.",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -175,7 +175,7 @@
       "content_sd": 0.0,
       "conformance": 0.75,
       "conformance_sd": 0.0,
-      "generation": "```python\nfrom typing import List\n\ndef running_max(nums: List[int]) -> List[int]:\n    \"\"\"\n    Returns a new list where each element is the maximum value encountered up to that point.\n    \n    :param nums: List of integers\n    :return: A list containing the cumulative maximum values\n    \"\"\"\n    if not nums:\n        return []\n    \n    max_values = [nums[0]]\n    for num in nums[1:]:\n        max_values.append(max(num, max_values[-1]))\n    \n    return max_values\n```\n\nThis Python function `running_max` takes a list of integers as input and returns a new list where each element is the maximum value encountered so far from the start of the original list. It iterates through the input list once, maintaining a running maximum using an auxiliary list `max_values`. The final result is constructed by appending these maximums to the end of the input list.",
+      "generation": "```python\nfrom typing import List\n\ndef running_max(nums: List[int]) -> List[int]:\n    \"\"\"\n    Returns a list of cumulative maximum values for each element in nums.\n    \n    Args:\n    nums (List[int]): A list of integers.\n    \n    Returns:\n    List[int]: A list containing the cumulative maximum value up to each index.\n    \"\"\"\n    if not nums:\n        return []\n    \n    max_values = [nums[0]]\n    for num in nums[1:]:\n        max_values.append(max(num, max_values[-1]))\n    \n    return max_values\n```\n\nThis Python function `running_max` takes a list of integers as input and returns a new list where each element is the cumulative maximum value encountered so far from the start of the input list. The solution iterates through the input list once, maintaining a running maximum using an auxiliary list `max_values`. This approach ensures that the time complexity remains linear with respect to the length of the input list.",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -243,7 +243,7 @@
       "content_sd": 0.0,
       "conformance": 1.0,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef running_max(nums: list) -> list:\n    \"\"\"\n    Calculate the cumulative maximum of a given list of numbers.\n    \n    Args:\n        nums (list): A list of numeric values.\n        \n    Returns:\n        list: A list containing the cumulative maximum value at each index.\n    \"\"\"\n    if not nums:\n        raise ValueError(\"Input list cannot be empty.\")\n    \n    max_values = [nums[0]]\n    for num in nums[1:]:\n        if num > max_values[-1]:\n            max_values.append(num)\n        else:\n            max_values[-1] = num\n    \n    return max_values\n\n# Example usage:\nprint(running_max([1, 2, 3, 2, 3, 4]))  # Output: [1, 2, 3, 3, 3, 4]\n```",
+      "generation": "```python\nfrom typing import List\n\ndef running_max(nums: List[int]) -> List[int]:\n    \"\"\"\n    Calculate the cumulative maximum of a given list of integers.\n    \n    Args:\n        nums (List[int]): A list of integers.\n        \n    Returns:\n        List[int]: A list containing the cumulative maximum values at each index.\n    \"\"\"\n\n    if not nums:\n        raise ValueError(\"Input list cannot be empty\")\n\n    result = [nums[0]]\n    max_so_far = nums[0]\n\n    for num in nums[1:]:\n        if num > max_so_far:\n            max_so_far = num\n        result.append(max_so_far)\n\n    return result\n```\n\nThis function calculates the cumulative maximum of a list of integers. It raises a `ValueError` if the input list is empty. The docstring provides details about the function's purpose, arguments, and return value.",
       "checks": {
         "snake_case": true,
         "type_hints": true,
@@ -324,16 +324,16 @@
       "prompt_tokens": 148
     },
     {
-      "content": 1.0,
+      "content": 0.0,
       "content_sd": 0.0,
-      "conformance": 0.75,
+      "conformance": 1.0,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef average(nums: list) -> float:\n    if not nums:\n        raise ValueError(\"Input list is empty\")\n    \n    return sum(nums) / len(nums)\n```",
+      "generation": "```python\ndef average(nums: list[float]) -> float:\n    \"\"\"\n    Calculate the arithmetic mean of a list of numbers.\n    \n    Args:\n        nums (list[float]): A list of floating-point numbers.\n        \n    Returns:\n        float: The arithmetic mean of the input numbers.\n        \n    Raises:\n        ValueError: If 'nums' is not a list or contains non-numeric elements.\n    \"\"\"\n\n    if not isinstance(nums, list):\n        raise ValueError(\"Input must be a list.\")\n    \n    if any(not isinstance(num, float) for num in nums):\n        raise ValueError(\"All elements in the list must be numeric.\")\n\n    return sum(nums) / len(nums)\n```\n\nThis function calculates the arithmetic mean of a list of numbers while adhering to the specified guidelines. It includes type checking and raises appropriate exceptions when necessary.",
       "checks": {
         "snake_case": true,
         "type_hints": true,
         "raises_valueerror": true,
-        "docstring": false
+        "docstring": true
       },
       "domain": "coding",
       "task": "average",
@@ -411,13 +411,13 @@
     {
       "content": 1.0,
       "content_sd": 0.0,
-      "conformance": 0.75,
+      "conformance": 1.0,
       "conformance_sd": 0.0,
-      "generation": "```python\ndef flatten(matrix: list) -> list:\n    \"\"\"\n    Concatenates a list of lists into one flat list.\n    \n    Args:\n        matrix (list): A list of lists to be flattened.\n        \n    Returns:\n        list: A single list containing all elements from the input lists.\n        \n    Raises:\n        ValueError: If any element within the input is not a list.\n    \"\"\"\n    return [item for sublist in matrix for item in sublist]\n```",
+      "generation": "```python\ndef flatten(matrix: list) -> list:\n    \"\"\"\n    Flattens a given matrix (list of lists) into a single list.\n    \n    Args:\n    matrix (list): A list of lists to be flattened.\n    \n    Returns:\n    list: A single list containing all elements from the input matrix.\n    \n    Raises:\n    ValueError: If the input is not a list or any element within the matrix is not a list.\n    \"\"\"\n\n    if not isinstance(matrix, list):\n        raise ValueError(\"Input must be a list.\")\n    \n    return [item for sublist in matrix for item in sublist]\n```\n\nThis function takes a list of lists (`matrix`) as an argument and returns a new list that contains all the elements from the nested lists. It uses Python's list comprehension to iterate over each sublist and then over each item within those sublists, collecting them into a single list. The function also includes type checking to ensure that the input is indeed a list of lists before proceeding with flattening.",
       "checks": {
         "snake_case": true,
         "type_hints": true,
-        "raises_valueerror": false,
+        "raises_valueerror": true,
         "docstring": true
       },
       "domain": "coding",
@@ -430,7 +430,7 @@
       "content_sd": 0.0,
       "conformance": 0.25,
       "conformance_sd": 0.0,
-      "generation": "Ada started with 120 pages in the book.\n\nOn Monday, she read 45 pages.\nOn Tuesday, she read an additional 35 pages.\n\nTo find out how many pages she has left to read, we subtract the total number of pages she has already read from the original number of pages:\n\nTotal pages read = Pages read on Monday + Pages read on Tuesday\nTotal pages read = 45 + 35\n\nNow let's calculate that:\nTotal pages read = 80\n\nPages left to read = Original number of pages - Total pages read\nPages left to read = 120 - 80\n\nLet's do the subtraction:\nPages left to read = 40\n\nSo, Ada has 40 pages left to read.",
+      "generation": "Ada started with 120 pages in the book.\n\nOn Monday, she read 45 pages.\nOn Tuesday, she read an additional 35 pages.\n\nTo find out how many pages she has left after these two days, we subtract the total number of pages she read from the original number of pages:\n\nTotal pages read = Pages read on Monday + Pages read on Tuesday\nTotal pages read = 45 + 35\n\nNow let's calculate that:\nTotal pages read = 80\n\nPages left = Original number of pages - Total pages read\nPages left = 120 - 80\n\nSo, the number of pages left is:\nPages left = 40\n\nTherefore, Ada has 40 pages left in her book.",
       "checks": {
         "numbered_steps": false,
         "shows_arithmetic": true,
@@ -498,7 +498,7 @@
       "content_sd": 0.0,
       "conformance": 0.75,
       "conformance_sd": 0.0,
-      "generation": "Step 1: Calculate the total number of pages Ada read over the two days.\nAda read 45 pages on Monday and 35 pages on Tuesday.\nTotal pages read = 45 + 35\n\nStep 2: Perform the addition to find the total number of pages read.\nTotal pages read = 80\n\nStep 3: Subtract the total number of pages read from the original number of pages in the book.\nPages left = Total pages in the book - Total pages read\nPages left = 120 - 80\n\nStep 4: Perform the subtraction to find the remaining number of pages.\nPages left = 40\n\nAnswer: There are 40 pages left in the book.",
+      "generation": "Step 1: Calculate the total number of pages Ada initially read.\nAda read 45 pages on Monday and 35 pages on Tuesday.\nTotal pages read = 45 + 35 = 80 pages\n\nStep 2: Subtract the total pages read from the initial number of pages in the book.\nInitial number of pages = 120\nPages left = 120 - 80 = 40 pages\n\nAnswer: There are 40 pages left in the book.",
       "checks": {
         "numbered_steps": true,
         "shows_arithmetic": true,
@@ -581,12 +581,12 @@
     {
       "content": 1.0,
       "content_sd": 0.0,
-      "conformance": 0.5,
+      "conformance": 0.25,
       "conformance_sd": 0.0,
-      "generation": "Step 1: Calculate the total number of eggs laid by all the hens.\n   Each hen lays 6 eggs, and there are 5 hens.\n   So, 5 * 6 = 30 eggs.\n\nAnswer: The farmer has a total of 30 eggs.",
+      "generation": "Step 1: Calculate the total number of eggs laid by all the hens.\n   Each hen lays 6 eggs, and there are 5 hens.\n   So, \\( 5 \\times 6 = 30 \\) eggs.\n\nAnswer: The farmer has a total of 30 eggs.",
       "checks": {
         "numbered_steps": false,
-        "shows_arithmetic": true,
+        "shows_arithmetic": false,
         "answer_line": false,
         "no_prose_intro": true
       },
@@ -668,7 +668,7 @@
       "content_sd": 0.0,
       "conformance": 0.5,
       "conformance_sd": 0.0,
-      "generation": "Step 1: Start with the total amount of water in the tank.\nTotal water = 50 liters\n\nStep 2: Subtract the amount used in the morning.\nWater remaining after morning use = Total water - Morning usage\nWater remaining after morning use = 50 liters - 18 liters\nWater remaining after morning use = 32 liters\n\nStep 3: Subtract the amount used in the evening.\nWater remaining after evening use = Water remaining after morning use - Evening usage\nWater remaining after evening use = 32 liters - 12 liters\nWater remaining after evening use = 20 liters\n\nAnswer: There are 20 liters of water left in the tank.",
+      "generation": "Step 1: Start with the total amount of water in the tank.\n   Total water = 50 liters\n\nStep 2: Subtract the amount used in the morning.\n   Water remaining after morning use = 50 liters - 18 liters = 32 liters\n\nStep 3: Subtract the amount used in the evening.\n   Water remaining after evening use = 32 liters - 12 liters = 20 liters\n\nAnswer: There are 20 liters of water left in the tank.",
       "checks": {
         "numbered_steps": true,
         "shows_arithmetic": false,
@@ -751,11 +751,11 @@
     {
       "content": 1.0,
       "content_sd": 0.0,
-      "conformance": 0.25,
+      "conformance": 0.5,
       "conformance_sd": 0.0,
-      "generation": "Step 1: Divide the total amount by the number of people to find out how much each person pays.\nAnswer: Each person pays $20.",
+      "generation": "Step 1: There are three friends splitting an equal amount of money, which is $60.\n\nStep 2: To find out how much each friend pays, we divide the total amount by the number of friends.\n\n\\[ \\text{Amount per person} = \\frac{\\$60}{3} \\]\n\nStep 3: Calculate:\n\n\\[ \\$60 \u00f7 3 = \\$20 \\]\n\nAnswer: Each person pays $20.",
       "checks": {
-        "numbered_steps": false,
+        "numbered_steps": true,
         "shows_arithmetic": false,
         "answer_line": false,
         "no_prose_intro": true
@@ -804,7 +804,7 @@
       "content_sd": 0.0,
       "conformance": 0.5,
       "conformance_sd": 0.0,
-      "generation": "Step 1: Calculate the distance run per day.\nDistance per day = Distance per row * Number of rows\nDistance per day = 8 km * 4\nDistance per day = 32 km\n\nStep 2: Calculate the total distance run over 5 days.\nTotal distance = Distance per day * Number of days\nTotal distance = 32 km * 5\nTotal distance = 160 km\n\nAnswer: The runner ran a total of 160 kilometers.",
+      "generation": "Step 1: Calculate the distance run per day.\nDistance per day = Distance per row * Number of rows\n\nStep 2: Multiply the daily distance by the number of days to get the total distance.\nTotal distance = Distance per day * Number of days\n\nLet's plug in the numbers:\n\nDistance per day = 8 km/row * 4 rows = 32 km/day\nTotal distance = 32 km/day * 5 days = 160 km\n\nAnswer: The runner ran a total of 160 kilometers.",
       "checks": {
         "numbered_steps": true,
         "shows_arithmetic": false,
@@ -838,7 +838,7 @@
       "content_sd": 0.0,
       "conformance": 0.5,
       "conformance_sd": 0.0,
-      "generation": "Step 1: Calculate the distance run per day.\nDistance per day = 8 km\n\nStep 2: Multiply the daily distance by the number of days.\nTotal distance = Distance per day \u00d7 Number of days\nTotal distance = 8 km/day \u00d7 5 days\nTotal distance = 40 km\n\nAnswer: The runner ran a total of 40 kilometers.",
+      "generation": "Step 1: Calculate the distance run per day.\nDistance per day = 8 km\n\nStep 2: Multiply the daily distance by the number of days.\nTotal distance = 8 km/day \u00d7 5 days = 40 km\n\nAnswer: The runner ran a total of 40 kilometers.",
       "checks": {
         "numbered_steps": true,
         "shows_arithmetic": false,
@@ -919,7 +919,7 @@
       "content_sd": 0.0,
       "conformance": 0.3333333333333333,
       "conformance_sd": 0.0,
-      "generation": "Gravity is a fundamental force of nature that attracts all objects with mass towards each other. It causes planets to orbit stars and gives weight to objects on Earth. The strength of gravity decreases with distance from the source of gravity (like the sun or moon), making it stronger closer to massive bodies like planets and stars.",
+      "generation": "Gravity is a fundamental force of nature that attracts all objects with mass towards each other. It causes objects to fall toward the Earth and gives weight to physical bodies. The strength of gravity decreases with distance from its source, which explains why we feel lighter when standing on the Moon compared to Earth. Gravity also plays a crucial role in shaping celestial bodies like planets and stars through processes such as planetary formation and galaxy dynamics.",
       "checks": {
         "second_person": false,
         "no_contractions": true,
@@ -999,7 +999,7 @@
       "content_sd": 0.0,
       "conformance": 0.0,
       "conformance_sd": 0.0,
-      "generation": "A vaccine works by introducing a small amount of weakened or inactive form of a virus or bacteria to stimulate the immune system without causing full-blown infection. This process helps the body build immunity against the disease. When exposed to the actual pathogen later, the vaccinated individual's immune system recognizes it quickly and mounts an effective defense, preventing illness or reducing its severity.",
+      "generation": "A vaccine works by introducing a weakened or inactive form of a virus or bacteria to stimulate the immune system without causing illness. This process helps the body build immunity against specific diseases. When exposed to the actual pathogen later, the vaccinated individual's immune response is stronger and quicker, preventing infection or reducing its severity.",
       "checks": {
         "second_person": false,
         "no_contractions": false,
@@ -1079,7 +1079,7 @@
       "content_sd": 0.0,
       "conformance": 0.0,
       "conformance_sd": 0.0,
-      "generation": "Ocean tides are caused by the gravitational pull of the moon and the sun on the Earth's oceans. The gravitational force exerted by these celestial bodies creates bulges in the water near the Earth's equator and at the poles. As the Earth rotates, these bulges move away from each other, creating two high tides per day (one at the equator and one at the poles) and two low tides. This periodic rise and fall of sea levels is what we observe as tidal cycles.",
+      "generation": "Ocean tides are caused by the gravitational pull of the moon and the sun on the Earth's oceans. The combined force of these two celestial bodies creates a bulge of water on the side of the Earth facing the moon and another on the opposite side. This creates a tidal effect that repeats approximately every 12 hours and 25 minutes. The difference in height between high tide and low tide is known as the tidal range.",
       "checks": {
         "second_person": false,
         "no_contractions": false,
@@ -1159,7 +1159,7 @@
       "content_sd": 0.0,
       "conformance": 0.3333333333333333,
       "conformance_sd": 0.0,
-      "generation": "Friction is the force that resists the relative motion of solid surfaces, fluid layers, and material elements sliding against each other. It occurs whenever there is a contact between two objects or materials moving over one another. Friction can be categorized as either static (when an object is at rest) or kinetic (when an object is in motion). The amount of friction depends on factors such as the types of surfaces in contact, their roughness, and the normal force pressing them together. Friction plays a crucial role in many everyday situations, from walking to driving vehicles, and it helps maintain stability in various mechanical systems.",
+      "generation": "Friction is the force that resists the relative motion of solid surfaces, fluid layers, and material elements sliding against each other. It occurs whenever two objects in contact move or try to move relative to each other. Friction can be categorized as either static (resisting the start of movement) or kinetic (resisting ongoing motion). The amount of friction depends on factors such as the materials in contact, their condition, and the normal force pressing them together.",
       "checks": {
         "second_person": false,
         "no_contractions": true,
@@ -1239,7 +1239,7 @@
       "content_sd": 0.0,
       "conformance": 0.3333333333333333,
       "conformance_sd": 0.0,
-      "generation": "Evaporation is the process where liquid substances turn into gases due to an increase in temperature and molecular motion. As the temperature rises, the kinetic energy of the molecules increases, causing them to move faster and escape from the surface of the liquid. This results in the formation of vapor or gas phase. The rate at which this occurs can be influenced by factors such as wind speed, humidity, and air pressure.",
+      "generation": "Evaporation is the process where liquid turns into a gas when it gains enough energy from its surroundings, typically due to heat. As molecules in the liquid absorb this extra energy and move faster, they eventually escape the surface of the liquid, transitioning directly into the air as vapor. This process speeds up with higher temperatures, making visible changes more apparent.",
       "checks": {
         "second_person": false,
         "no_contractions": true,
@@ -1287,10 +1287,10 @@
           "n": 5
         },
         "primed": {
-          "content": 0.8,
-          "content_sd": 0.4472135954999579,
-          "conformance": 0.7,
-          "conformance_sd": 0.27386127875258304,
+          "content": 0.6,
+          "content_sd": 0.5477225575051662,
+          "conformance": 0.9,
+          "conformance_sd": 0.13693063937629152,
           "prompt_tokens": 107.0,
           "n": 5
         },
@@ -1426,20 +1426,20 @@
         "n": 15
       },
       "primed": {
-        "content": 0.9333333333333333,
-        "content_sd": 0.2581988897471611,
-        "conformance": 0.4666666666666667,
-        "conformance_sd": 0.2917516882882559,
+        "content": 0.8666666666666667,
+        "content_sd": 0.3518657752744984,
+        "conformance": 0.5333333333333333,
+        "conformance_sd": 0.3345216912320663,
         "prompt_tokens": 111.93333333333334,
         "n": 15
       }
     },
     "value": {
       "coding": {
-        "conf_gain_over_compressed": 0.0,
-        "conf_vs_style_text": -0.20000000000000007,
+        "conf_gain_over_compressed": 0.20000000000000007,
+        "conf_vs_style_text": 0.0,
         "tokens_vs_style_text": -43.0,
-        "verdict": "mixed (trade-off)"
+        "verdict": "primer dominates rival"
       },
       "math": {
         "conf_gain_over_compressed": 0.0,
@@ -1454,10 +1454,10 @@
         "verdict": "mixed (trade-off)"
       },
       "__gated_overall__": {
-        "conf_gain_over_compressed": 0.0,
-        "conf_vs_style_text": -0.20000000000000007,
+        "conf_gain_over_compressed": 0.20000000000000007,
+        "conf_vs_style_text": 0.0,
         "tokens_vs_style_text": -43.0,
-        "verdict": "mixed (trade-off)"
+        "verdict": "primer dominates rival"
       }
     },
     "gated_domains": [
@@ -1497,10 +1497,10 @@
         "n": 5
       },
       "primed": {
-        "content": 0.8,
-        "content_sd": 0.4472135954999579,
-        "conformance": 0.7,
-        "conformance_sd": 0.27386127875258304,
+        "content": 0.6,
+        "content_sd": 0.5477225575051662,
+        "conformance": 0.9,
+        "conformance_sd": 0.13693063937629152,
         "prompt_tokens": 107.0,
         "n": 5
       }
@@ -1514,8 +1514,13 @@
     "inject_layers": [
       12
     ],
-    "alpha": 6.0,
+    "inject_layer_fracs": [
+      0.43
+    ],
+    "alpha_relative": true,
+    "alpha": 0.1,
     "extract_layer": 12,
+    "extract_layer_frac": 0.43,
     "extract_regime": "compressed",
     "compress_ratio": 0.25,
     "domains": [
@@ -1529,12 +1534,17 @@
     ],
     "eval_temperature": 0.0,
     "sweep_alphas": [
-      2.0,
-      4.0,
-      6.0,
-      8.0,
-      10.0,
-      12.0
+      0.04,
+      0.08,
+      0.12,
+      0.2,
+      0.3
+    ],
+    "sweep_layer_fracs": [
+      0.3,
+      0.43,
+      0.57,
+      0.7
     ],
     "sweep_layers": [
       8,
@@ -1555,6 +1565,14 @@
       },
       {
         "model_name": "Qwen/Qwen2.5-7B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-14B-Instruct",
+        "load_in_4bit": true
+      },
+      {
+        "model_name": "Qwen/Qwen2.5-32B-Instruct",
         "load_in_4bit": true
       }
     ],
